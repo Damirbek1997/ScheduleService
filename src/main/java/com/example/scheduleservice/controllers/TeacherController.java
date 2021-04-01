@@ -1,46 +1,46 @@
-//package com.example.scheduleservice.controllers;
-//
-//import com.example.scheduleservice.entities.Teacher;
-//import com.example.scheduleservice.services.impl.TeacherService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//@RestController
-//@RequestMapping("/teacher")
-//public class TeacherController {
-//    @Autowired
-//    private TeacherService teacherService;
-//
-//    // API to find all teachers
-//    @GetMapping("/getAll")
-//    private List<Teacher> findAllTeachers() {
-//        return teacherService.findAllTeachers();
-//    }
-//
-//    // API to find teacher by id
-//    @GetMapping("/getOne/{id}")
-//    private Optional<Teacher> findTeacherById(@PathVariable("id") Long id) {
-//        return teacherService.findTeacherById(id);
-//    }
-//
-//    // API to update teacher by id
-//    @PutMapping("/update/{id}")
-//    private Teacher changeTeacherById(@PathVariable("id") Long id, @RequestBody Teacher newTeacher) throws Exception {
-//        return teacherService.changeTeacherById(id, newTeacher);
-//    }
-//
-//    // API to create new teacher
-//    @PostMapping("/add")
-//    private void createTeacher(@RequestBody Teacher newTeacher) {
-//        teacherService.saveTeacher(newTeacher);
-//    }
-//
-//    // API to delete teacher by id
-//    @DeleteMapping("/delete/{id}")
-//    private void deleteTeacherById(@PathVariable("id") Long id) {
-//        teacherService.deleteTeacherById(id);
-//    }
-//}
+package com.example.scheduleservice.controllers;
+
+import com.example.scheduleservice.dto.TeacherDto;
+import com.example.scheduleservice.dto.crud.CreateTeacherDto;
+import com.example.scheduleservice.dto.crud.UpdateTeacherDto;
+import com.example.scheduleservice.dtoService.TeacherDtoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/teachers")
+public class TeacherController {
+    private final TeacherDtoService teacherDtoService;
+
+    @Autowired
+    public TeacherController(TeacherDtoService teacherDtoService) {
+        this.teacherDtoService = teacherDtoService;
+    }
+
+    @GetMapping
+    private List<TeacherDto> getAll() {
+        return teacherDtoService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    private TeacherDto getById(@PathVariable("id") Long id) {
+        return teacherDtoService.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    private TeacherDto change(@PathVariable("id") Long id, @RequestBody UpdateTeacherDto updateTeacherDto) throws Exception {
+        return teacherDtoService.changeById(id, updateTeacherDto);
+    }
+
+    @PostMapping
+    private TeacherDto create(@RequestBody CreateTeacherDto createTeacherDto) {
+        return teacherDtoService.save(createTeacherDto);
+    }
+
+    @DeleteMapping("/{id}")
+    private void delete(@PathVariable("id") Long id) {
+        teacherDtoService.deleteById(id);
+    }
+}

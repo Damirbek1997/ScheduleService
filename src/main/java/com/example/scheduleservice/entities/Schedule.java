@@ -19,17 +19,17 @@ public class Schedule {
     private Long id;
 
     @Column(name = "group_id")
-    private Integer groupId;
+    private Long groupId;
 
     @Column(name = "subject_id")
-    private Integer subjectId;
+    private Long subjectId;
 
     @Column(name = "teacher_id")
-    private Integer teacherId;
+    private Long teacherId;
 
     @Column(name = "week_day")
-    private Integer weekDay;
+    private Long weekDay;
 
     @Column(name = "lesson_id")
-    private Integer lessonId;
+    private Long lessonId;
 }

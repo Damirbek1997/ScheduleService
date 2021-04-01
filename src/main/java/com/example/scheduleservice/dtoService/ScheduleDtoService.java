@@ -1,13 +1,15 @@
 package com.example.scheduleservice.dtoService;
 
-import com.example.scheduleservice.entities.Schedule;
+import com.example.scheduleservice.dto.ScheduleDto;
+import com.example.scheduleservice.dto.crud.CreateScheduleDto;
+import com.example.scheduleservice.dto.crud.UpdateScheduleDto;
 
 import java.util.List;
 
 public interface ScheduleDtoService {
-    List<Schedule> findAll();
-    Schedule findById(Long id);
-    Schedule save(Schedule newSchedule);
-    Schedule changeById(Long id, Schedule newSchedule) throws Exception;
+    List<ScheduleDto> findAll();
+    ScheduleDto findById(Long id);
+    ScheduleDto save(CreateScheduleDto createScheduleDto);
+    ScheduleDto changeById(Long id, UpdateScheduleDto updateScheduleDto) throws Exception;
     void deleteById(Long id);
 }

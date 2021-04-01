@@ -1,46 +1,44 @@
-//package com.example.scheduleservice.controllers;
-//
-//import com.example.scheduleservice.entities.Subject;
-//import com.example.scheduleservice.services.impl.DefaultSubjectService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//@RestController
-//@RequestMapping("/subject")
-//public class SubjectController {
-//    @Autowired
-//    private DefaultSubjectService defaultSubjectService;
-//
-//    // API to find all subjects
-//    @GetMapping("/getAll")
-//    private List<Subject> findAllSubjects() {
-//        return defaultSubjectService.findAllSubjects();
-//    }
-//
-//    // API to find subject by id
-//    @GetMapping("/getOne/{id}")
-//    private Optional<Subject> findSubjectById(@PathVariable("id") Long id) {
-//        return defaultSubjectService.findSubjectById(id);
-//    }
-//
-//    // API to update subject by id
-//    @PutMapping("/update/{id}")
-//    private Subject changeSubjectById(@PathVariable("id") Long id, @RequestBody Subject newSubject) throws Exception {
-//        return defaultSubjectService.changeSubjectById(id, newSubject);
-//    }
-//
-//    // API to create new subject
-//    @PostMapping("/add")
-//    private void createSubject(@RequestBody Subject nweSubject) {
-//        defaultSubjectService.save(nweSubject);
-//    }
-//
-//    // API to delete subject by id
-//    @DeleteMapping("/delete/{id}")
-//    private void deleteSubjectById(@PathVariable("id") Long id) {
-//        defaultSubjectService.deleteSubjectById(id);
-//    }
-//}
+package com.example.scheduleservice.controllers;
+
+import com.example.scheduleservice.dto.SubjectDto;
+import com.example.scheduleservice.dto.crud.CreateSubjectDto;
+import com.example.scheduleservice.dto.crud.UpdateSubjectDto;
+import com.example.scheduleservice.dtoService.SubjectDtoService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/subjects")
+public class SubjectController {
+    private final SubjectDtoService subjectDtoService;
+
+    public SubjectController(SubjectDtoService subjectDtoService) {
+        this.subjectDtoService = subjectDtoService;
+    }
+
+    @GetMapping
+    private List<SubjectDto> getAll() {
+        return subjectDtoService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    private SubjectDto getById(@PathVariable("id") Long id) {
+        return subjectDtoService.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    private SubjectDto change(@PathVariable("id") Long id, @RequestBody UpdateSubjectDto updateSubjectDto) throws Exception {
+        return subjectDtoService.changeById(id, updateSubjectDto);
+    }
+
+    @PostMapping
+    private SubjectDto create(@RequestBody CreateSubjectDto createSubjectDto) {
+        return subjectDtoService.save(createSubjectDto);
+    }
+
+    @DeleteMapping("/{id}")
+    private void delete(@PathVariable("id") Long id) {
+        subjectDtoService.deleteById(id);
+    }
+}

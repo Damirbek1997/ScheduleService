@@ -1,55 +1,78 @@
 package com.example.scheduleservice.dtoService.impl;
 
+import com.example.scheduleservice.dto.ScheduleDto;
+import com.example.scheduleservice.dto.crud.CreateScheduleDto;
+import com.example.scheduleservice.dto.crud.UpdateScheduleDto;
 import com.example.scheduleservice.dtoService.ScheduleDtoService;
 import com.example.scheduleservice.entities.Schedule;
-import com.example.scheduleservice.repositories.ScheduleRepository;
+import com.example.scheduleservice.mapper.ScheduleMapper;
+import com.example.scheduleservice.services.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class DefaultScheduleDtoService implements ScheduleDtoService {
-    private final ScheduleRepository scheduleRepository;
+    private final ScheduleService scheduleService;
+    private final ScheduleMapper scheduleMapper;
 
     @Autowired
-    public DefaultScheduleDtoService(ScheduleRepository scheduleRepository) {
-        this.scheduleRepository = scheduleRepository;
+    public DefaultScheduleDtoService(ScheduleService scheduleService, ScheduleMapper scheduleMapper) {
+        this.scheduleService = scheduleService;
+        this.scheduleMapper = scheduleMapper;
     }
 
     @Override
-    public Schedule save(Schedule newSchedule) {
-        scheduleRepository.save(newSchedule);
-        return newSchedule;
+    public ScheduleDto save(CreateScheduleDto createScheduleDto) {
+        Schedule createSchedule = new Schedule();
+
+        // converting to entity
+        createSchedule.setGroupId(createScheduleDto.getGroupId());
+        createSchedule.setLessonId(createScheduleDto.getLessonId());
+        createSchedule.setSubjectId(createScheduleDto.getSubjectId());
+        createSchedule.setTeacherId(createScheduleDto.getTeacherId());
+        createSchedule.setWeekDay(createScheduleDto.getWeekDay());
+
+        return scheduleMapper.toScheduleDto(scheduleService.save(createSchedule));
     }
 
     @Override
     public void deleteById(Long id) {
-        scheduleRepository.deleteById(id);
+        scheduleService.deleteById(id);
     }
 
     @Override
-    public List<Schedule> findAll() {
-        return scheduleRepository.findAll();
+    public List<ScheduleDto> findAll() {
+        List<Schedule> scheduleList =  scheduleService.findAll();
+        List<ScheduleDto> scheduleDtoList = new ArrayList<>();
+
+        scheduleList.forEach(schedule -> {
+            ScheduleDto scheduleDto = scheduleMapper.toScheduleDto(schedule);
+
+            scheduleDtoList.add(scheduleDto);
+        });
+
+        return scheduleDtoList;
     }
 
     @Override
-    public Schedule findById(Long id) {
-        return scheduleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Schedule with " + id + " not found!"));
+    public ScheduleDto findById(Long id) {
+        return scheduleMapper.toScheduleDto(scheduleService.findById(id));
     }
 
     @Override
-    public Schedule changeById(Long id, Schedule newSchedule) throws Exception {
-        return scheduleRepository.findById(id)
-                .map(schedule -> {
-                    schedule.setGroupId(newSchedule.getGroupId());
-                    schedule.setSubjectId(newSchedule.getSubjectId());
-                    schedule.setTeacherId(newSchedule.getTeacherId());
-                    schedule.setWeekDay(newSchedule.getWeekDay());
-                    schedule.setLessonId(newSchedule.getLessonId());
+    public ScheduleDto changeById(Long id, UpdateScheduleDto updateScheduleDto) throws Exception {
+        ScheduleDto scheduleDto = new ScheduleDto();
 
-                    return scheduleRepository.save(schedule);
-                }).orElseThrow(Exception :: new);
+        // converting to entity
+        scheduleDto.setGroupId(updateScheduleDto.getGroupId());
+        scheduleDto.setLessonId(updateScheduleDto.getLessonId());
+        scheduleDto.setSubjectId(updateScheduleDto.getSubjectId());
+        scheduleDto.setTeacherId(updateScheduleDto.getTeacherId());
+        scheduleDto.setWeekDay(updateScheduleDto.getWeekDay());
+
+        return scheduleMapper.toScheduleDto(scheduleService.findById(id));
     }
 }
