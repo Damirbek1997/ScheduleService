@@ -1,45 +1,46 @@
-//package com.example.scheduleservice.controllers;
-//
-//import com.example.scheduleservice.entities.Schedule;
-//import com.example.scheduleservice.services.impl.ScheduleService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//@RestController
-//@RequestMapping("/schedule")
-//public class ScheduleController {
-//    private final ScheduleService scheduleService;
-//
-//    @Autowired
-//    public ScheduleController(ScheduleService scheduleService) {
-//        this.scheduleService = scheduleService;
-//    }
-//
-//    @GetMapping("/getAll")
-//    private List<Schedule> findAllSchedule() {
-//        return scheduleService.findAllSchedule();
-//    }
-//
-//    @GetMapping("/getOne/{id}")
-//    private Optional<Schedule> findScheduleById(@PathVariable("id") Long id) {
-//        return scheduleService.findScheduleById(id);
-//    }
-//
-//    @PutMapping("/update/{id}")
-//    private Schedule changeScheduleById(@PathVariable("id") Long id, @RequestBody Schedule newSchedule) throws Exception {
-//        return scheduleService.changeScheduleById(id, newSchedule);
-//    }
-//
-//    @PostMapping("/add")
-//    private void createSchedule(@RequestBody Schedule newSchedule) {
-//        scheduleService.save(newSchedule);
-//    }
-//
-//    @DeleteMapping("/delete/{id}")
-//    private void deleteScheduleById(@PathVariable("id") Long id) {
-//        scheduleService.deleteScheduleById(id);
-//    }
-//}
+package com.example.scheduleservice.controllers;
+
+import com.example.scheduleservice.dto.ScheduleDto;
+import com.example.scheduleservice.dto.crud.CreateScheduleDto;
+import com.example.scheduleservice.dto.crud.UpdateScheduleDto;
+import com.example.scheduleservice.dtoService.ScheduleDtoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/schedules")
+public class ScheduleController {
+    private final ScheduleDtoService scheduleDtoService;
+
+    @Autowired
+    public ScheduleController(ScheduleDtoService scheduleDtoService) {
+        this.scheduleDtoService = scheduleDtoService;
+    }
+
+    @GetMapping
+    private List<ScheduleDto> getAll() {
+        return scheduleDtoService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    private ScheduleDto getById(@PathVariable("id") Long id) {
+        return scheduleDtoService.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    private ScheduleDto change(@PathVariable("id") Long id, @RequestBody UpdateScheduleDto updateScheduleDto) throws Exception {
+        return scheduleDtoService.changeById(id, updateScheduleDto);
+    }
+
+    @PostMapping
+    private ScheduleDto create(@RequestBody CreateScheduleDto createScheduleDto) {
+        return scheduleDtoService.save(createScheduleDto);
+    }
+
+    @DeleteMapping("/{id}")
+    private void delete(@PathVariable("id") Long id) {
+        scheduleDtoService.deleteById(id);
+    }
+}

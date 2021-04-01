@@ -1,16 +1,10 @@
 package com.example.scheduleservice.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "calendar")
 public class Calendar {
@@ -19,16 +13,16 @@ public class Calendar {
     private Long id;
 
     @Column(name = "semester_id")
-    private Integer semesterId;
+    private Long semesterId;
 
     @Column(name = "week_day")
-    private Integer weekDay;
+    private Long weekDay;
 
     @Column(name = "week_day_name")
     private String weekDayName;
 
     @Column(name = "lesson_id")
-    private Integer lessonId;
+    private Long lessonId;
 
     @Column(name = "lesson_time")
     private String lessonTime;
