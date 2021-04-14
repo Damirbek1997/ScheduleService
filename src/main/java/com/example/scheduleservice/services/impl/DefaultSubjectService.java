@@ -43,7 +43,9 @@ public class DefaultSubjectService implements SubjectService {
     public Subject changeById(Long id, Subject newSubject) throws Exception {
         return subjectRepository.findById(id)
                 .map(subject -> {
-                    subject.setSubjectName(newSubject.getSubjectName());
+                    subject.setSubject(newSubject.getSubject());
+                    subject.setTeacher(newSubject.getTeacher());
+                    subject.setUserSet(newSubject.getUserSet());
 
                     return subjectRepository.save(subject);
                 }).orElseThrow(Exception :: new);

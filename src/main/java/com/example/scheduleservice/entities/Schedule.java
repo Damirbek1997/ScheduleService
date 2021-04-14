@@ -1,16 +1,10 @@
 package com.example.scheduleservice.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "schedule")
 public class Schedule {
@@ -18,18 +12,22 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "group_id")
-    private Long groupId;
-
-    @Column(name = "subject_id")
-    private Long subjectId;
-
-    @Column(name = "teacher_id")
-    private Long teacherId;
+    // if true - fall, false - spring
+    @Column(name = "semester")
+    private Boolean semester;
 
     @Column(name = "week_day")
-    private Long weekDay;
+    private String weekDay;
 
-    @Column(name = "lesson_id")
-    private Long lessonId;
+    @ManyToOne
+    private Subject subject;
+
+    @ManyToOne
+    private SubjectTime subjectTime;
+
+    @ManyToOne
+    private Group group;
+
+    @ManyToOne
+    private Cabinet cabinet;
 }

@@ -3,10 +3,11 @@ package com.example.scheduleservice.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "students")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,18 +19,21 @@ public class User {
     @Column(name = "lastname")
     private String lastName;
 
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "role")
-    private String role;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "faculty")
-    private String faculty;
+    @ManyToOne
+    private Group group;
 
-    @Column(name = "department")
-    private String department;
+    @ManyToOne
+    private Role role;
+
+    @ManyToOne
+    private Department department;
+
+    @ManyToMany
+    private Set<Subject> subjectSet;
 }

@@ -43,11 +43,11 @@ public class DefaultScheduleService implements ScheduleService {
     public Schedule changeById(Long id, Schedule newSchedule) throws Exception {
         return scheduleRepository.findById(id)
                 .map(schedule -> {
-                    schedule.setGroupId(newSchedule.getGroupId());
-                    schedule.setSubjectId(newSchedule.getSubjectId());
-                    schedule.setTeacherId(newSchedule.getTeacherId());
                     schedule.setWeekDay(newSchedule.getWeekDay());
-                    schedule.setLessonId(newSchedule.getLessonId());
+                    schedule.setSubject(newSchedule.getSubject());
+                    schedule.setSubjectTime(newSchedule.getSubjectTime());
+                    schedule.setGroup(newSchedule.getGroup());
+                    schedule.setCabinet(newSchedule.getCabinet());
 
                     return scheduleRepository.save(schedule);
                 }).orElseThrow(Exception :: new);

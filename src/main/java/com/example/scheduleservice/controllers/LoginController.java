@@ -1,11 +1,11 @@
 package com.example.scheduleservice.controllers;
 
+import com.example.scheduleservice.dtoService.impl.DefaultUserDtoService;
 import com.example.scheduleservice.models.AuthenticationRequest;
 import com.example.scheduleservice.models.AuthenticationResponse;
 import com.example.scheduleservice.services.impl.MyUserDetails;
 import com.example.scheduleservice.dto.crud.UpdateUserPasswordDto;
 import com.example.scheduleservice.services.JwtUtil;
-import com.example.scheduleservice.services.impl.MyUserDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +21,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final DefaultUserDtoService defaultUserDtoService;
+    private final JwtUtil jwtTokenUtil;
 
     @Autowired
-    private MyUserDetailsService myUserDetailsService;
-
-    @Autowired
-    private JwtUtil jwtTokenUtil;
+    public LoginController(AuthenticationManager authenticationManager, DefaultUserDtoService defaultUserDtoService, JwtUtil jwtTokenUtil) {
+        this.authenticationManager = authenticationManager;
+        this.defaultUserDtoService = defaultUserDtoService;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     // Change the password
     @PutMapping("/settings")
     public String updatePassword(@AuthenticationPrincipal MyUserDetails myUserDetails,
                                  @RequestBody UpdateUserPasswordDto pojo) {
-        return myUserDetailsService.changePassword(myUserDetails, pojo.getNewPassword(),
+        return defaultUserDtoService.changePassword(myUserDetails, pojo.getNewPassword(),
                 pojo.getNewPassword1(), pojo.getOldPassword());
     }
 
@@ -49,7 +51,7 @@ public class LoginController {
             throw new Exception("Incorrect username and password", e);
         }
 
-        final UserDetails userDetails = myUserDetailsService
+        final UserDetails userDetails = defaultUserDtoService
                 .loadUserByUsername(authenticationRequest.getUsername());
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);

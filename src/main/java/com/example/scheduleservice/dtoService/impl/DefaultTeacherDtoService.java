@@ -4,9 +4,6 @@ import com.example.scheduleservice.dto.TeacherDto;
 import com.example.scheduleservice.dto.crud.CreateTeacherDto;
 import com.example.scheduleservice.dto.crud.UpdateTeacherDto;
 import com.example.scheduleservice.dtoService.TeacherDtoService;
-import com.example.scheduleservice.entities.Teacher;
-import com.example.scheduleservice.mapper.TeacherMapper;
-import com.example.scheduleservice.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
