@@ -17,5 +17,5 @@ public class Department {
     private String department;
 
     @ManyToOne
-    private Faculty facultyId;
+    private Faculty faculty;
 }

@@ -3,8 +3,8 @@ package com.example.scheduleservice.dto;
 import lombok.Data;
 
 @Data
-public class TeacherDto {
+public class SubjectTimeDto {
     private Long id;
-    private String firstname;
-    private String lastname;
+    private String startLesson;
+    private String endLesson;
 }

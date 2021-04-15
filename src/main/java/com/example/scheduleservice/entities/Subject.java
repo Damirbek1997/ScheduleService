@@ -10,7 +10,7 @@ import java.util.Set;
 @Table(name = "subjects")
 public class Subject {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "subject")
@@ -18,7 +18,4 @@ public class Subject {
 
     @ManyToOne
     private User teacher;
-
-    @ManyToMany
-    private Set<User> userSet;
 }

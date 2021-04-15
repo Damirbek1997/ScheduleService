@@ -7,10 +7,10 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "students")
+@Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "firstname")
@@ -35,5 +35,5 @@ public class User {
     private Department department;
 
     @ManyToMany
-    private Set<Subject> subjectSet;
+    private Set<Subject> subjects;
 }

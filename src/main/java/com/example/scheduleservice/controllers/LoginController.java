@@ -34,10 +34,9 @@ public class LoginController {
 
     // Change the password
     @PutMapping("/settings")
-    public String updatePassword(@AuthenticationPrincipal MyUserDetails myUserDetails,
-                                 @RequestBody UpdateUserPasswordDto pojo) {
-        return defaultUserDtoService.changePassword(myUserDetails, pojo.getNewPassword(),
-                pojo.getNewPassword1(), pojo.getOldPassword());
+    public void updatePassword(@AuthenticationPrincipal MyUserDetails myUserDetails,
+                                 @RequestBody UpdateUserPasswordDto updateUserPasswordDto) throws Exception {
+        defaultUserDtoService.changeUserPassword(myUserDetails.getUserDetails().getId(), updateUserPasswordDto);
     }
 
     // Authentication with jwt token
@@ -45,14 +44,13 @@ public class LoginController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
             );
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect username and password", e);
         }
 
-        final UserDetails userDetails = defaultUserDtoService
-                .loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = defaultUserDtoService.findByEmail(authenticationRequest.getEmail());
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 

@@ -7,7 +7,7 @@ import java.util.List;
 public interface ScheduleService {
     List<Schedule> findAll();
     Schedule findById(Long id);
-    Schedule save(Schedule newSchedule);
-    Schedule changeById(Long id, Schedule newSchedule) throws Exception;
+    Schedule save(Schedule schedule);
+    Schedule changeById(Long id, Schedule schedule) throws Exception;
     void deleteById(Long id);
 }

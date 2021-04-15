@@ -8,8 +8,13 @@ import com.example.scheduleservice.dtoService.UserDtoService;
 import com.example.scheduleservice.entities.User;
 import com.example.scheduleservice.exceptions.InappropriatePasswordException;
 import com.example.scheduleservice.mapper.UserMapper;
+import com.example.scheduleservice.services.DepartmentService;
+import com.example.scheduleservice.services.GroupService;
+import com.example.scheduleservice.services.RoleService;
 import com.example.scheduleservice.services.UserService;
+import com.example.scheduleservice.services.impl.DefaultUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,28 +24,37 @@ import java.util.regex.Pattern;
 
 @Service
 public class DefaultUserDtoService implements UserDtoService {
-    private final UserService userService;
     private final UserMapper userMapper;
+    private final UserService userService;
+    private final DefaultUserService defaultUserService;
+    private final GroupService groupService;
+    private final RoleService roleService;
+    private final DepartmentService departmentService;
 
     @Autowired
-    public DefaultUserDtoService(UserService userService, UserMapper userMapper) {
-        this.userService = userService;
+    public DefaultUserDtoService(UserMapper userMapper, UserService userService, DefaultUserService defaultUserService, GroupService groupService,
+                                 RoleService roleService, DepartmentService departmentService) {
         this.userMapper = userMapper;
+        this.userService = userService;
+        this.defaultUserService = defaultUserService;
+        this.groupService = groupService;
+        this.roleService = roleService;
+        this.departmentService = departmentService;
     }
 
     @Override
     public UserDto save(CreateUserDto createUserDto) {
-        User createUser = new User();
+        User user = new User();
 
         // converting to entity
-        createUser.setFirstName(createUserDto.getFirstName());
-        createUser.setLastName(createUserDto.getLastName());
-        createUser.setUsername(createUserDto.getUsername());
-//        createUser.setDepartment();
-//        createUser.setFaculty();
-//        createUser.setRole();
+        user.setFirstName(createUserDto.getFirstName());
+        user.setLastName(createUserDto.getLastName());
+        user.setEmail(createUserDto.getEmail());
+        user.setGroup(groupService.findById(createUserDto.getGroupId()));
+        user.setRole(roleService.findById(createUserDto.getRoleId()));
+        user.setDepartment(departmentService.findById(createUserDto.getDepartmentId()));
 
-        return userMapper.toUserDto(userService.save(createUser));
+        return userMapper.toUserDto(userService.save(user));
     }
 
     @Override
@@ -68,24 +82,34 @@ public class DefaultUserDtoService implements UserDtoService {
     }
 
     @Override
-    public UserDto changeById (Long id, UpdateUserDto updateUserDto) throws Exception {
-        User updateUser = new User();
-
-        // converting to entity
-        updateUser.setFirstName(updateUserDto.getFirstName());
-        updateUser.setLastName(updateUserDto.getLastName());
-        updateUser.setUsername(updateUserDto.getUsername());
-//        updateUser.setDepartment();
-//        updateUser.setFaculty();
-//        updateUser.setRole();
-
-        User responseUser = userService.changeById(id, updateUser);
-        return userMapper.toUserDto(responseUser);
+    public UserDetails findByEmail(String email) {
+        return defaultUserService.loadUserByUsername(email);
     }
 
     @Override
-    public UserDto changeUserPassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws InappropriatePasswordException {
-        User oldUser = userService.findById(id);
+    public UserDto changeById (Long id, UpdateUserDto updateUserDto) throws Exception {
+        User user = new User();
+
+        // converting to entity
+        user.setFirstName(updateUserDto.getFirstName());
+        user.setLastName(updateUserDto.getLastName());
+        user.setEmail(updateUserDto.getEmail());
+
+        if (updateUserDto.getGroupId() != null)
+            user.setGroup(groupService.findById(updateUserDto.getGroupId()));
+
+        if (updateUserDto.getRoleId() != null)
+            user.setRole(roleService.findById(updateUserDto.getRoleId()));
+
+        if (updateUserDto.getDepartmentId() != null)
+            user.setDepartment(departmentService.findById(updateUserDto.getDepartmentId()));
+
+        return userMapper.toUserDto(userService.changeById(id, user));
+    }
+
+    @Override
+    public void changeUserPassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws Exception {
+        User user = userService.findById(id);
 
         String lowerCaseRegex = ".*[a-z].*";
         String upperCaseRegex = ".*[A-Z].*";
@@ -99,7 +123,7 @@ public class DefaultUserDtoService implements UserDtoService {
         Matcher upperCaseValidator = upperCasePattern.matcher(updateUserPasswordDto.getNewPassword());
         Matcher specSymbolValidator = specSymbolPattern.matcher(updateUserPasswordDto.getNewPassword());
 
-        if(!updateUserPasswordDto.getOldPassword().equals(oldUser.getPassword()))
+        if(!updateUserPasswordDto.getOldPassword().equals(user.getPassword()))
             throw new InappropriatePasswordException("Old password is incorrect!");
         else if(!updateUserPasswordDto.getNewPassword().equals(updateUserPasswordDto.getRepeatNewPassword()))
             throw new InappropriatePasswordException("New password doesn't match to repeat password!");
@@ -112,8 +136,8 @@ public class DefaultUserDtoService implements UserDtoService {
         else if(!(specSymbolValidator.matches()))
             throw new InappropriatePasswordException("At least 1 spec symbol!");
 
-        oldUser.setPassword(updateUserPasswordDto.getNewPassword());
+        user.setPassword(updateUserPasswordDto.getNewPassword());
 
-        return userMapper.toUserDto(oldUser);
+        userService.changeById(user.getId(), user);
     }
 }

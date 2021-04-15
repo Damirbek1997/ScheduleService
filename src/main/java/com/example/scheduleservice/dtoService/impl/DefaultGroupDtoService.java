@@ -26,12 +26,12 @@ public class DefaultGroupDtoService implements GroupDtoService {
 
     @Override
     public GroupDto save(CreateGroupDto createGroupDto) {
-        Group createGroup = new Group();
+        Group group = new Group();
 
         // converting to entity
-        createGroup.setGroupName(createGroupDto.getGroupName());
+        group.setGroupName(createGroupDto.getGroupName());
 
-        return groupMapper.toGroupDto(groupService.save(createGroup));
+        return groupMapper.toGroupDto(groupService.save(group));
     }
 
     @Override
@@ -60,11 +60,11 @@ public class DefaultGroupDtoService implements GroupDtoService {
 
     @Override
     public GroupDto changeById(Long id, UpdateGroupDto updateGroupDto) throws Exception {
-        Group updateGroup = new Group();
+        Group group = new Group();
 
         // converting to entity
-        updateGroup.setGroupName(updateGroupDto.getGroupName());
+        group.setGroupName(updateGroupDto.getGroupName());
 
-        return groupMapper.toGroupDto(groupService.save(updateGroup));
+        return groupMapper.toGroupDto(groupService.changeById(id, group));
     }
 }

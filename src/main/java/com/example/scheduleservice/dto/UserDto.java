@@ -7,8 +7,8 @@ public class UserDto {
     private Long id;
     private String firstName;
     private String lastName;
-    private String role;
-    private String faculty;
-    private String department;
-    private String username;
+    private String email;
+    private GroupDto groupDto;
+    private RoleDto roleDto;
+    private DepartmentDto departmentDto;
 }

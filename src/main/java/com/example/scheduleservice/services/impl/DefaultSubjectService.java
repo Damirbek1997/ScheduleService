@@ -19,9 +19,8 @@ public class DefaultSubjectService implements SubjectService {
     }
 
     @Override
-    public Subject save(Subject newSubject) {
-        subjectRepository.save(newSubject);
-        return newSubject;
+    public Subject save(Subject subject) {
+        return subjectRepository.save(subject);
     }
 
     @Override
@@ -45,7 +44,6 @@ public class DefaultSubjectService implements SubjectService {
                 .map(subject -> {
                     subject.setSubject(newSubject.getSubject());
                     subject.setTeacher(newSubject.getTeacher());
-                    subject.setUserSet(newSubject.getUserSet());
 
                     return subjectRepository.save(subject);
                 }).orElseThrow(Exception :: new);

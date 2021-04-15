@@ -4,15 +4,16 @@ import com.example.scheduleservice.dto.crud.CreateUserDto;
 import com.example.scheduleservice.dto.crud.UpdateUserDto;
 import com.example.scheduleservice.dto.crud.UpdateUserPasswordDto;
 import com.example.scheduleservice.dto.UserDto;
-import com.example.scheduleservice.exceptions.InappropriatePasswordException;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
 public interface UserDtoService {
     List<UserDto> findAll();
     UserDto findById(Long id);
+    UserDetails findByEmail(String email);
     UserDto save(CreateUserDto createUserDto);
     UserDto changeById (Long id, UpdateUserDto updateUserDto) throws Exception;
-    UserDto changeUserPassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws InappropriatePasswordException;
+    void changeUserPassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws Exception;
     void deleteById(Long id);
 }

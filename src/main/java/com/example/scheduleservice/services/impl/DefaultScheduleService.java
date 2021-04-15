@@ -19,9 +19,8 @@ public class DefaultScheduleService implements ScheduleService {
     }
 
     @Override
-    public Schedule save(Schedule newSchedule) {
-        scheduleRepository.save(newSchedule);
-        return newSchedule;
+    public Schedule save(Schedule schedule) {
+        return scheduleRepository.save(schedule);
     }
 
     @Override

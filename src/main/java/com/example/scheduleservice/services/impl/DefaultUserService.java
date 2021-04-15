@@ -23,9 +23,8 @@ public class DefaultUserService implements UserService, UserDetailsService {
     }
 
     @Override
-    public User save(User newUser) {
-        userRepository.save(newUser);
-        return newUser;
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     @Override
@@ -44,43 +43,19 @@ public class DefaultUserService implements UserService, UserDetailsService {
     }
 
     @Override
-    public User changeById (Long id, User newUser) throws Exception {
+    public User changeById (Long id, User user) throws Exception {
         return userRepository.findById(id)
                 .map(users -> {
-                    users.setFirstName(newUser.getFirstName());
-                    users.setLastName(newUser.getLastName());
-                    users.setEmail(newUser.getEmail());
-                    users.setGroup(newUser.getGroup());
-                    users.setRole(newUser.getRole());
-                    users.setDepartment(newUser.getDepartment());
-                    users.setSubjectSet(newUser.getSubjectSet());
+                    users.setFirstName(user.getFirstName());
+                    users.setLastName(user.getLastName());
+                    users.setEmail(user.getEmail());
+                    users.setGroup(user.getGroup());
+                    users.setRole(user.getRole());
+                    users.setDepartment(user.getDepartment());
+                    users.setSubjects(user.getSubjects());
 
                     return userRepository.save(users);
                 }).orElseThrow(Exception::new);
-    }
-
-    // Change user password
-    public String changePassword(MyUserDetails myUserDetails, String newPassword, String newPassword1, String oldPassword) {
-        if (oldPassword.equals(myUserDetails.getPassword())) {
-            if (oldPassword.equals(newPassword)) {
-                return "New password cannot be the same as the old";
-            } else if (!newPassword.equals(newPassword1)) {
-                return "Passwords mismatches";
-            } else if (newPassword.length() < 8) {
-                return "New password too short";
-            } else if (!newPassword.matches(".*")) {
-                return "New password must contain at least 1 number";
-            } else {
-                User user = userRepository.findById(myUserDetails.getUserDetails().getId())
-                        .orElseThrow(() -> new UsernameNotFoundException("Not found: " + myUserDetails.getUsername()));
-                user.setPassword(newPassword);
-
-                userRepository.save(user);
-                return "Password has been successfully changed";
-            }
-        } else {
-            return "Password is wrong";
-        }
     }
 
     @Override
