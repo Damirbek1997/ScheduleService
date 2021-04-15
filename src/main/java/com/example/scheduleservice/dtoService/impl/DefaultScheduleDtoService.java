@@ -1,55 +1,95 @@
 package com.example.scheduleservice.dtoService.impl;
 
+import com.example.scheduleservice.dto.ScheduleDto;
+import com.example.scheduleservice.dto.crud.CreateScheduleDto;
+import com.example.scheduleservice.dto.crud.UpdateScheduleDto;
 import com.example.scheduleservice.dtoService.ScheduleDtoService;
 import com.example.scheduleservice.entities.Schedule;
-import com.example.scheduleservice.repositories.ScheduleRepository;
+import com.example.scheduleservice.mapper.ScheduleMapper;
+import com.example.scheduleservice.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class DefaultScheduleDtoService implements ScheduleDtoService {
-    private final ScheduleRepository scheduleRepository;
+    private final ScheduleMapper scheduleMapper;
+    private final ScheduleService scheduleService;
+    private final SubjectService subjectService;
+    private final SubjectTimeService subjectTimeService;
+    private final GroupService groupService;
+    private final CabinetService cabinetService;
 
     @Autowired
-    public DefaultScheduleDtoService(ScheduleRepository scheduleRepository) {
-        this.scheduleRepository = scheduleRepository;
+    public DefaultScheduleDtoService(ScheduleService scheduleService, ScheduleMapper scheduleMapper, SubjectService subjectService,
+                                     SubjectTimeService subjectTimeService, GroupService groupService, CabinetService cabinetService) {
+        this.scheduleService = scheduleService;
+        this.scheduleMapper = scheduleMapper;
+        this.subjectService = subjectService;
+        this.subjectTimeService = subjectTimeService;
+        this.groupService = groupService;
+        this.cabinetService = cabinetService;
     }
 
     @Override
-    public Schedule save(Schedule newSchedule) {
-        scheduleRepository.save(newSchedule);
-        return newSchedule;
+    public ScheduleDto save(CreateScheduleDto createScheduleDto) {
+        Schedule schedule = new Schedule();
+
+        // converting to entity
+        schedule.setWeekDay(createScheduleDto.getWeekDay());
+        schedule.setSubject(subjectService.findById(createScheduleDto.getSubjectId()));
+        schedule.setSubjectTime(subjectTimeService.findById(createScheduleDto.getSubjectTimeId()));
+        schedule.setGroup(groupService.findById(createScheduleDto.getGroupId()));
+        schedule.setCabinet(cabinetService.findById(createScheduleDto.getCabinetId()));
+
+        return scheduleMapper.toScheduleDto(scheduleService.save(schedule));
     }
 
     @Override
     public void deleteById(Long id) {
-        scheduleRepository.deleteById(id);
+        scheduleService.deleteById(id);
     }
 
     @Override
-    public List<Schedule> findAll() {
-        return scheduleRepository.findAll();
+    public List<ScheduleDto> findAll() {
+        List<Schedule> scheduleList =  scheduleService.findAll();
+        List<ScheduleDto> scheduleDtoList = new ArrayList<>();
+
+        scheduleList.forEach(schedule -> {
+            ScheduleDto scheduleDto = scheduleMapper.toScheduleDto(schedule);
+
+            scheduleDtoList.add(scheduleDto);
+        });
+
+        return scheduleDtoList;
     }
 
     @Override
-    public Schedule findById(Long id) {
-        return scheduleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Schedule with " + id + " not found!"));
+    public ScheduleDto findById(Long id) {
+        return scheduleMapper.toScheduleDto(scheduleService.findById(id));
     }
 
     @Override
-    public Schedule changeById(Long id, Schedule newSchedule) throws Exception {
-        return scheduleRepository.findById(id)
-                .map(schedule -> {
-                    schedule.setGroupId(newSchedule.getGroupId());
-                    schedule.setSubjectId(newSchedule.getSubjectId());
-                    schedule.setTeacherId(newSchedule.getTeacherId());
-                    schedule.setWeekDay(newSchedule.getWeekDay());
-                    schedule.setLessonId(newSchedule.getLessonId());
+    public ScheduleDto changeById(Long id, UpdateScheduleDto updateScheduleDto) throws Exception {
+        Schedule schedule = new Schedule();
 
-                    return scheduleRepository.save(schedule);
-                }).orElseThrow(Exception :: new);
+        // converting to entity
+        schedule.setWeekDay(updateScheduleDto.getWeekDay());
+
+        if (updateScheduleDto.getSubjectId() != null)
+            schedule.setSubject(subjectService.findById(updateScheduleDto.getSubjectId()));
+
+        if (updateScheduleDto.getSubjectTimeId() != null)
+            schedule.setSubjectTime(subjectTimeService.findById(updateScheduleDto.getSubjectTimeId()));
+
+        if (updateScheduleDto.getGroupId() != null)
+            schedule.setGroup(groupService.findById(updateScheduleDto.getGroupId()));
+
+        if (updateScheduleDto.getCabinetId() != null)
+            schedule.setCabinet(cabinetService.findById(updateScheduleDto.getCabinetId()));
+
+        return scheduleMapper.toScheduleDto(scheduleService.changeById(id, schedule));
     }
 }

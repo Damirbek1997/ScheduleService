@@ -1,35 +1,33 @@
 package com.example.scheduleservice.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "schedule")
 public class Schedule {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "group_id")
-    private Integer groupId;
-
-    @Column(name = "subject_id")
-    private Integer subjectId;
-
-    @Column(name = "teacher_id")
-    private Integer teacherId;
+    // if true - fall, false - spring
+    @Column(name = "semester")
+    private Boolean semester;
 
     @Column(name = "week_day")
-    private Integer weekDay;
+    private String weekDay;
 
-    @Column(name = "lesson_id")
-    private Integer lessonId;
+    @ManyToOne
+    private Subject subject;
+
+    @ManyToOne
+    private SubjectTime subjectTime;
+
+    @ManyToOne
+    private Group group;
+
+    @ManyToOne
+    private Cabinet cabinet;
 }

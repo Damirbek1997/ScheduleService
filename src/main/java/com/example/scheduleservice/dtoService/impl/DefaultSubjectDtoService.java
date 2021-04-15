@@ -7,6 +7,7 @@ import com.example.scheduleservice.dtoService.SubjectDtoService;
 import com.example.scheduleservice.entities.Subject;
 import com.example.scheduleservice.mapper.SubjectMapper;
 import com.example.scheduleservice.services.SubjectService;
+import com.example.scheduleservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,23 +16,26 @@ import java.util.List;
 
 @Service
 public class DefaultSubjectDtoService implements SubjectDtoService {
-    private final SubjectService subjectService;
     private final SubjectMapper subjectMapper;
+    private final SubjectService subjectService;
+    private final UserService userService;
 
     @Autowired
-    public DefaultSubjectDtoService(SubjectService subjectService, SubjectMapper subjectMapper) {
+    public DefaultSubjectDtoService(SubjectService subjectService, SubjectMapper subjectMapper, UserService userService) {
         this.subjectService = subjectService;
         this.subjectMapper = subjectMapper;
+        this.userService = userService;
     }
 
     @Override
     public SubjectDto save(CreateSubjectDto createSubjectDto) {
-        Subject createSubject = new Subject();
+        Subject subject = new Subject();
 
         // converting to entity
-        createSubject.setSubjectName(createSubject.getSubjectName());
+        subject.setTeacher(userService.findById(createSubjectDto.getTeacherId()));
+        subject.setSubject(createSubjectDto.getSubject());
 
-        return subjectMapper.toSubjectDto(subjectService.save(createSubject));
+        return subjectMapper.toSubjectDto(subjectService.save(subject));
     }
 
     @Override
@@ -60,11 +64,12 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
 
     @Override
     public SubjectDto changeById(Long id, UpdateSubjectDto updateSubjectDto) throws Exception {
-        Subject updateSubject = new Subject();
+        Subject subject = new Subject();
 
         // converting to entity
-        updateSubject.setSubjectName(updateSubjectDto.getSubjectName());
+        subject.setTeacher(userService.findById(updateSubjectDto.getTeacherId()));
+        subject.setSubject(updateSubjectDto.getSubject());
 
-        return subjectMapper.toSubjectDto(subjectService.changeById(id, updateSubject));
+        return subjectMapper.toSubjectDto(subjectService.changeById(id, subject));
     }
 }

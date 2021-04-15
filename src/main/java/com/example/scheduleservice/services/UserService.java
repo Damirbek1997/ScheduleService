@@ -8,6 +8,6 @@ public interface UserService {
     List<User> findAll();
     User findById(Long id);
     User save(User user);
-    User changeById (Long id, User newUser) throws Exception;
+    User changeById (Long id, User user) throws Exception;
     void deleteById(Long id);
 }

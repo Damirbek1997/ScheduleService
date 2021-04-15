@@ -7,7 +7,7 @@ import java.util.List;
 public interface SubjectService {
     List<Subject> findAll();
     Subject findById(Long id);
-    Subject save(Subject newSubject);
-    Subject changeById(Long id, Subject newSubject) throws Exception;
+    Subject save(Subject subject);
+    Subject changeById(Long id, Subject subject) throws Exception;
     void deleteById(Long id);
 }

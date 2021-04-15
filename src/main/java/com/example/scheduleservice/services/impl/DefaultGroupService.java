@@ -19,9 +19,8 @@ public class DefaultGroupService implements GroupService {
     }
 
     @Override
-    public Group save(Group newGroup) {
-        groupRepository.save(newGroup);
-        return newGroup;
+    public Group save(Group group) {
+        return groupRepository.save(group);
     }
 
     @Override
