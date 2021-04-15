@@ -3,15 +3,19 @@ package com.example.scheduleservice.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "subjects")
 public class Subject {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "subject_name")
-    private String subjectName;
+    @Column(name = "subject")
+    private String subject;
+
+    @ManyToOne
+    private User teacher;
 }

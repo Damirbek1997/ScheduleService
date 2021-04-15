@@ -5,9 +5,10 @@ import lombok.Data;
 @Data
 public class ScheduleDto {
     private Long id;
-    private Long groupId;
-    private Long subjectId;
-    private Long teacherId;
-    private Long weekDay;
-    private Long lessonId;
+    private Boolean semester;
+    private String weekDay;
+    private SubjectDto subjectDto;
+    private SubjectTimeDto subjectTimeDto;
+    private GroupDto groupDto;
+    private CabinetDto cabinetDto;
 }

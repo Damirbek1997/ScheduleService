@@ -1,6 +1,6 @@
 package com.example.scheduleservice.configs;
 
-import com.example.scheduleservice.services.impl.MyUserDetailsService;
+import com.example.scheduleservice.services.impl.DefaultUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,16 +15,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final DefaultUserService defaultUserService;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    private MyUserDetailsService myUserDetailsService;
-
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    public SecurityConfig(DefaultUserService defaultUserService, JwtRequestFilter jwtRequestFilter) {
+        this.defaultUserService = defaultUserService;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService);
+        auth.userDetailsService(defaultUserService);
     }
 
     @Override
