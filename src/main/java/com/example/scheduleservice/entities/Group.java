@@ -1,5 +1,6 @@
 package com.example.scheduleservice.entities;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,5 +14,6 @@ public class Group {
     private Long id;
 
     @Column(name = "group_name")
+    @NotNull
     private String groupName;
 }

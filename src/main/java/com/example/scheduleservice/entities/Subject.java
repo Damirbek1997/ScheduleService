@@ -1,9 +1,9 @@
 package com.example.scheduleservice.entities;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Data
 @Entity
@@ -13,9 +13,10 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "subject")
+    @Column(name = "subject", nullable = false)
     private String subject;
 
     @ManyToOne
+    @NotNull
     private User teacher;
 }

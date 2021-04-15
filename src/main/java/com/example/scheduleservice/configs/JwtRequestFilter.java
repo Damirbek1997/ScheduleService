@@ -1,5 +1,6 @@
 package com.example.scheduleservice.configs;
 
+import com.example.scheduleservice.services.CustomUserDetailsService;
 import com.example.scheduleservice.services.JwtUtil;
 import com.example.scheduleservice.services.impl.DefaultUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,12 @@ import java.io.IOException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-    private final DefaultUserService defaultUserService;
+    private final CustomUserDetailsService customUserDetailsService;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public JwtRequestFilter(DefaultUserService defaultUserService, JwtUtil jwtUtil) {
-        this.defaultUserService = defaultUserService;
+    public JwtRequestFilter(CustomUserDetailsService customUserDetailsService, JwtUtil jwtUtil) {
+        this.customUserDetailsService = customUserDetailsService;
         this.jwtUtil = jwtUtil;
     }
 
@@ -40,7 +41,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.defaultUserService.loadUserByUsername(username);
+            UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(username);
             if(jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

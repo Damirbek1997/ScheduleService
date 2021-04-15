@@ -12,9 +12,7 @@ import com.example.scheduleservice.services.DepartmentService;
 import com.example.scheduleservice.services.GroupService;
 import com.example.scheduleservice.services.RoleService;
 import com.example.scheduleservice.services.UserService;
-import com.example.scheduleservice.services.impl.DefaultUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,17 +24,15 @@ import java.util.regex.Pattern;
 public class DefaultUserDtoService implements UserDtoService {
     private final UserMapper userMapper;
     private final UserService userService;
-    private final DefaultUserService defaultUserService;
     private final GroupService groupService;
     private final RoleService roleService;
     private final DepartmentService departmentService;
 
     @Autowired
-    public DefaultUserDtoService(UserMapper userMapper, UserService userService, DefaultUserService defaultUserService, GroupService groupService,
+    public DefaultUserDtoService(UserMapper userMapper, UserService userService, GroupService groupService,
                                  RoleService roleService, DepartmentService departmentService) {
         this.userMapper = userMapper;
         this.userService = userService;
-        this.defaultUserService = defaultUserService;
         this.groupService = groupService;
         this.roleService = roleService;
         this.departmentService = departmentService;
@@ -82,8 +78,8 @@ public class DefaultUserDtoService implements UserDtoService {
     }
 
     @Override
-    public UserDetails findByEmail(String email) {
-        return defaultUserService.loadUserByUsername(email);
+    public UserDto findByEmail(String email) {
+        return userMapper.toUserDto(userService.findByEmail(email));
     }
 
     @Override

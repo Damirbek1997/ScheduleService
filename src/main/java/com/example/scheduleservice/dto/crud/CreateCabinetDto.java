@@ -4,7 +4,7 @@ import com.sun.istack.NotNull;
 import lombok.Data;
 
 @Data
-public class CreateGroupDto {
+public class CreateCabinetDto {
     @NotNull
-    private String groupName;
+    private String cabinet;
 }
