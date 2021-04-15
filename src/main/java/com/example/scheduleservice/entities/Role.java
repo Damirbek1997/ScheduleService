@@ -1,5 +1,6 @@
 package com.example.scheduleservice.entities;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,5 +15,6 @@ public class Role {
     private Long id;
 
     @Column(name = "role")
+    @NotNull
     private String role;
 }

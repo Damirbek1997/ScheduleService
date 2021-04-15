@@ -1,5 +1,6 @@
 package com.example.scheduleservice.entities;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,15 +21,18 @@ public class User {
     private String lastName;
 
     @Column(name = "email")
+    @NotNull
     private String email;
 
     @Column(name = "password")
+    @NotNull
     private String password;
 
     @ManyToOne
     private Group group;
 
     @ManyToOne
+    @NotNull
     private Role role;
 
     @ManyToOne

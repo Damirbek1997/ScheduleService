@@ -1,5 +1,6 @@
 package com.example.scheduleservice.entities;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,8 +15,10 @@ public class Department {
     private Long id;
 
     @Column(name = "department")
+    @NotNull
     private String department;
 
     @ManyToOne
+    @NotNull
     private Faculty faculty;
 }

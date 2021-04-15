@@ -4,17 +4,13 @@ import com.example.scheduleservice.entities.User;
 import com.example.scheduleservice.repositories.UserRepository;
 import com.example.scheduleservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class DefaultUserService implements UserService, UserDetailsService {
+public class DefaultUserService implements UserService {
     private final UserRepository userRepository;
 
     @Autowired
@@ -43,6 +39,11 @@ public class DefaultUserService implements UserService, UserDetailsService {
     }
 
     @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User with " + email + " not found!"));
+    }
+
+    @Override
     public User changeById (Long id, User user) throws Exception {
         return userRepository.findById(id)
                 .map(users -> {
@@ -56,14 +57,5 @@ public class DefaultUserService implements UserService, UserDetailsService {
 
                     return userRepository.save(users);
                 }).orElseThrow(Exception::new);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByEmail(email);
-
-        user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + email));
-
-        return user.map(MyUserDetails::new).get();
     }
 }
