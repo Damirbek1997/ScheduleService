@@ -9,6 +9,7 @@ import java.util.List;
 public interface DepartmentDtoService {
     List<DepartmentDto> findAll();
     DepartmentDto findById(Long id);
+    List<DepartmentDto> findByFacultyId(Long facultyId);
     DepartmentDto save(CreateDepartmentDto createDepartmentDto);
     DepartmentDto changeById(Long id, UpdateDepartmentDto updateDepartmentDto) throws Exception;
     void delete(Long id);

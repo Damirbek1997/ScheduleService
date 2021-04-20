@@ -30,6 +30,11 @@ public class DepartmentController {
         return departmentDtoService.findById(id);
     }
 
+    @GetMapping("/getAllByFacultyId/{facultyId}")
+    private List<DepartmentDto> getByFacultyId(@PathVariable("facultyId") Long facultyId) {
+        return departmentDtoService.findByFacultyId(facultyId);
+    }
+
     @PutMapping("/{id}")
     private DepartmentDto change(@PathVariable("id") Long id, @RequestBody UpdateDepartmentDto updateDepartmentDto) throws Exception {
         return departmentDtoService.changeById(id, updateDepartmentDto);

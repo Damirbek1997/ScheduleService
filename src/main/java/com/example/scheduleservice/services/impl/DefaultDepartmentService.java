@@ -1,11 +1,8 @@
 package com.example.scheduleservice.services.impl;
 
 import com.example.scheduleservice.entities.Department;
-import com.example.scheduleservice.entities.Group;
 import com.example.scheduleservice.repositories.DepartmentRepository;
-import com.example.scheduleservice.repositories.GroupRepository;
 import com.example.scheduleservice.services.DepartmentService;
-import com.example.scheduleservice.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +36,11 @@ public class DefaultDepartmentService implements DepartmentService {
     @Override
     public Department findById(Long id) {
         return departmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Group with " + id + " not found!"));
+    }
+
+    @Override
+    public List<Department> findByFacultyId(Long facultyId) {
+        return departmentRepository.retrieveDepartmentsByFacultyId(facultyId);
     }
 
     @Override

@@ -63,6 +63,20 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
     }
 
     @Override
+    public List<DepartmentDto> findByFacultyId(Long facultyId) {
+        List<Department> departments = departmentService.findByFacultyId(facultyId);
+        List<DepartmentDto> departmentDtos = new ArrayList<>();
+
+        departments.forEach(department -> {
+            DepartmentDto groupDto = departmentMapper.toDepartmentDto(department);
+
+            departmentDtos.add(groupDto);
+        });
+
+        return departmentDtos;
+    }
+
+    @Override
     public DepartmentDto changeById(Long id, UpdateDepartmentDto updateDepartmentDto) throws Exception {
         Department department = new Department();
 
