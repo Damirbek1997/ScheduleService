@@ -68,6 +68,20 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
     }
 
     @Override
+    public List<ScheduleDto> findAllByGroupId(Long groupId) {
+        List<Schedule> scheduleList =  scheduleService.findAllByGroupId(groupId);
+        List<ScheduleDto> scheduleDtoList = new ArrayList<>();
+
+        scheduleList.forEach(schedule -> {
+            ScheduleDto scheduleDto = scheduleMapper.toScheduleDto(schedule);
+
+            scheduleDtoList.add(scheduleDto);
+        });
+
+        return scheduleDtoList;
+    }
+
+    @Override
     public ScheduleDto findById(Long id) {
         return scheduleMapper.toScheduleDto(scheduleService.findById(id));
     }

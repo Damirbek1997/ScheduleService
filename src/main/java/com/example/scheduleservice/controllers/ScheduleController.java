@@ -30,6 +30,11 @@ public class ScheduleController {
         return scheduleDtoService.findById(id);
     }
 
+    @GetMapping("/getAllByGroupId/{groupId}")
+    private List<ScheduleDto> getAllByGroupId(@PathVariable("groupId") Long groupId) {
+        return scheduleDtoService.findAllByGroupId(groupId);
+    }
+
     @PutMapping("/{id}")
     private ScheduleDto change(@PathVariable("id") Long id, @RequestBody UpdateScheduleDto updateScheduleDto) throws Exception {
         return scheduleDtoService.changeById(id, updateScheduleDto);

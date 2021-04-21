@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ScheduleDtoService {
     List<ScheduleDto> findAll();
+    List<ScheduleDto> findAllByGroupId(Long groupId);
     ScheduleDto findById(Long id);
     ScheduleDto save(CreateScheduleDto createScheduleDto);
     ScheduleDto changeById(Long id, UpdateScheduleDto updateScheduleDto) throws Exception;

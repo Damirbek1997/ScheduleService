@@ -34,6 +34,11 @@ public class DefaultScheduleService implements ScheduleService {
     }
 
     @Override
+    public List<Schedule> findAllByGroupId(Long groupId) {
+        return scheduleRepository.retrieveSchedulesByGroupId(groupId);
+    }
+
+    @Override
     public Schedule findById(Long id) {
         return scheduleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Schedule with " + id + " not found!"));
     }
