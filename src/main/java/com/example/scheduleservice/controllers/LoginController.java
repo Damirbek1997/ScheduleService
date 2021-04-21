@@ -4,8 +4,8 @@ import com.example.scheduleservice.dtoService.UserDtoService;
 import com.example.scheduleservice.models.AuthenticationRequest;
 import com.example.scheduleservice.models.AuthenticationResponse;
 import com.example.scheduleservice.dto.crud.UpdateUserPasswordDto;
-import com.example.scheduleservice.services.CustomUserDetailsService;
-import com.example.scheduleservice.services.JwtUtil;
+import com.example.scheduleservice.services.impl.CustomUserDetailsService;
+import com.example.scheduleservice.services.impl.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

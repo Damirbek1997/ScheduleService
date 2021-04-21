@@ -16,4 +16,7 @@ public class Group {
     @Column(name = "group_name")
     @NotNull
     private String groupName;
+
+    @ManyToOne
+    private Department department;
 }

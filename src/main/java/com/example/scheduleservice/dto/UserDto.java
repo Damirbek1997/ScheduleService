@@ -10,5 +10,4 @@ public class UserDto {
     private String email;
     private GroupDto groupDto;
     private RoleDto roleDto;
-    private DepartmentDto departmentDto;
 }

@@ -4,8 +4,10 @@ import com.example.scheduleservice.dto.GroupDto;
 import com.example.scheduleservice.dto.crud.CreateGroupDto;
 import com.example.scheduleservice.dto.crud.UpdateGroupDto;
 import com.example.scheduleservice.dtoService.GroupDtoService;
+import com.example.scheduleservice.entities.Department;
 import com.example.scheduleservice.entities.Group;
 import com.example.scheduleservice.mapper.GroupMapper;
+import com.example.scheduleservice.services.DepartmentService;
 import com.example.scheduleservice.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,21 +17,25 @@ import java.util.List;
 
 @Service
 public class DefaultGroupDtoService implements GroupDtoService {
-    private final GroupService groupService;
     private final GroupMapper groupMapper;
+    private final GroupService groupService;
+    private final DepartmentService departmentService;
 
     @Autowired
-    public DefaultGroupDtoService(GroupService groupService, GroupMapper groupMapper) {
+    public DefaultGroupDtoService(GroupService groupService, GroupMapper groupMapper, DepartmentService departmentService) {
         this.groupService = groupService;
         this.groupMapper = groupMapper;
+        this.departmentService = departmentService;
     }
 
     @Override
     public GroupDto save(CreateGroupDto createGroupDto) {
+        Department department = departmentService.findById(createGroupDto.getDepartmentId());
         Group group = new Group();
 
         // converting to entity
         group.setGroupName(createGroupDto.getGroupName());
+        group.setDepartment(department);
 
         return groupMapper.toGroupDto(groupService.save(group));
     }
@@ -60,10 +66,15 @@ public class DefaultGroupDtoService implements GroupDtoService {
 
     @Override
     public GroupDto changeById(Long id, UpdateGroupDto updateGroupDto) throws Exception {
+        Department department = departmentService.findById(updateGroupDto.getDepartmentId());
+
         Group group = new Group();
 
         // converting to entity
         group.setGroupName(updateGroupDto.getGroupName());
+
+        if (department != null)
+            group.setDepartment(department);
 
         return groupMapper.toGroupDto(groupService.changeById(id, group));
     }

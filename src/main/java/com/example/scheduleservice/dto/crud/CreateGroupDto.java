@@ -7,4 +7,6 @@ import lombok.Data;
 public class CreateGroupDto {
     @NotNull
     private String groupName;
+    @NotNull
+    private Long departmentId;
 }

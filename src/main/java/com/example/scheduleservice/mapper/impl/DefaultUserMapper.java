@@ -11,15 +11,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DefaultUserMapper implements UserMapper {
-    private final GroupMapper groupMapper;
     private final RoleMapper roleMapper;
-    private final DepartmentMapper departmentMapper;
+    private final GroupMapper groupMapper;
 
     @Autowired
-    public DefaultUserMapper(GroupMapper groupMapper, RoleMapper roleMapper, DepartmentMapper departmentMapper) {
-        this.groupMapper = groupMapper;
+    public DefaultUserMapper(RoleMapper roleMapper, GroupMapper groupMapper) {
         this.roleMapper = roleMapper;
-        this.departmentMapper = departmentMapper;
+        this.groupMapper = groupMapper;
     }
 
     @Override
@@ -30,9 +28,12 @@ public class DefaultUserMapper implements UserMapper {
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setEmail(user.getEmail());
-        userDto.setGroupDto(groupMapper.toGroupDto(user.getGroup()));
-        userDto.setRoleDto(roleMapper.toRoleDto(user.getRole()));
-        userDto.setDepartmentDto(departmentMapper.toDepartmentDto(user.getDepartment()));
+
+        if (user.getRole() != null)
+            userDto.setRoleDto(roleMapper.toRoleDto(user.getRole()));
+
+        if (user.getGroup() != null)
+            userDto.setGroupDto(groupMapper.toGroupDto(user.getGroup()));
 
         return userDto;
     }

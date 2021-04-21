@@ -22,7 +22,9 @@ public class DefaultDepartmentMapper implements DepartmentMapper {
 
         departmentDto.setId(department.getId());
         departmentDto.setDepartment(department.getDepartment());
-        departmentDto.setFacultyDto(facultyMapper.toFacultyDto(department.getFaculty()));
+
+        if (department.getFaculty() != null)
+            departmentDto.setFacultyDto(facultyMapper.toFacultyDto(department.getFaculty()));
 
         return departmentDto;
     }

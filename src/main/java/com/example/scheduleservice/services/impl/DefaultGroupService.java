@@ -43,6 +43,7 @@ public class DefaultGroupService implements GroupService {
         return groupRepository.findById(id).
                 map(group -> {
                     group.setGroupName(newGroup.getGroupName());
+                    group.setDepartment(newGroup.getDepartment());
 
                     return groupRepository.save(group);
                 }).orElseThrow(Exception :: new);

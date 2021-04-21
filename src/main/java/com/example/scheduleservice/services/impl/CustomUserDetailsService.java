@@ -1,4 +1,4 @@
-package com.example.scheduleservice.services;
+package com.example.scheduleservice.services.impl;
 
 import com.example.scheduleservice.entities.User;
 import com.example.scheduleservice.repositories.UserRepository;

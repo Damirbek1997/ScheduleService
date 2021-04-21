@@ -9,8 +9,7 @@ public class CreateUserDto {
     private String lastName;
     @NotNull
     private String email;
-    private Long groupId;
     @NotNull
     private Long roleId;
-    private Long departmentId;
+    private Long groupId;
 }

@@ -27,10 +27,18 @@ public class DefaultScheduleMapper implements ScheduleMapper {
 
         scheduleDto.setId(schedule.getId());
         scheduleDto.setWeekDay(schedule.getWeekDay());
-        scheduleDto.setSubjectDto(subjectMapper.toSubjectDto(schedule.getSubject()));
-        scheduleDto.setSubjectTimeDto(subjectTimeMapper.toSubjectTime(schedule.getSubjectTime()));
-        scheduleDto.setGroupDto(groupMapper.toGroupDto(schedule.getGroup()));
-        scheduleDto.setCabinetDto(cabinetMapper.toCabinetDto(schedule.getCabinet()));
+
+        if (schedule.getSubject() != null)
+            scheduleDto.setSubjectDto(subjectMapper.toSubjectDto(schedule.getSubject()));
+
+        if (schedule.getSubjectTime() != null)
+            scheduleDto.setSubjectTimeDto(subjectTimeMapper.toSubjectTime(schedule.getSubjectTime()));
+
+        if (schedule.getGroup() != null)
+            scheduleDto.setGroupDto(groupMapper.toGroupDto(schedule.getGroup()));
+
+        if (schedule.getCabinet() != null)
+            scheduleDto.setCabinetDto(cabinetMapper.toCabinetDto(schedule.getCabinet()));
 
         return scheduleDto;
     }

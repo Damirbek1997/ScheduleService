@@ -22,7 +22,9 @@ public class DefaultSubjectMapper implements SubjectMapper {
 
         subjectDto.setId(subject.getId());
         subjectDto.setSubject(subject.getSubject());
-        subjectDto.setTeacherDto(userMapper.toUserDto(subject.getTeacher()));
+
+        if (subject.getTeacher() != null)
+            subjectDto.setTeacherDto(userMapper.toUserDto(subject.getTeacher()));
 
         return subjectDto;
     }

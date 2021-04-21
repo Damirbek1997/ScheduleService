@@ -1,6 +1,6 @@
 package com.example.scheduleservice.configs;
 
-import com.example.scheduleservice.services.CustomUserDetailsService;
+import com.example.scheduleservice.services.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;

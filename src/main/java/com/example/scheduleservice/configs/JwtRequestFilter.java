@@ -1,8 +1,7 @@
 package com.example.scheduleservice.configs;
 
-import com.example.scheduleservice.services.CustomUserDetailsService;
-import com.example.scheduleservice.services.JwtUtil;
-import com.example.scheduleservice.services.impl.DefaultUserService;
+import com.example.scheduleservice.services.impl.CustomUserDetailsService;
+import com.example.scheduleservice.services.impl.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

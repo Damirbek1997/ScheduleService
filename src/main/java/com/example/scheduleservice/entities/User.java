@@ -29,14 +29,11 @@ public class User {
     private String password;
 
     @ManyToOne
-    private Group group;
-
-    @ManyToOne
     @NotNull
     private Role role;
 
     @ManyToOne
-    private Department department;
+    private Group group;
 
     @ManyToMany
     private Set<Subject> subjects;

@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class UpdateGroupDto {
     private String groupName;
+    private Long departmentId;
 }

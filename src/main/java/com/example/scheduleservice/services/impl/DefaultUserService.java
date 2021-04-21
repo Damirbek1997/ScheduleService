@@ -50,9 +50,8 @@ public class DefaultUserService implements UserService {
                     users.setFirstName(user.getFirstName());
                     users.setLastName(user.getLastName());
                     users.setEmail(user.getEmail());
-                    users.setGroup(user.getGroup());
                     users.setRole(user.getRole());
-                    users.setDepartment(user.getDepartment());
+                    users.setGroup(user.getGroup());
                     users.setSubjects(user.getSubjects());
 
                     return userRepository.save(users);

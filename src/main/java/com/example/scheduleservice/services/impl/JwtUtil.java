@@ -1,4 +1,4 @@
-package com.example.scheduleservice.services;
+package com.example.scheduleservice.services.impl;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;

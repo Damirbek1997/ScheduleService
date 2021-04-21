@@ -8,7 +8,6 @@ import com.example.scheduleservice.dtoService.UserDtoService;
 import com.example.scheduleservice.entities.User;
 import com.example.scheduleservice.exceptions.InappropriatePasswordException;
 import com.example.scheduleservice.mapper.UserMapper;
-import com.example.scheduleservice.services.DepartmentService;
 import com.example.scheduleservice.services.GroupService;
 import com.example.scheduleservice.services.RoleService;
 import com.example.scheduleservice.services.UserService;
@@ -24,18 +23,16 @@ import java.util.regex.Pattern;
 public class DefaultUserDtoService implements UserDtoService {
     private final UserMapper userMapper;
     private final UserService userService;
-    private final GroupService groupService;
     private final RoleService roleService;
-    private final DepartmentService departmentService;
+    private final GroupService groupService;
 
     @Autowired
-    public DefaultUserDtoService(UserMapper userMapper, UserService userService, GroupService groupService,
-                                 RoleService roleService, DepartmentService departmentService) {
+    public DefaultUserDtoService(UserMapper userMapper, UserService userService,
+                                 RoleService roleService, GroupService groupService) {
         this.userMapper = userMapper;
         this.userService = userService;
-        this.groupService = groupService;
         this.roleService = roleService;
-        this.departmentService = departmentService;
+        this.groupService = groupService;
     }
 
     @Override
@@ -46,9 +43,12 @@ public class DefaultUserDtoService implements UserDtoService {
         user.setFirstName(createUserDto.getFirstName());
         user.setLastName(createUserDto.getLastName());
         user.setEmail(createUserDto.getEmail());
-        user.setGroup(groupService.findById(createUserDto.getGroupId()));
-        user.setRole(roleService.findById(createUserDto.getRoleId()));
-        user.setDepartment(departmentService.findById(createUserDto.getDepartmentId()));
+
+        if (createUserDto.getRoleId() != null)
+            user.setRole(roleService.findById(createUserDto.getRoleId()));
+
+        if (createUserDto.getGroupId() != null)
+            user.setGroup(groupService.findById(createUserDto.getGroupId()));
 
         return userMapper.toUserDto(userService.save(user));
     }
@@ -91,14 +91,11 @@ public class DefaultUserDtoService implements UserDtoService {
         user.setLastName(updateUserDto.getLastName());
         user.setEmail(updateUserDto.getEmail());
 
-        if (updateUserDto.getGroupId() != null)
-            user.setGroup(groupService.findById(updateUserDto.getGroupId()));
-
         if (updateUserDto.getRoleId() != null)
             user.setRole(roleService.findById(updateUserDto.getRoleId()));
 
-        if (updateUserDto.getDepartmentId() != null)
-            user.setDepartment(departmentService.findById(updateUserDto.getDepartmentId()));
+        if (updateUserDto.getGroupId() != null)
+            user.setGroup(groupService.findById(updateUserDto.getGroupId()));
 
         return userMapper.toUserDto(userService.changeById(id, user));
     }
