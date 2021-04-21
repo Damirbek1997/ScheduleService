@@ -26,6 +26,7 @@ public class DefaultScheduleMapper implements ScheduleMapper {
         ScheduleDto scheduleDto = new ScheduleDto();
 
         scheduleDto.setId(schedule.getId());
+        scheduleDto.setSemester(schedule.getSemester());
         scheduleDto.setWeekDay(schedule.getWeekDay());
 
         if (schedule.getSubject() != null)

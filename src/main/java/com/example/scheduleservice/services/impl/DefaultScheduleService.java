@@ -42,6 +42,7 @@ public class DefaultScheduleService implements ScheduleService {
     public Schedule changeById(Long id, Schedule newSchedule) throws Exception {
         return scheduleRepository.findById(id)
                 .map(schedule -> {
+                    schedule.setSemester(newSchedule.getSemester());
                     schedule.setWeekDay(newSchedule.getWeekDay());
                     schedule.setSubject(newSchedule.getSubject());
                     schedule.setSubjectTime(newSchedule.getSubjectTime());

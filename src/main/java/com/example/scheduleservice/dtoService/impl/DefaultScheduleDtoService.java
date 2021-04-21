@@ -38,6 +38,7 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
         Schedule schedule = new Schedule();
 
         // converting to entity
+        schedule.setSemester(createScheduleDto.getSemester());
         schedule.setWeekDay(createScheduleDto.getWeekDay());
         schedule.setSubject(subjectService.findById(createScheduleDto.getSubjectId()));
         schedule.setSubjectTime(subjectTimeService.findById(createScheduleDto.getSubjectTimeId()));
@@ -76,6 +77,7 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
         Schedule schedule = new Schedule();
 
         // converting to entity
+        schedule.setSemester(updateScheduleDto.getSemester());
         schedule.setWeekDay(updateScheduleDto.getWeekDay());
 
         if (updateScheduleDto.getSubjectId() != null)
