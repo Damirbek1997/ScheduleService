@@ -25,6 +25,11 @@ public class CabinetController {
         return cabinetDtoService.findAll();
     }
 
+    @GetMapping("/getAllFreeCabinets")
+    private List<CabinetDto> getAllFreeCabinets() {
+        return cabinetDtoService.findAllFreeCabinets();
+    }
+
     @GetMapping("/{id}")
     private CabinetDto getById(@PathVariable("id") Long id) {
         return cabinetDtoService.findById(id);

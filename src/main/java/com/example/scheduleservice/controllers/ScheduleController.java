@@ -1,5 +1,6 @@
 package com.example.scheduleservice.controllers;
 
+import com.example.scheduleservice.dto.FrontScheduleDto;
 import com.example.scheduleservice.dto.ScheduleDto;
 import com.example.scheduleservice.dto.crud.CreateScheduleDto;
 import com.example.scheduleservice.dto.crud.UpdateScheduleDto;
@@ -31,7 +32,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/getAllByGroupId/{groupId}")
-    private List<ScheduleDto> getAllByGroupId(@PathVariable("groupId") Long groupId) {
+    private List<FrontScheduleDto> getAllByGroupId(@PathVariable("groupId") Long groupId) {
         return scheduleDtoService.findAllByGroupId(groupId);
     }
 

@@ -1,5 +1,6 @@
 package com.example.scheduleservice.mapper.impl;
 
+import com.example.scheduleservice.dto.FrontScheduleDto;
 import com.example.scheduleservice.dto.ScheduleDto;
 import com.example.scheduleservice.entities.Schedule;
 import com.example.scheduleservice.mapper.*;
@@ -33,7 +34,7 @@ public class DefaultScheduleMapper implements ScheduleMapper {
             scheduleDto.setSubjectDto(subjectMapper.toSubjectDto(schedule.getSubject()));
 
         if (schedule.getSubjectTime() != null)
-            scheduleDto.setSubjectTimeDto(subjectTimeMapper.toSubjectTime(schedule.getSubjectTime()));
+            scheduleDto.setScheduleTimeDto(subjectTimeMapper.toSubjectTime(schedule.getSubjectTime()));
 
         if (schedule.getGroup() != null)
             scheduleDto.setGroupDto(groupMapper.toGroupDto(schedule.getGroup()));
@@ -42,5 +43,25 @@ public class DefaultScheduleMapper implements ScheduleMapper {
             scheduleDto.setCabinetDto(cabinetMapper.toCabinetDto(schedule.getCabinet()));
 
         return scheduleDto;
+    }
+
+    @Override
+    public FrontScheduleDto toFrontScheduleDto(Schedule schedule) {
+        FrontScheduleDto frontScheduleDto = new FrontScheduleDto();
+
+        frontScheduleDto.setScheduleId(schedule.getId());
+        frontScheduleDto.setSemester(schedule.getSemester());
+        frontScheduleDto.setWeekDay(schedule.getWeekDay());
+        frontScheduleDto.setSubjectId(schedule.getSubject().getId());
+        frontScheduleDto.setSubject(schedule.getSubject().getSubject());
+        frontScheduleDto.setScheduleTimeId(schedule.getSubjectTime().getId());
+        frontScheduleDto.setStartLesson(schedule.getSubjectTime().getStartLesson());
+        frontScheduleDto.setEndLesson(schedule.getSubjectTime().getEndLesson());
+        frontScheduleDto.setGroupId(schedule.getGroup().getId());
+        frontScheduleDto.setGroupName(schedule.getGroup().getGroupName());
+        frontScheduleDto.setCabinetId(schedule.getCabinet().getId());
+        frontScheduleDto.setCabinet(schedule.getCabinet().getCabinet());
+
+        return frontScheduleDto;
     }
 }

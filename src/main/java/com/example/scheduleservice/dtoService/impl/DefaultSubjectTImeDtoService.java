@@ -1,6 +1,6 @@
 package com.example.scheduleservice.dtoService.impl;
 
-import com.example.scheduleservice.dto.SubjectTimeDto;
+import com.example.scheduleservice.dto.ScheduleTimeDto;
 import com.example.scheduleservice.dtoService.SubjectTimeDtoService;
 import com.example.scheduleservice.entities.SubjectTime;
 import com.example.scheduleservice.mapper.SubjectTimeMapper;
@@ -23,21 +23,21 @@ public class DefaultSubjectTImeDtoService implements SubjectTimeDtoService {
     }
 
     @Override
-    public List<SubjectTimeDto> findAll() {
+    public List<ScheduleTimeDto> findAll() {
         List<SubjectTime> subjectTimes = subjectTimeService.findAll();
-        List<SubjectTimeDto> subjectTimeDtos = new ArrayList<>();
+        List<ScheduleTimeDto> scheduleTimeDtos = new ArrayList<>();
 
         subjectTimes.forEach(subjectTime -> {
-            SubjectTimeDto subjectTimeDto = subjectTimeMapper.toSubjectTime(subjectTime);
+            ScheduleTimeDto scheduleTimeDto = subjectTimeMapper.toSubjectTime(subjectTime);
 
-            subjectTimeDtos.add(subjectTimeDto);
+            scheduleTimeDtos.add(scheduleTimeDto);
         });
 
-        return subjectTimeDtos;
+        return scheduleTimeDtos;
     }
 
     @Override
-    public SubjectTimeDto findById(Long id) {
+    public ScheduleTimeDto findById(Long id) {
         return subjectTimeMapper.toSubjectTime(subjectTimeService.findById(id));
     }
 }

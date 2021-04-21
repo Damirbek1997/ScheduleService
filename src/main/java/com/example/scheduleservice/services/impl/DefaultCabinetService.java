@@ -34,6 +34,11 @@ public class DefaultCabinetService implements CabinetService {
     }
 
     @Override
+    public List<Cabinet> findAllFreeCabinets() {
+        return null;
+    }
+
+    @Override
     public Cabinet findById(Long id) {
         return cabinetRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Group with " + id + " not found!"));
     }

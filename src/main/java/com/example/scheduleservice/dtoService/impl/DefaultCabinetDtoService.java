@@ -5,8 +5,10 @@ import com.example.scheduleservice.dto.crud.CreateCabinetDto;
 import com.example.scheduleservice.dto.crud.UpdateCabinetDto;
 import com.example.scheduleservice.dtoService.CabinetDtoService;
 import com.example.scheduleservice.entities.Cabinet;
+import com.example.scheduleservice.entities.Schedule;
 import com.example.scheduleservice.mapper.CabinetMapper;
 import com.example.scheduleservice.services.CabinetService;
+import com.example.scheduleservice.services.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +17,15 @@ import java.util.List;
 
 @Service
 public class DefaultCabinetDtoService implements CabinetDtoService {
-    private final CabinetService cabinetService;
     private final CabinetMapper cabinetMapper;
+    private final CabinetService cabinetService;
+    private final ScheduleService scheduleService;
 
     @Autowired
-    public DefaultCabinetDtoService(CabinetService cabinetService, CabinetMapper cabinetMapper) {
+    public DefaultCabinetDtoService(CabinetService cabinetService, CabinetMapper cabinetMapper, ScheduleService scheduleService) {
         this.cabinetService = cabinetService;
         this.cabinetMapper = cabinetMapper;
+        this.scheduleService = scheduleService;
     }
 
     @Override
@@ -42,6 +46,26 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
     @Override
     public List<CabinetDto> findAll() {
         List<Cabinet> cabinets = cabinetService.findAll();
+        List<Schedule> schedules = scheduleService.findAll();
+        List<Cabinet> busyCabinets = new ArrayList<>();
+        List<CabinetDto> cabinetDtos = new ArrayList<>();
+
+//        schedules.forEach(schedule -> {
+//            String cabinet
+//        });
+
+        cabinets.forEach(cabinet -> {
+            CabinetDto groupDto = cabinetMapper.toCabinetDto(cabinet);
+
+            cabinetDtos.add(groupDto);
+        });
+
+        return cabinetDtos;
+    }
+
+    @Override
+    public List<CabinetDto> findAllFreeCabinets() {
+        List<Cabinet> cabinets = cabinetService.findAllFreeCabinets();
         List<CabinetDto> cabinetDtos = new ArrayList<>();
 
         cabinets.forEach(cabinet -> {

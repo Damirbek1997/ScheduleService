@@ -1,10 +1,10 @@
 package com.example.scheduleservice.dtoService;
 
-import com.example.scheduleservice.dto.SubjectTimeDto;
+import com.example.scheduleservice.dto.ScheduleTimeDto;
 
 import java.util.List;
 
 public interface SubjectTimeDtoService {
-    List<SubjectTimeDto> findAll();
-    SubjectTimeDto findById(Long id);
+    List<ScheduleTimeDto> findAll();
+    ScheduleTimeDto findById(Long id);
 }

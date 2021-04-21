@@ -3,7 +3,7 @@ package com.example.scheduleservice.dto;
 import lombok.Data;
 
 @Data
-public class SubjectTimeDto {
+public class ScheduleTimeDto {
     private Long id;
     private String startLesson;
     private String endLesson;

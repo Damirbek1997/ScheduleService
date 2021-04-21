@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface CabinetDtoService {
     List<CabinetDto> findAll();
+    List<CabinetDto> findAllFreeCabinets();
     CabinetDto findById(Long id);
     CabinetDto save(CreateCabinetDto createCabinetDto);
     CabinetDto changeById(Long id, UpdateCabinetDto updateCabinetDto) throws Exception;

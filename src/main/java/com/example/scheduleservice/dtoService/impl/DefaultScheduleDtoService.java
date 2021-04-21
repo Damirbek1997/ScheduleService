@@ -1,5 +1,6 @@
 package com.example.scheduleservice.dtoService.impl;
 
+import com.example.scheduleservice.dto.FrontScheduleDto;
 import com.example.scheduleservice.dto.ScheduleDto;
 import com.example.scheduleservice.dto.crud.CreateScheduleDto;
 import com.example.scheduleservice.dto.crud.UpdateScheduleDto;
@@ -68,17 +69,17 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
     }
 
     @Override
-    public List<ScheduleDto> findAllByGroupId(Long groupId) {
+    public List<FrontScheduleDto> findAllByGroupId(Long groupId) {
         List<Schedule> scheduleList =  scheduleService.findAllByGroupId(groupId);
-        List<ScheduleDto> scheduleDtoList = new ArrayList<>();
+        List<FrontScheduleDto> frontScheduleDtos = new ArrayList<>();
 
         scheduleList.forEach(schedule -> {
-            ScheduleDto scheduleDto = scheduleMapper.toScheduleDto(schedule);
+            FrontScheduleDto frontScheduleDto = scheduleMapper.toFrontScheduleDto(schedule);
 
-            scheduleDtoList.add(scheduleDto);
+            frontScheduleDtos.add(frontScheduleDto);
         });
 
-        return scheduleDtoList;
+        return frontScheduleDtos;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.example.scheduleservice.controllers;
 
-import com.example.scheduleservice.dto.SubjectTimeDto;
+import com.example.scheduleservice.dto.ScheduleTimeDto;
 import com.example.scheduleservice.dtoService.SubjectTimeDtoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +19,12 @@ public class SubjectTImeController {
     }
 
     @GetMapping
-    private List<SubjectTimeDto> getAll() {
+    private List<ScheduleTimeDto> getAll() {
         return subjectTimeDtoService.findAll();
     }
 
     @GetMapping("/{id}")
-    private SubjectTimeDto getById(@PathVariable("id") Long id) {
+    private ScheduleTimeDto getById(@PathVariable("id") Long id) {
         return subjectTimeDtoService.findById(id);
     }
 }
