@@ -34,8 +34,8 @@ public class DefaultCabinetService implements CabinetService {
     }
 
     @Override
-    public List<Cabinet> findAllFreeCabinets() {
-        return null;
+    public List<Cabinet> findAllFreeCabinets(List<Long> busyCabinets) {
+        return cabinetRepository.retrieveFreeCabinetsNotInList(busyCabinets);
     }
 
     @Override

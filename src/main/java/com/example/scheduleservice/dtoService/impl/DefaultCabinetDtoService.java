@@ -46,13 +46,7 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
     @Override
     public List<CabinetDto> findAll() {
         List<Cabinet> cabinets = cabinetService.findAll();
-        List<Schedule> schedules = scheduleService.findAll();
-        List<Cabinet> busyCabinets = new ArrayList<>();
         List<CabinetDto> cabinetDtos = new ArrayList<>();
-
-//        schedules.forEach(schedule -> {
-//            String cabinet
-//        });
 
         cabinets.forEach(cabinet -> {
             CabinetDto groupDto = cabinetMapper.toCabinetDto(cabinet);
@@ -65,11 +59,20 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
 
     @Override
     public List<CabinetDto> findAllFreeCabinets() {
-        List<Cabinet> cabinets = cabinetService.findAllFreeCabinets();
+        List<Schedule> schedules = scheduleService.findAll();
         List<CabinetDto> cabinetDtos = new ArrayList<>();
+        List<Long> busyCabinets = new ArrayList<>();
 
-        cabinets.forEach(cabinet -> {
-            CabinetDto groupDto = cabinetMapper.toCabinetDto(cabinet);
+        schedules.forEach(schedule -> {
+            Long cabinetId = schedule.getCabinet().getId();
+
+            busyCabinets.add(cabinetId);
+        });
+
+        List<Cabinet> freeCabinets = cabinetService.findAllFreeCabinets(busyCabinets);
+
+        freeCabinets.forEach(freeCabinet -> {
+            CabinetDto groupDto = cabinetMapper.toCabinetDto(freeCabinet);
 
             cabinetDtos.add(groupDto);
         });

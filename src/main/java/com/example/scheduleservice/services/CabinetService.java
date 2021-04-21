@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CabinetService {
     List<Cabinet> findAll();
-    List<Cabinet> findAllFreeCabinets();
+    List<Cabinet> findAllFreeCabinets(List<Long> busyCabinets);
     Cabinet findById(Long id);
     Cabinet save(Cabinet cabinet);
     Cabinet changeById(Long id, Cabinet cabinet) throws Exception;
