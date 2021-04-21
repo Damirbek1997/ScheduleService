@@ -65,6 +65,20 @@ public class DefaultGroupDtoService implements GroupDtoService {
     }
 
     @Override
+    public List<GroupDto> findAllByDepartmentId(Long departmentId) {
+        List<Group> groupList = groupService.findAllByDepartmentId(departmentId);
+        List<GroupDto> groupDtoList = new ArrayList<>();
+
+        groupList.forEach(group -> {
+            GroupDto groupDto = groupMapper.toGroupDto(group);
+
+            groupDtoList.add(groupDto);
+        });
+
+        return groupDtoList;
+    }
+
+    @Override
     public GroupDto changeById(Long id, UpdateGroupDto updateGroupDto) throws Exception {
         Department department = departmentService.findById(updateGroupDto.getDepartmentId());
 

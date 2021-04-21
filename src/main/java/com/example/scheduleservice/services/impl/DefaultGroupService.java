@@ -39,6 +39,11 @@ public class DefaultGroupService implements GroupService {
     }
 
     @Override
+    public List<Group> findAllByDepartmentId(Long departmentId) {
+        return groupRepository.retrieveGroupsByDepartmentId(departmentId);
+    }
+
+    @Override
     public Group changeById(Long id, Group newGroup) throws Exception {
         return groupRepository.findById(id).
                 map(group -> {
