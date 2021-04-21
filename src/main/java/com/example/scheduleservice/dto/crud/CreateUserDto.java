@@ -11,5 +11,7 @@ public class CreateUserDto {
     private String email;
     @NotNull
     private Long roleId;
+    @NotNull
+    private String password;
     private Long groupId;
 }

@@ -43,6 +43,7 @@ public class DefaultUserDtoService implements UserDtoService {
         user.setFirstName(createUserDto.getFirstName());
         user.setLastName(createUserDto.getLastName());
         user.setEmail(createUserDto.getEmail());
+        user.setPassword(createUserDto.getPassword());
 
         if (createUserDto.getRoleId() != null)
             user.setRole(roleService.findById(createUserDto.getRoleId()));
