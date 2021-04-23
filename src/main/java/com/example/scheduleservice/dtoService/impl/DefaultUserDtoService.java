@@ -91,6 +91,20 @@ public class DefaultUserDtoService implements UserDtoService {
     }
 
     @Override
+    public List<UserDto> findAllByRoleId(Long roleId) {
+        List<User> userList = userService.findAllByRoleId(roleId);
+        List<UserDto> userDtoList = new ArrayList<>();
+
+        userList.forEach(user -> {
+            UserDto userDto = userMapper.toUserDto(user);
+
+            userDtoList.add(userDto);
+        });
+
+        return userDtoList;
+    }
+
+    @Override
     public UserDto findById(Long id) {
         return userMapper.toUserDto(userService.findById(id));
     }

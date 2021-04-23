@@ -12,6 +12,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "firstname")
@@ -20,12 +21,10 @@ public class User {
     @Column(name = "lastname")
     private String lastName;
 
-    @Column(name = "email")
-    @NotNull
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "password")
-    @NotNull
+    @Column(name = "password", nullable = false)
     private String password;
 
     @ManyToOne

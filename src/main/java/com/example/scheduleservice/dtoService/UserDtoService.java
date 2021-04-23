@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface UserDtoService {
     List<UserDto> findAll();
+    List<UserDto> findAllByRoleId(Long roleId);
     UserDto findById(Long id);
     UserDto findByEmail(String email);
     UserDto save(CreateUserDto createUserDto);

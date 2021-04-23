@@ -39,6 +39,12 @@ public class UserController {
         return userDtoService.findById(id);
     }
 
+    @GetMapping("/getAllByRole/{roleId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    private List<UserDto> getAllByRoleId(@PathVariable("roleId") Long roleId) {
+        return userDtoService.findAllByRoleId(roleId);
+    }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     private UserDto change(@PathVariable("id") Long id, @RequestBody UpdateUserDto updateUserDto) throws Exception {
