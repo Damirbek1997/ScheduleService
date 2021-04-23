@@ -16,4 +16,14 @@ public class DefaultRoleMapper implements RoleMapper {
 
         return roleDto;
     }
+
+    @Override
+    public Role toRole(RoleDto roleDto) {
+        Role role = new Role();
+
+        role.setId(roleDto.getId());
+        role.setRole(roleDto.getRole());
+
+        return role;
+    }
 }

@@ -5,4 +5,5 @@ import com.example.scheduleservice.entities.Group;
 
 public interface GroupMapper {
     GroupDto toGroupDto(Group group);
+    Group toGroup(GroupDto groupDto);
 }

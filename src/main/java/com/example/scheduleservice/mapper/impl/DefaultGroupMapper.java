@@ -28,4 +28,17 @@ public class DefaultGroupMapper implements GroupMapper {
 
         return groupDto;
     }
+
+    @Override
+    public Group toGroup(GroupDto groupDto) {
+        Group group = new Group();
+
+        group.setId(groupDto.getId());
+        group.setGroupName(groupDto.getGroupName());
+
+        if (groupDto.getDepartmentDto() != null)
+            group.setDepartment(departmentMapper.toDepartment(groupDto.getDepartmentDto()));
+
+        return group;
+    }
 }

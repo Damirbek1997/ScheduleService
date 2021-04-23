@@ -1,6 +1,5 @@
 package com.example.scheduleservice.entities;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +16,8 @@ public class Subject {
     private String subject;
 
     @ManyToOne
-    @NotNull
+    private Department department;
+
+    @ManyToOne
     private User teacher;
 }

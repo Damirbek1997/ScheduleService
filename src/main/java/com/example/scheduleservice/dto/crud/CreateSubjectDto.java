@@ -9,4 +9,6 @@ public class CreateSubjectDto {
     private String subject;
     @NotNull
     private Long teacherId;
+    @NotNull
+    private Long departmentId;
 }

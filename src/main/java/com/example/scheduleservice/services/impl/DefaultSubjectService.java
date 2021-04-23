@@ -43,6 +43,7 @@ public class DefaultSubjectService implements SubjectService {
         return subjectRepository.findById(id)
                 .map(subject -> {
                     subject.setSubject(newSubject.getSubject());
+                    subject.setDepartment(newSubject.getDepartment());
                     subject.setTeacher(newSubject.getTeacher());
 
                     return subjectRepository.save(subject);

@@ -6,4 +6,5 @@ import lombok.Data;
 public class UpdateSubjectDto {
     private String subject;
     private Long teacherId;
+    private Long departmentId;
 }

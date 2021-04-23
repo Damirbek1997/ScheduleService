@@ -53,6 +53,7 @@ public class DefaultUserService implements UserService {
                     users.setRole(user.getRole());
                     users.setGroup(user.getGroup());
                     users.setSubjects(user.getSubjects());
+                    users.setSubjects(user.getSubjects());
 
                     return userRepository.save(users);
                 }).orElseThrow(Exception::new);

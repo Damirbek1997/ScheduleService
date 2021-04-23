@@ -1,12 +1,15 @@
 package com.example.scheduleservice.dtoService.impl;
 
+import com.example.scheduleservice.dto.SubjectDto;
+import com.example.scheduleservice.dto.UserDto;
 import com.example.scheduleservice.dto.crud.CreateUserDto;
 import com.example.scheduleservice.dto.crud.UpdateUserDto;
 import com.example.scheduleservice.dto.crud.UpdateUserPasswordDto;
-import com.example.scheduleservice.dto.UserDto;
 import com.example.scheduleservice.dtoService.UserDtoService;
+import com.example.scheduleservice.entities.Subject;
 import com.example.scheduleservice.entities.User;
 import com.example.scheduleservice.exceptions.InappropriatePasswordException;
+import com.example.scheduleservice.mapper.SubjectMapper;
 import com.example.scheduleservice.mapper.UserMapper;
 import com.example.scheduleservice.services.GroupService;
 import com.example.scheduleservice.services.RoleService;
@@ -15,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,14 +30,16 @@ public class DefaultUserDtoService implements UserDtoService {
     private final UserService userService;
     private final RoleService roleService;
     private final GroupService groupService;
+    private final SubjectMapper subjectMapper;
 
     @Autowired
     public DefaultUserDtoService(UserMapper userMapper, UserService userService,
-                                 RoleService roleService, GroupService groupService) {
+                                 RoleService roleService, GroupService groupService, SubjectMapper subjectMapper) {
         this.userMapper = userMapper;
         this.userService = userService;
         this.roleService = roleService;
         this.groupService = groupService;
+        this.subjectMapper = subjectMapper;
     }
 
     @Override
@@ -50,6 +57,16 @@ public class DefaultUserDtoService implements UserDtoService {
 
         if (createUserDto.getGroupId() != null)
             user.setGroup(groupService.findById(createUserDto.getGroupId()));
+
+        if (createUserDto.getSubjectSet() != null) {
+            Set<Subject> subjectSet = new HashSet<>();
+
+            for (SubjectDto subjectDto : createUserDto.getSubjectSet()) {
+                subjectSet.add(subjectMapper.toSubject(subjectDto));
+            }
+
+            user.setSubjects(subjectSet);
+        }
 
         return userMapper.toUserDto(userService.save(user));
     }
@@ -97,6 +114,16 @@ public class DefaultUserDtoService implements UserDtoService {
 
         if (updateUserDto.getGroupId() != null)
             user.setGroup(groupService.findById(updateUserDto.getGroupId()));
+
+        if (updateUserDto.getSubjectSet() != null) {
+            Set<Subject> subjectSet = new HashSet<>();
+
+            for (SubjectDto subjectDto : updateUserDto.getSubjectSet()) {
+                subjectSet.add(subjectMapper.toSubject(subjectDto));
+            }
+
+            user.setSubjects(subjectSet);
+        }
 
         return userMapper.toUserDto(userService.changeById(id, user));
     }

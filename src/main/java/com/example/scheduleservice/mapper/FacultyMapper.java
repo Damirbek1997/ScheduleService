@@ -5,4 +5,5 @@ import com.example.scheduleservice.entities.Faculty;
 
 public interface FacultyMapper {
     FacultyDto toFacultyDto(Faculty faculty);
+    Faculty toFaculty(FacultyDto facultyDto);
 }

@@ -36,5 +36,8 @@ public class User {
     private Group group;
 
     @ManyToMany
+    @JoinTable(name = "users_subjects",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private Set<Subject> subjects;
 }

@@ -5,4 +5,5 @@ import com.example.scheduleservice.entities.Subject;
 
 public interface SubjectMapper {
     SubjectDto toSubjectDto(Subject subject);
+    Subject toSubject(SubjectDto subjectDto);
 }

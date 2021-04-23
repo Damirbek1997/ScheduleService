@@ -6,6 +6,7 @@ import com.example.scheduleservice.dto.crud.UpdateSubjectDto;
 import com.example.scheduleservice.dtoService.SubjectDtoService;
 import com.example.scheduleservice.entities.Subject;
 import com.example.scheduleservice.mapper.SubjectMapper;
+import com.example.scheduleservice.services.DepartmentService;
 import com.example.scheduleservice.services.SubjectService;
 import com.example.scheduleservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,14 @@ import java.util.List;
 public class DefaultSubjectDtoService implements SubjectDtoService {
     private final SubjectMapper subjectMapper;
     private final SubjectService subjectService;
+    private final DepartmentService departmentService;
     private final UserService userService;
 
     @Autowired
-    public DefaultSubjectDtoService(SubjectService subjectService, SubjectMapper subjectMapper, UserService userService) {
+    public DefaultSubjectDtoService(SubjectService subjectService, SubjectMapper subjectMapper, DepartmentService departmentService, UserService userService) {
         this.subjectService = subjectService;
         this.subjectMapper = subjectMapper;
+        this.departmentService = departmentService;
         this.userService = userService;
     }
 
@@ -32,7 +35,12 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
         Subject subject = new Subject();
 
         // converting to entity
-        subject.setTeacher(userService.findById(createSubjectDto.getTeacherId()));
+        if (createSubjectDto.getTeacherId() != null)
+            subject.setTeacher(userService.findById(createSubjectDto.getTeacherId()));
+
+        if (createSubjectDto.getDepartmentId() != null)
+            subject.setDepartment(departmentService.findById(createSubjectDto.getDepartmentId()));
+
         subject.setSubject(createSubjectDto.getSubject());
 
         return subjectMapper.toSubjectDto(subjectService.save(subject));
@@ -64,10 +72,15 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
 
     @Override
     public SubjectDto changeById(Long id, UpdateSubjectDto updateSubjectDto) throws Exception {
-        Subject subject = new Subject();
+        Subject subject = subjectService.findById(id);
 
         // converting to entity
-        subject.setTeacher(userService.findById(updateSubjectDto.getTeacherId()));
+        if (updateSubjectDto.getTeacherId() != null)
+            subject.setTeacher(userService.findById(updateSubjectDto.getTeacherId()));
+
+        if (updateSubjectDto.getDepartmentId() != null)
+            subject.setDepartment(departmentService.findById(updateSubjectDto.getDepartmentId()));
+
         subject.setSubject(updateSubjectDto.getSubject());
 
         return subjectMapper.toSubjectDto(subjectService.changeById(id, subject));

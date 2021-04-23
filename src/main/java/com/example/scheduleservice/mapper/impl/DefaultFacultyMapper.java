@@ -16,4 +16,14 @@ public class DefaultFacultyMapper implements FacultyMapper {
 
         return facultyDto;
     }
+
+    @Override
+    public Faculty toFaculty(FacultyDto facultyDto) {
+        Faculty faculty = new Faculty();
+
+        faculty.setId(facultyDto.getId());
+        faculty.setFaculty(facultyDto.getFaculty());
+
+        return faculty;
+    }
 }

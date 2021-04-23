@@ -28,4 +28,17 @@ public class DefaultDepartmentMapper implements DepartmentMapper {
 
         return departmentDto;
     }
+
+    @Override
+    public Department toDepartment(DepartmentDto departmentDto) {
+        Department department = new Department();
+
+        department.setId(departmentDto.getId());
+        department.setDepartment(departmentDto.getDepartment());
+
+        if (departmentDto.getFacultyDto() != null)
+            department.setFaculty(facultyMapper.toFaculty(departmentDto.getFacultyDto()));
+
+        return department;
+    }
 }
