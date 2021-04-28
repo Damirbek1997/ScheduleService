@@ -5,7 +5,9 @@ import com.example.scheduleservice.dto.crud.CreateDepartmentDto;
 import com.example.scheduleservice.dto.crud.UpdateDepartmentDto;
 import com.example.scheduleservice.dtoService.DepartmentDtoService;
 import com.example.scheduleservice.entities.Department;
+import com.example.scheduleservice.entities.Group;
 import com.example.scheduleservice.mapper.DepartmentMapper;
+import com.example.scheduleservice.mapper.GroupMapper;
 import com.example.scheduleservice.services.DepartmentService;
 import com.example.scheduleservice.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,15 @@ import java.util.List;
 @Service
 public class DefaultDepartmentDtoService implements DepartmentDtoService {
     private final DepartmentMapper departmentMapper;
+    private final GroupMapper groupMapper;
     private final DepartmentService departmentService;
     private final FacultyService facultyService;
 
     @Autowired
-    public DefaultDepartmentDtoService(DepartmentService departmentService, DepartmentMapper departmentMapper, FacultyService facultyService) {
+    public DefaultDepartmentDtoService(DepartmentService departmentService, DepartmentMapper departmentMapper, GroupMapper groupMapper, FacultyService facultyService) {
         this.departmentService = departmentService;
         this.departmentMapper = departmentMapper;
+        this.groupMapper = groupMapper;
         this.facultyService = facultyService;
     }
 
@@ -33,7 +37,10 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
 
         // converting to entity
         department.setDepartment(createDepartmentDto.getDepartment());
-        department.setFaculty(facultyService.findById(createDepartmentDto.getFacultyId()));
+
+        if (createDepartmentDto.getFacultyId() != null) {
+            department.setFaculty(facultyService.findById(createDepartmentDto.getFacultyId()));
+        }
 
         return departmentMapper.toDepartmentDto(departmentService.save(department));
     }
@@ -82,7 +89,10 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
 
         // converting to entity
         department.setDepartment(updateDepartmentDto.getDepartment());
-        department.setFaculty(facultyService.findById(updateDepartmentDto.getFacultyId()));
+
+        if (updateDepartmentDto.getFacultyId() != null) {
+            department.setFaculty(facultyService.findById(updateDepartmentDto.getFacultyId()));
+        }
 
         return departmentMapper.toDepartmentDto(departmentService.changeById(id, department));
     }

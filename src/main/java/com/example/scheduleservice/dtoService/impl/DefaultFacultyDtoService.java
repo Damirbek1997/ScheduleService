@@ -1,10 +1,13 @@
 package com.example.scheduleservice.dtoService.impl;
 
+import com.example.scheduleservice.dto.DepartmentDto;
 import com.example.scheduleservice.dto.FacultyDto;
 import com.example.scheduleservice.dto.crud.CreateFacultyDto;
 import com.example.scheduleservice.dto.crud.UpdateFacultyDto;
 import com.example.scheduleservice.dtoService.FacultyDtoService;
+import com.example.scheduleservice.entities.Department;
 import com.example.scheduleservice.entities.Faculty;
+import com.example.scheduleservice.mapper.DepartmentMapper;
 import com.example.scheduleservice.mapper.FacultyMapper;
 import com.example.scheduleservice.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +20,13 @@ import java.util.List;
 public class DefaultFacultyDtoService implements FacultyDtoService {
     private final FacultyService facultyService;
     private final FacultyMapper facultyMapper;
+    private final DepartmentMapper departmentMapper;
 
     @Autowired
-    public DefaultFacultyDtoService(FacultyService facultyService, FacultyMapper facultyMapper) {
+    public DefaultFacultyDtoService(FacultyService facultyService, FacultyMapper facultyMapper, DepartmentMapper departmentMapper) {
         this.facultyService = facultyService;
         this.facultyMapper = facultyMapper;
+        this.departmentMapper = departmentMapper;
     }
 
     @Override

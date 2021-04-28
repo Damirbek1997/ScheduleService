@@ -4,7 +4,6 @@ import com.example.scheduleservice.dto.GroupDto;
 import com.example.scheduleservice.dto.crud.CreateGroupDto;
 import com.example.scheduleservice.dto.crud.UpdateGroupDto;
 import com.example.scheduleservice.dtoService.GroupDtoService;
-import com.example.scheduleservice.entities.Department;
 import com.example.scheduleservice.entities.Group;
 import com.example.scheduleservice.mapper.GroupMapper;
 import com.example.scheduleservice.services.DepartmentService;
@@ -30,12 +29,14 @@ public class DefaultGroupDtoService implements GroupDtoService {
 
     @Override
     public GroupDto save(CreateGroupDto createGroupDto) {
-        Department department = departmentService.findById(createGroupDto.getDepartmentId());
         Group group = new Group();
 
         // converting to entity
         group.setGroupName(createGroupDto.getGroupName());
-        group.setDepartment(department);
+
+        if (createGroupDto.getDepartmentId() != null) {
+            group.setDepartment(departmentService.findById(createGroupDto.getDepartmentId()));
+        }
 
         return groupMapper.toGroupDto(groupService.save(group));
     }
@@ -80,15 +81,14 @@ public class DefaultGroupDtoService implements GroupDtoService {
 
     @Override
     public GroupDto changeById(Long id, UpdateGroupDto updateGroupDto) throws Exception {
-        Department department = departmentService.findById(updateGroupDto.getDepartmentId());
-
         Group group = new Group();
 
         // converting to entity
         group.setGroupName(updateGroupDto.getGroupName());
 
-        if (department != null)
-            group.setDepartment(department);
+        if (updateGroupDto.getDepartmentId() != null) {
+            group.setDepartment(departmentService.findById(updateGroupDto.getDepartmentId()));
+        }
 
         return groupMapper.toGroupDto(groupService.changeById(id, group));
     }

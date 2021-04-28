@@ -24,6 +24,6 @@ public class DefaultSubjectTimeService implements SubjectTimeService {
 
     @Override
     public SubjectTime findById(Long id) {
-        return subjectTimeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Group with " + id + " not found!"));
+        return subjectTimeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Subject time with " + id + " not found!"));
     }
 }

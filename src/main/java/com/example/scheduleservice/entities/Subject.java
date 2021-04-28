@@ -15,9 +15,9 @@ public class Subject {
     @Column(name = "subject", nullable = false)
     private String subject;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Department department;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User teacher;
 }

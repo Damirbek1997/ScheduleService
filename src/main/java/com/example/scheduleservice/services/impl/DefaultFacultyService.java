@@ -35,7 +35,7 @@ public class DefaultFacultyService implements FacultyService {
 
     @Override
     public Faculty findById(Long id) {
-        return facultyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Group with " + id + " not found!"));
+        return facultyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Faculty with " + id + " not found!"));
     }
 
     @Override

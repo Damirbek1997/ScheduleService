@@ -18,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,14 +56,14 @@ public class DefaultUserDtoService implements UserDtoService {
         if (createUserDto.getGroupId() != null)
             user.setGroup(groupService.findById(createUserDto.getGroupId()));
 
-        if (createUserDto.getSubjectSet() != null) {
-            Set<Subject> subjectSet = new HashSet<>();
+        if (createUserDto.getSubjectDtos() != null) {
+            List<Subject> subjects = new ArrayList<>();
 
-            for (SubjectDto subjectDto : createUserDto.getSubjectSet()) {
-                subjectSet.add(subjectMapper.toSubject(subjectDto));
+            for (SubjectDto subjectDto : createUserDto.getSubjectDtos()) {
+                subjects.add(subjectMapper.toSubject(subjectDto));
             }
 
-            user.setSubjects(subjectSet);
+            user.setSubjects(subjects);
         }
 
         return userMapper.toUserDto(userService.save(user));
@@ -105,6 +103,20 @@ public class DefaultUserDtoService implements UserDtoService {
     }
 
     @Override
+    public List<UserDto> findAllByGroupId(Long groupId) {
+        List<User> userList = userService.findAllByGroupId(groupId);
+        List<UserDto> userDtoList = new ArrayList<>();
+
+        userList.forEach(user -> {
+            UserDto userDto = userMapper.toUserDto(user);
+
+            userDtoList.add(userDto);
+        });
+
+        return userDtoList;
+    }
+
+    @Override
     public UserDto findById(Long id) {
         return userMapper.toUserDto(userService.findById(id));
     }
@@ -115,7 +127,7 @@ public class DefaultUserDtoService implements UserDtoService {
     }
 
     @Override
-    public UserDto changeById (Long id, UpdateUserDto updateUserDto) throws Exception {
+    public UserDto changeById(Long id, UpdateUserDto updateUserDto) throws Exception {
         User user = new User();
 
         // converting to entity
@@ -129,14 +141,14 @@ public class DefaultUserDtoService implements UserDtoService {
         if (updateUserDto.getGroupId() != null)
             user.setGroup(groupService.findById(updateUserDto.getGroupId()));
 
-        if (updateUserDto.getSubjectSet() != null) {
-            Set<Subject> subjectSet = new HashSet<>();
+        if (updateUserDto.getSubjectDtos() != null) {
+            List<Subject> subjects = new ArrayList<>();
 
-            for (SubjectDto subjectDto : updateUserDto.getSubjectSet()) {
-                subjectSet.add(subjectMapper.toSubject(subjectDto));
+            for (SubjectDto subjectDto : updateUserDto.getSubjectDtos()) {
+                subjects.add(subjectMapper.toSubject(subjectDto));
             }
 
-            user.setSubjects(subjectSet);
+            user.setSubjects(subjects);
         }
 
         return userMapper.toUserDto(userService.changeById(id, user));
@@ -158,17 +170,17 @@ public class DefaultUserDtoService implements UserDtoService {
         Matcher upperCaseValidator = upperCasePattern.matcher(updateUserPasswordDto.getNewPassword());
         Matcher specSymbolValidator = specSymbolPattern.matcher(updateUserPasswordDto.getNewPassword());
 
-        if(!updateUserPasswordDto.getOldPassword().equals(user.getPassword()))
+        if (!updateUserPasswordDto.getOldPassword().equals(user.getPassword()))
             throw new InappropriatePasswordException("Old password is incorrect!");
-        else if(!updateUserPasswordDto.getNewPassword().equals(updateUserPasswordDto.getRepeatNewPassword()))
+        else if (!updateUserPasswordDto.getNewPassword().equals(updateUserPasswordDto.getRepeatNewPassword()))
             throw new InappropriatePasswordException("New password doesn't match to repeat password!");
-        else if(updateUserPasswordDto.getNewPassword().length() < 8)
+        else if (updateUserPasswordDto.getNewPassword().length() < 8)
             throw new InappropriatePasswordException("At least 8 characters!");
-        else if(!(lowerCaseValidator.matches()))
+        else if (!(lowerCaseValidator.matches()))
             throw new InappropriatePasswordException("At least 1 lower case letter!");
-        else if(!(upperCaseValidator.matches()))
+        else if (!(upperCaseValidator.matches()))
             throw new InappropriatePasswordException("At least 1 upper case letter!");
-        else if(!(specSymbolValidator.matches()))
+        else if (!(specSymbolValidator.matches()))
             throw new InappropriatePasswordException("At least 1 spec symbol!");
 
         user.setPassword(updateUserPasswordDto.getNewPassword());

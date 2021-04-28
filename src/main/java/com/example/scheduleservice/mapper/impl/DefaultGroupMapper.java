@@ -23,8 +23,9 @@ public class DefaultGroupMapper implements GroupMapper {
         groupDto.setId(group.getId());
         groupDto.setGroupName(group.getGroupName());
 
-        if (group.getDepartment() != null)
+        if (group.getDepartment() != null) {
             groupDto.setDepartmentDto(departmentMapper.toDepartmentDto(group.getDepartment()));
+        }
 
         return groupDto;
     }
@@ -36,8 +37,9 @@ public class DefaultGroupMapper implements GroupMapper {
         group.setId(groupDto.getId());
         group.setGroupName(groupDto.getGroupName());
 
-        if (groupDto.getDepartmentDto() != null)
+        if (groupDto.getDepartmentDto() != null) {
             group.setDepartment(departmentMapper.toDepartment(groupDto.getDepartmentDto()));
+        }
 
         return group;
     }

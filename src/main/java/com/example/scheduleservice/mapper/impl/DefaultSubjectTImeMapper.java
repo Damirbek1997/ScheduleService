@@ -1,6 +1,6 @@
 package com.example.scheduleservice.mapper.impl;
 
-import com.example.scheduleservice.dto.ScheduleTimeDto;
+import com.example.scheduleservice.dto.SubjectTimeDto;
 import com.example.scheduleservice.entities.SubjectTime;
 import com.example.scheduleservice.mapper.SubjectTimeMapper;
 import org.springframework.stereotype.Service;
@@ -8,13 +8,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class DefaultSubjectTImeMapper implements SubjectTimeMapper {
     @Override
-    public ScheduleTimeDto toSubjectTime(SubjectTime subjectTime) {
-        ScheduleTimeDto scheduleTimeDto = new ScheduleTimeDto();
+    public SubjectTimeDto toSubjectTime(SubjectTime subjectTime) {
+        SubjectTimeDto subjectTimeDto = new SubjectTimeDto();
 
-        scheduleTimeDto.setId(subjectTime.getId());
-        scheduleTimeDto.setStartLesson(subjectTime.getStartLesson());
-        scheduleTimeDto.setEndLesson(subjectTime.getEndLesson());
+        subjectTimeDto.setId(subjectTime.getId());
+        subjectTimeDto.setTime(subjectTime.getTime());
 
-        return scheduleTimeDto;
+        return subjectTimeDto;
     }
 }

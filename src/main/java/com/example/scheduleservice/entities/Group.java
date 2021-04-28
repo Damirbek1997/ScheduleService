@@ -1,7 +1,7 @@
 package com.example.scheduleservice.entities;
 
 import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
 

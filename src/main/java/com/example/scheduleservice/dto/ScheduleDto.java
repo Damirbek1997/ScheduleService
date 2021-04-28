@@ -8,7 +8,7 @@ public class ScheduleDto {
     private Boolean semester;
     private String weekDay;
     private SubjectDto subjectDto;
-    private ScheduleTimeDto scheduleTimeDto;
+    private SubjectTimeDto subjectTimeDto;
     private GroupDto groupDto;
     private CabinetDto cabinetDto;
 }

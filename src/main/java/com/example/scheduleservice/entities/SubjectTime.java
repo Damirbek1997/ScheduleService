@@ -13,9 +13,6 @@ public class SubjectTime {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "start_lesson", nullable = false)
-    private String startLesson;
-
-    @Column(name = "end_lesson", nullable = false)
-    private String endLesson;
+    @Column(name = "time", nullable = false)
+    private String time;
 }

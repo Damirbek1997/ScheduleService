@@ -7,6 +7,7 @@ import java.util.List;
 public interface UserService {
     List<User> findAll();
     List<User> findAllByRoleId(Long roleId);
+    List<User> findAllByGroupId(Long groupId);
     User findById(Long id);
     User findByEmail(String email);
     User save(User user);

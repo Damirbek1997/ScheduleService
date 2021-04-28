@@ -7,10 +7,11 @@ import java.util.Set;
 
 @Data
 public class UpdateUserDto {
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
     private Long roleId;
     private Long groupId;
-    private Set<SubjectDto> subjectSet;
+    private Set<SubjectDto> subjectDtos;
 }

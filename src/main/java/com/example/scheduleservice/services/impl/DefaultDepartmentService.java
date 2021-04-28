@@ -35,7 +35,7 @@ public class DefaultDepartmentService implements DepartmentService {
 
     @Override
     public Department findById(Long id) {
-        return departmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Group with " + id + " not found!"));
+        return departmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Department with " + id + " not found!"));
     }
 
     @Override

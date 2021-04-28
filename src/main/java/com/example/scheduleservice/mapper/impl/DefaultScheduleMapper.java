@@ -34,7 +34,7 @@ public class DefaultScheduleMapper implements ScheduleMapper {
             scheduleDto.setSubjectDto(subjectMapper.toSubjectDto(schedule.getSubject()));
 
         if (schedule.getSubjectTime() != null)
-            scheduleDto.setScheduleTimeDto(subjectTimeMapper.toSubjectTime(schedule.getSubjectTime()));
+            scheduleDto.setSubjectTimeDto(subjectTimeMapper.toSubjectTime(schedule.getSubjectTime()));
 
         if (schedule.getGroup() != null)
             scheduleDto.setGroupDto(groupMapper.toGroupDto(schedule.getGroup()));
@@ -55,8 +55,7 @@ public class DefaultScheduleMapper implements ScheduleMapper {
         frontScheduleDto.setSubjectId(schedule.getSubject().getId());
         frontScheduleDto.setSubject(schedule.getSubject().getSubject());
         frontScheduleDto.setScheduleTimeId(schedule.getSubjectTime().getId());
-        frontScheduleDto.setStartLesson(schedule.getSubjectTime().getStartLesson());
-        frontScheduleDto.setEndLesson(schedule.getSubjectTime().getEndLesson());
+        frontScheduleDto.setStartLesson(schedule.getSubjectTime().getTime());
         frontScheduleDto.setGroupId(schedule.getGroup().getId());
         frontScheduleDto.setGroupName(schedule.getGroup().getGroupName());
         frontScheduleDto.setCabinetId(schedule.getCabinet().getId());

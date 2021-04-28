@@ -40,7 +40,7 @@ public class DefaultCabinetService implements CabinetService {
 
     @Override
     public Cabinet findById(Long id) {
-        return cabinetRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Group with " + id + " not found!"));
+        return cabinetRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cabinet with " + id + " not found!"));
     }
 
     @Override

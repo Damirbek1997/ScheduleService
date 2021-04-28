@@ -1,10 +1,10 @@
 package com.example.scheduleservice.entities;
 
 import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -34,9 +34,9 @@ public class User {
     @ManyToOne
     private Group group;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_subjects",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id"))
-    private Set<Subject> subjects;
+    private List<Subject> subjects;
 }

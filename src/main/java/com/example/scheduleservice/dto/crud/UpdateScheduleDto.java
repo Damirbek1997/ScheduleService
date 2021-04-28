@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class UpdateScheduleDto {
+    private Long id;
     private Boolean semester;
     private String weekDay;
     private Long subjectId;

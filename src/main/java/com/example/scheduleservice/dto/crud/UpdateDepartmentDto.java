@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class UpdateDepartmentDto {
+    private Long id;
     private String department;
     private Long facultyId;
 }

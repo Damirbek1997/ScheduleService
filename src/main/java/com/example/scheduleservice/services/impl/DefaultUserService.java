@@ -39,6 +39,11 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
+    public List<User> findAllByGroupId(Long groupId) {
+        return userRepository.findAllByGroupId(groupId);
+    }
+
+    @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with " + id + " not found!"));
     }

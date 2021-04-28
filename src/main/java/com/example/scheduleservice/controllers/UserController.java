@@ -33,16 +33,22 @@ public class UserController {
         return userDtoService.findAll();
     }
 
+    @GetMapping("/{groupId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    private List<UserDto> getAllByGroupId(@PathVariable("groupId") Long groupId) {
+        return userDtoService.findAllByGroupId(groupId);
+    }
+
+    @GetMapping("/{roleId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    private List<UserDto> getAllByRoleId(@PathVariable("roleId") Long roleId) {
+        return userDtoService.findAllByRoleId(roleId);
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     private UserDto getById(@PathVariable("id") Long id) {
         return userDtoService.findById(id);
-    }
-
-    @GetMapping("/getAllByRole/{roleId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    private List<UserDto> getAllByRoleId(@PathVariable("roleId") Long roleId) {
-        return userDtoService.findAllByRoleId(roleId);
     }
 
     @PutMapping("/{id}")
