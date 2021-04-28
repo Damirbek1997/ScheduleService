@@ -44,7 +44,7 @@ public class DefaultUserMapper implements UserMapper {
             userDto.setGroupDto(groupMapper.toGroupDto(user.getGroup()));
         }
 
-        if (user.getSubjects().size() > 0) {
+        if (user.getSubjects() != null) {
             List<SubjectDto> subjectDtos = new ArrayList<>();
 
             user.getSubjects().forEach(subject -> subjectDtos.add(subjectMapper.toSubjectDto(subject)));
@@ -72,7 +72,7 @@ public class DefaultUserMapper implements UserMapper {
             user.setGroup(groupMapper.toGroup(userDto.getGroupDto()));
         }
 
-        if (userDto.getSubjectDtos().size() > 0) {
+        if (userDto.getSubjectDtos() != null) {
             List<Subject> subjects = new ArrayList<>();
 
             userDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
