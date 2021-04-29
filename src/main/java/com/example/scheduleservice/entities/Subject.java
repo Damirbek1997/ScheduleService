@@ -3,6 +3,7 @@ package com.example.scheduleservice.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,5 +20,5 @@ public class Subject {
     private Department department;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User teacher;
+    private Teacher teacher;
 }

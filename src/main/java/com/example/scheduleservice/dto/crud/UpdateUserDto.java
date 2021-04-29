@@ -13,5 +13,7 @@ public class UpdateUserDto {
     private String email;
     private Long roleId;
     private Long groupId;
+    private Long teacherId;
+    private UpdateTeacherDto updateTeacherDto;
     private Set<SubjectDto> subjectDtos;
 }

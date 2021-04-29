@@ -1,6 +1,7 @@
 package com.example.scheduleservice.dto.crud;
 
 import com.example.scheduleservice.dto.SubjectDto;
+import com.example.scheduleservice.entities.Teacher;
 import com.sun.istack.NotNull;
 import lombok.Data;
 
@@ -20,5 +21,6 @@ public class CreateUserDto {
     @NotNull
     private String password;
     private Long groupId;
+    private CreateTeacherDto createTeacherDto;
     private List<SubjectDto> subjectDtos;
 }

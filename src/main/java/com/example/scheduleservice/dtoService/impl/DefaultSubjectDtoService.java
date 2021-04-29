@@ -8,6 +8,7 @@ import com.example.scheduleservice.entities.Subject;
 import com.example.scheduleservice.mapper.SubjectMapper;
 import com.example.scheduleservice.services.DepartmentService;
 import com.example.scheduleservice.services.SubjectService;
+import com.example.scheduleservice.services.TeacherService;
 import com.example.scheduleservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +22,15 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
     private final SubjectService subjectService;
     private final DepartmentService departmentService;
     private final UserService userService;
+    private final TeacherService teacherService;
 
     @Autowired
-    public DefaultSubjectDtoService(SubjectService subjectService, SubjectMapper subjectMapper, DepartmentService departmentService, UserService userService) {
+    public DefaultSubjectDtoService(SubjectService subjectService, SubjectMapper subjectMapper, DepartmentService departmentService, UserService userService, TeacherService teacherService) {
         this.subjectService = subjectService;
         this.subjectMapper = subjectMapper;
         this.departmentService = departmentService;
         this.userService = userService;
+        this.teacherService = teacherService;
     }
 
     @Override
@@ -35,11 +38,13 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
         Subject subject = new Subject();
 
         // converting to entity
-        if (createSubjectDto.getTeacherId() != null)
-            subject.setTeacher(userService.findById(createSubjectDto.getTeacherId()));
+        if (createSubjectDto.getTeacherId() != null) {
+            subject.setTeacher(teacherService.findById(createSubjectDto.getTeacherId()));
+        }
 
-        if (createSubjectDto.getDepartmentId() != null)
+        if (createSubjectDto.getDepartmentId() != null) {
             subject.setDepartment(departmentService.findById(createSubjectDto.getDepartmentId()));
+        }
 
         subject.setSubject(createSubjectDto.getSubject());
 
@@ -76,7 +81,7 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
 
         // converting to entity
         if (updateSubjectDto.getTeacherId() != null)
-            subject.setTeacher(userService.findById(updateSubjectDto.getTeacherId()));
+            subject.setTeacher(teacherService.findById(updateSubjectDto.getTeacherId()));
 
         if (updateSubjectDto.getDepartmentId() != null)
             subject.setDepartment(departmentService.findById(updateSubjectDto.getDepartmentId()));

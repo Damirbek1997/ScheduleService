@@ -54,7 +54,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public User changeById (Long id, User user) throws Exception {
+    public User changeById(Long id, User user) throws Exception {
         return userRepository.findById(id)
                 .map(users -> {
                     users.setFirstName(user.getFirstName());

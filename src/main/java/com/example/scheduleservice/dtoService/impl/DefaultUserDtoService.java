@@ -5,11 +5,13 @@ import com.example.scheduleservice.dto.UserDto;
 import com.example.scheduleservice.dto.crud.CreateUserDto;
 import com.example.scheduleservice.dto.crud.UpdateUserDto;
 import com.example.scheduleservice.dto.crud.UpdateUserPasswordDto;
+import com.example.scheduleservice.dtoService.TeacherDtoService;
 import com.example.scheduleservice.dtoService.UserDtoService;
 import com.example.scheduleservice.entities.Subject;
 import com.example.scheduleservice.entities.User;
 import com.example.scheduleservice.exceptions.InappropriatePasswordException;
 import com.example.scheduleservice.mapper.SubjectMapper;
+import com.example.scheduleservice.mapper.TeacherMapper;
 import com.example.scheduleservice.mapper.UserMapper;
 import com.example.scheduleservice.services.GroupService;
 import com.example.scheduleservice.services.RoleService;
@@ -29,15 +31,19 @@ public class DefaultUserDtoService implements UserDtoService {
     private final RoleService roleService;
     private final GroupService groupService;
     private final SubjectMapper subjectMapper;
+    private final TeacherDtoService teacherDtoService;
+    private final TeacherMapper teacherMapper;
 
     @Autowired
-    public DefaultUserDtoService(UserMapper userMapper, UserService userService,
-                                 RoleService roleService, GroupService groupService, SubjectMapper subjectMapper) {
+    public DefaultUserDtoService(UserMapper userMapper, UserService userService, RoleService roleService, GroupService groupService,
+                                 SubjectMapper subjectMapper, TeacherDtoService teacherDtoService, TeacherMapper teacherMapper) {
         this.userMapper = userMapper;
         this.userService = userService;
         this.roleService = roleService;
         this.groupService = groupService;
         this.subjectMapper = subjectMapper;
+        this.teacherDtoService = teacherDtoService;
+        this.teacherMapper = teacherMapper;
     }
 
     @Override
@@ -50,11 +56,17 @@ public class DefaultUserDtoService implements UserDtoService {
         user.setEmail(createUserDto.getEmail());
         user.setPassword(createUserDto.getPassword());
 
-        if (createUserDto.getRoleId() != null)
+        if (createUserDto.getRoleId() != null) {
             user.setRole(roleService.findById(createUserDto.getRoleId()));
+        }
 
-        if (createUserDto.getGroupId() != null)
+        if (createUserDto.getGroupId() != null) {
             user.setGroup(groupService.findById(createUserDto.getGroupId()));
+        }
+
+        if (createUserDto.getCreateTeacherDto() != null) {
+            user.setTeacher(teacherMapper.toTeacher(teacherDtoService.save(createUserDto.getCreateTeacherDto())));
+        }
 
         if (createUserDto.getSubjectDtos() != null) {
             List<Subject> subjects = new ArrayList<>();
@@ -135,11 +147,17 @@ public class DefaultUserDtoService implements UserDtoService {
         user.setLastName(updateUserDto.getLastName());
         user.setEmail(updateUserDto.getEmail());
 
-        if (updateUserDto.getRoleId() != null)
+        if (updateUserDto.getRoleId() != null) {
             user.setRole(roleService.findById(updateUserDto.getRoleId()));
+        }
 
-        if (updateUserDto.getGroupId() != null)
+        if (updateUserDto.getGroupId() != null) {
             user.setGroup(groupService.findById(updateUserDto.getGroupId()));
+        }
+
+        if (updateUserDto.getUpdateTeacherDto() != null) {
+            user.setTeacher(teacherMapper.toTeacher(teacherDtoService.update(updateUserDto.getTeacherId(), updateUserDto.getUpdateTeacherDto())));
+        }
 
         if (updateUserDto.getSubjectDtos() != null) {
             List<Subject> subjects = new ArrayList<>();
