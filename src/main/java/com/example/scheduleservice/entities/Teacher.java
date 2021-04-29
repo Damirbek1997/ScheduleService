@@ -14,9 +14,9 @@ public class Teacher {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
     private List<Subject> subjects;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 }
