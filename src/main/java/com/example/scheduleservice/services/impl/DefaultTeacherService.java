@@ -37,14 +37,4 @@ public class DefaultTeacherService implements TeacherService {
     public Teacher findById(Long id) {
         return teacherRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Teacher with " + id + " not found!"));
     }
-
-    @Override
-    public Teacher changeById(Long id, Teacher newTeacher) throws Exception {
-        return teacherRepository.findById(id).
-                map(teacher -> {
-                    teacher.setUser(newTeacher.getUser());
-
-                    return teacherRepository.save(teacher);
-                }).orElseThrow(Exception::new);
-    }
 }

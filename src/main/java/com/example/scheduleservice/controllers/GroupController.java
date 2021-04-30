@@ -20,6 +20,11 @@ public class GroupController {
         this.groupDtoService = groupDtoService;
     }
 
+    @GetMapping("/getAllByDepartmentId/{departmentId}")
+    private List<GroupDto> getAllByDepartmentId(@PathVariable("departmentId") Long departmentId) {
+        return groupDtoService.findAllByDepartmentId(departmentId);
+    }
+
     @GetMapping
     private List<GroupDto> getAll() {
         return groupDtoService.findAll();
@@ -30,19 +35,14 @@ public class GroupController {
         return groupDtoService.findById(id);
     }
 
-    @GetMapping("/getAllByDepartmentId/{departmentId}")
-    private List<GroupDto> getByDepartmentId(@PathVariable("departmentId") Long departmentId) {
-        return groupDtoService.findAllByDepartmentId(departmentId);
-    }
-
-    @PutMapping("/{id}")
-    private GroupDto change(@PathVariable("id") Long id, @RequestBody UpdateGroupDto updateGroupDto) throws Exception {
-        return groupDtoService.changeById(id, updateGroupDto);
-    }
-
     @PostMapping
     private GroupDto create(@RequestBody CreateGroupDto createGroupDto) {
         return groupDtoService.save(createGroupDto);
+    }
+
+    @PutMapping("/{id}")
+    private GroupDto change(@PathVariable("id") Long id, @RequestBody UpdateGroupDto updateGroupDto) {
+        return groupDtoService.update(id, updateGroupDto);
     }
 
     @DeleteMapping("/{id}")

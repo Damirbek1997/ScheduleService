@@ -7,10 +7,10 @@ import com.example.scheduleservice.dto.crud.UpdateGroupDto;
 import java.util.List;
 
 public interface GroupDtoService {
+    List<GroupDto> findAllByDepartmentId(Long departmentId);
     List<GroupDto> findAll();
     GroupDto findById(Long id);
-    List<GroupDto> findAllByDepartmentId(Long departmentId);
     GroupDto save(CreateGroupDto createGroupDto);
-    GroupDto changeById(Long id, UpdateGroupDto updateGroupDto) throws Exception;
+    GroupDto update(Long id, UpdateGroupDto updateGroupDto);
     void delete(Long id);
 }

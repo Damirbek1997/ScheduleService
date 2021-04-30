@@ -8,6 +8,5 @@ public interface TeacherService {
     List<Teacher> findAll();
     Teacher findById(Long id);
     Teacher save(Teacher teacher);
-    Teacher changeById(Long id, Teacher teacher) throws Exception;
     void delete(Long id);
 }

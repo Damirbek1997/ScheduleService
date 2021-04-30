@@ -19,13 +19,8 @@ public class DefaultScheduleService implements ScheduleService {
     }
 
     @Override
-    public Schedule save(Schedule schedule) {
-        return scheduleRepository.save(schedule);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        scheduleRepository.deleteById(id);
+    public List<Schedule> findAllByGroupId(Long groupId) {
+        return scheduleRepository.retrieveSchedulesByGroupId(groupId);
     }
 
     @Override
@@ -34,27 +29,17 @@ public class DefaultScheduleService implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> findAllByGroupId(Long groupId) {
-        return scheduleRepository.retrieveSchedulesByGroupId(groupId);
-    }
-
-    @Override
     public Schedule findById(Long id) {
         return scheduleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Schedule with " + id + " not found!"));
     }
 
     @Override
-    public Schedule changeById(Long id, Schedule newSchedule) throws Exception {
-        return scheduleRepository.findById(id)
-                .map(schedule -> {
-                    schedule.setSemester(newSchedule.getSemester());
-                    schedule.setWeekDay(newSchedule.getWeekDay());
-                    schedule.setSubject(newSchedule.getSubject());
-                    schedule.setSubjectTime(newSchedule.getSubjectTime());
-                    schedule.setGroup(newSchedule.getGroup());
-                    schedule.setCabinet(newSchedule.getCabinet());
+    public Schedule save(Schedule schedule) {
+        return scheduleRepository.save(schedule);
+    }
 
-                    return scheduleRepository.save(schedule);
-                }).orElseThrow(Exception :: new);
+    @Override
+    public void delete(Long id) {
+        scheduleRepository.deleteById(id);
     }
 }

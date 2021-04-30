@@ -7,8 +7,26 @@ public class ScheduleDto {
     private Long id;
     private Boolean semester;
     private String weekDay;
-    private SubjectDto subjectDto;
-    private SubjectTimeDto subjectTimeDto;
-    private GroupDto groupDto;
-    private CabinetDto cabinetDto;
+
+    private Long subjectId;
+    private String subject;
+
+    private Long teacherId;
+    private String firstname;
+    private String lastname;
+
+    private Long subjectTimeId;
+    private String time;
+
+    private Long groupId;
+    private String group;
+
+    private Long departmentId;
+    private String department;
+
+    private Long facultyId;
+    private String faculty;
+
+    private Long cabinetId;
+    private String cabinet;
 }

@@ -20,6 +20,11 @@ public class DepartmentController {
         this.departmentDtoService = departmentDtoService;
     }
 
+    @GetMapping("/getAllByFacultyId/{facultyId}")
+    private List<DepartmentDto> getAllByFacultyId(@PathVariable("facultyId") Long facultyId) {
+        return departmentDtoService.findAllByFacultyId(facultyId);
+    }
+
     @GetMapping
     private List<DepartmentDto> getAll() {
         return departmentDtoService.findAll();
@@ -30,19 +35,14 @@ public class DepartmentController {
         return departmentDtoService.findById(id);
     }
 
-    @GetMapping("/getAllByFacultyId/{facultyId}")
-    private List<DepartmentDto> getByFacultyId(@PathVariable("facultyId") Long facultyId) {
-        return departmentDtoService.findByFacultyId(facultyId);
-    }
-
-    @PutMapping("/{id}")
-    private DepartmentDto change(@PathVariable("id") Long id, @RequestBody UpdateDepartmentDto updateDepartmentDto) throws Exception {
-        return departmentDtoService.changeById(id, updateDepartmentDto);
-    }
-
     @PostMapping
     private DepartmentDto create(@RequestBody CreateDepartmentDto createDepartmentDto) {
         return departmentDtoService.save(createDepartmentDto);
+    }
+
+    @PutMapping("/{id}")
+    private DepartmentDto change(@PathVariable("id") Long id, @RequestBody UpdateDepartmentDto updateDepartmentDto) {
+        return departmentDtoService.update(id, updateDepartmentDto);
     }
 
     @DeleteMapping("/{id}")

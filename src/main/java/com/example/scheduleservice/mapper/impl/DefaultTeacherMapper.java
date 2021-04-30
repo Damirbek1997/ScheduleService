@@ -6,6 +6,7 @@ import com.example.scheduleservice.entities.Subject;
 import com.example.scheduleservice.entities.Teacher;
 import com.example.scheduleservice.mapper.SubjectMapper;
 import com.example.scheduleservice.mapper.TeacherMapper;
+import com.example.scheduleservice.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,12 @@ import java.util.List;
 @Service
 public class DefaultTeacherMapper implements TeacherMapper {
     private final SubjectMapper subjectMapper;
+    private final UserMapper userMapper;
 
     @Autowired
-    public DefaultTeacherMapper(SubjectMapper subjectMapper) {
+    public DefaultTeacherMapper(SubjectMapper subjectMapper, UserMapper userMapper) {
         this.subjectMapper = subjectMapper;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -26,6 +29,12 @@ public class DefaultTeacherMapper implements TeacherMapper {
         TeacherDto teacherDto = new TeacherDto();
 
         teacherDto.setId(teacher.getId());
+        teacherDto.setFirstname(teacher.getFirstname());
+        teacherDto.setLastname(teacher.getLastname());
+
+        if (teacher.getUser() != null) {
+            teacherDto.setUserDto(userMapper.toUserDto(teacher.getUser()));
+        }
 
         if (teacher.getSubjects() != null) {
             List<SubjectDto> subjectDtos = new ArrayList<>();
@@ -42,7 +51,13 @@ public class DefaultTeacherMapper implements TeacherMapper {
     public Teacher toTeacher(TeacherDto teacherDto) {
         Teacher teacher = new Teacher();
 
-        teacher.setId(teacher.getId());
+        teacher.setId(teacherDto.getId());
+        teacher.setFirstname(teacherDto.getFirstname());
+        teacher.setLastname(teacherDto.getLastname());
+
+        if (teacherDto.getUserDto() != null) {
+            teacher.setUser(userMapper.toUser(teacherDto.getUserDto()));
+        }
 
         if (teacherDto.getSubjectDtos() != null) {
             List<Subject> subjects = new ArrayList<>();

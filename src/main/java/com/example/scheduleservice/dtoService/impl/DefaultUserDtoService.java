@@ -1,19 +1,17 @@
 package com.example.scheduleservice.dtoService.impl;
 
-import com.example.scheduleservice.dto.SubjectDto;
 import com.example.scheduleservice.dto.UserDto;
 import com.example.scheduleservice.dto.crud.CreateUserDto;
 import com.example.scheduleservice.dto.crud.UpdateUserDto;
 import com.example.scheduleservice.dto.crud.UpdateUserPasswordDto;
+import com.example.scheduleservice.dtoService.StudentDtoService;
 import com.example.scheduleservice.dtoService.TeacherDtoService;
 import com.example.scheduleservice.dtoService.UserDtoService;
-import com.example.scheduleservice.entities.Subject;
 import com.example.scheduleservice.entities.User;
 import com.example.scheduleservice.exceptions.InappropriatePasswordException;
-import com.example.scheduleservice.mapper.SubjectMapper;
+import com.example.scheduleservice.mapper.StudentMapper;
 import com.example.scheduleservice.mapper.TeacherMapper;
 import com.example.scheduleservice.mapper.UserMapper;
-import com.example.scheduleservice.services.GroupService;
 import com.example.scheduleservice.services.RoleService;
 import com.example.scheduleservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,61 +27,20 @@ public class DefaultUserDtoService implements UserDtoService {
     private final UserMapper userMapper;
     private final UserService userService;
     private final RoleService roleService;
-    private final GroupService groupService;
-    private final SubjectMapper subjectMapper;
     private final TeacherDtoService teacherDtoService;
     private final TeacherMapper teacherMapper;
+    private final StudentDtoService studentDtoService;
+    private final StudentMapper studentMapper;
 
     @Autowired
-    public DefaultUserDtoService(UserMapper userMapper, UserService userService, RoleService roleService, GroupService groupService,
-                                 SubjectMapper subjectMapper, TeacherDtoService teacherDtoService, TeacherMapper teacherMapper) {
+    public DefaultUserDtoService(UserMapper userMapper, UserService userService, RoleService roleService, TeacherDtoService teacherDtoService, TeacherMapper teacherMapper, StudentDtoService studentDtoService, StudentMapper studentMapper) {
         this.userMapper = userMapper;
         this.userService = userService;
         this.roleService = roleService;
-        this.groupService = groupService;
-        this.subjectMapper = subjectMapper;
         this.teacherDtoService = teacherDtoService;
         this.teacherMapper = teacherMapper;
-    }
-
-    @Override
-    public UserDto save(CreateUserDto createUserDto) {
-        User user = new User();
-
-        // converting to entity
-        user.setFirstName(createUserDto.getFirstName());
-        user.setLastName(createUserDto.getLastName());
-        user.setEmail(createUserDto.getEmail());
-        user.setPassword(createUserDto.getPassword());
-
-        if (createUserDto.getRoleId() != null) {
-            user.setRole(roleService.findById(createUserDto.getRoleId()));
-        }
-
-        if (createUserDto.getGroupId() != null) {
-            user.setGroup(groupService.findById(createUserDto.getGroupId()));
-        }
-
-        if (createUserDto.getCreateTeacherDto() != null) {
-            user.setTeacher(teacherMapper.toTeacher(teacherDtoService.save(createUserDto.getCreateTeacherDto())));
-        }
-
-        if (createUserDto.getSubjectDtos() != null) {
-            List<Subject> subjects = new ArrayList<>();
-
-            for (SubjectDto subjectDto : createUserDto.getSubjectDtos()) {
-                subjects.add(subjectMapper.toSubject(subjectDto));
-            }
-
-            user.setSubjects(subjects);
-        }
-
-        return userMapper.toUserDto(userService.save(user));
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        userService.deleteById(id);
+        this.studentDtoService = studentDtoService;
+        this.studentMapper = studentMapper;
     }
 
     @Override
@@ -115,20 +72,6 @@ public class DefaultUserDtoService implements UserDtoService {
     }
 
     @Override
-    public List<UserDto> findAllByGroupId(Long groupId) {
-        List<User> userList = userService.findAllByGroupId(groupId);
-        List<UserDto> userDtoList = new ArrayList<>();
-
-        userList.forEach(user -> {
-            UserDto userDto = userMapper.toUserDto(user);
-
-            userDtoList.add(userDto);
-        });
-
-        return userDtoList;
-    }
-
-    @Override
     public UserDto findById(Long id) {
         return userMapper.toUserDto(userService.findById(id));
     }
@@ -139,41 +82,112 @@ public class DefaultUserDtoService implements UserDtoService {
     }
 
     @Override
-    public UserDto changeById(Long id, UpdateUserDto updateUserDto) throws Exception {
+    public UserDto save(CreateUserDto createUserDto) {
         User user = new User();
 
         // converting to entity
-        user.setFirstName(updateUserDto.getFirstName());
-        user.setLastName(updateUserDto.getLastName());
+        user.setEmail(createUserDto.getEmail());
+        user.setPassword(createUserDto.getPassword());
+
+        if (createUserDto.getRoleId() != null) {
+            user.setRole(roleService.findById(createUserDto.getRoleId()));
+        }
+
+        return userMapper.toUserDto(userService.save(user));
+    }
+
+    @Override
+    public UserDto saveTeacher(CreateUserDto createUserDto) {
+        User user = new User();
+
+        // converting to entity
+        user.setEmail(createUserDto.getEmail());
+        user.setPassword(createUserDto.getPassword());
+
+        if (createUserDto.getRoleId() != null) {
+            user.setRole(roleService.findById(createUserDto.getRoleId()));
+        }
+
+        if (createUserDto.getCreateTeacherDto() != null) {
+            user.setTeacher(teacherMapper.toTeacher(teacherDtoService.save(createUserDto.getCreateTeacherDto())));
+        }
+
+        return userMapper.toUserDto(userService.save(user));
+    }
+
+    @Override
+    public UserDto saveStudent(CreateUserDto createUserDto) {
+        User user = new User();
+
+        // converting to entity
+        user.setEmail(createUserDto.getEmail());
+        user.setPassword(createUserDto.getPassword());
+
+        if (createUserDto.getRoleId() != null) {
+            user.setRole(roleService.findById(createUserDto.getRoleId()));
+        }
+
+        if (createUserDto.getCreateStudentDto() != null) {
+            user.setStudent(studentMapper.toStudent(studentDtoService.save(createUserDto.getCreateStudentDto())));
+        }
+
+        return userMapper.toUserDto(userService.save(user));
+    }
+
+    @Override
+    public UserDto update(Long id, UpdateUserDto updateUserDto) {
+        User user = userService.findById(id);
+
+        // converting to entity
         user.setEmail(updateUserDto.getEmail());
 
         if (updateUserDto.getRoleId() != null) {
             user.setRole(roleService.findById(updateUserDto.getRoleId()));
         }
 
-        if (updateUserDto.getGroupId() != null) {
-            user.setGroup(groupService.findById(updateUserDto.getGroupId()));
-        }
-
-        if (updateUserDto.getUpdateTeacherDto() != null) {
-            user.setTeacher(teacherMapper.toTeacher(teacherDtoService.update(updateUserDto.getTeacherId(), updateUserDto.getUpdateTeacherDto())));
-        }
-
-        if (updateUserDto.getSubjectDtos() != null) {
-            List<Subject> subjects = new ArrayList<>();
-
-            for (SubjectDto subjectDto : updateUserDto.getSubjectDtos()) {
-                subjects.add(subjectMapper.toSubject(subjectDto));
-            }
-
-            user.setSubjects(subjects);
-        }
-
-        return userMapper.toUserDto(userService.changeById(id, user));
+        return userMapper.toUserDto(userService.save(user));
     }
 
     @Override
-    public void changeUserPassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws Exception {
+    public UserDto updateTeacher(Long id, UpdateUserDto updateUserDto) {
+        User user = userService.findById(id);
+
+        // converting to entity
+        user.setEmail(updateUserDto.getEmail());
+
+        if (updateUserDto.getRoleId() != null) {
+            user.setRole(roleService.findById(updateUserDto.getRoleId()));
+        }
+
+        if (updateUserDto.getUpdateTeacherDto() != null) {
+            user.setTeacher(teacherMapper.toTeacher(teacherDtoService.update(updateUserDto.getUpdateTeacherDto().getId(),
+                    updateUserDto.getUpdateTeacherDto())));
+        }
+
+        return userMapper.toUserDto(userService.save(user));
+    }
+
+    @Override
+    public UserDto updateStudent(Long id, UpdateUserDto updateUserDto) {
+        User user = userService.findById(id);
+
+        // converting to entity
+        user.setEmail(updateUserDto.getEmail());
+
+        if (updateUserDto.getRoleId() != null) {
+            user.setRole(roleService.findById(updateUserDto.getRoleId()));
+        }
+
+        if (updateUserDto.getUpdateStudentDto() != null) {
+            user.setStudent(studentMapper.toStudent(studentDtoService.update(updateUserDto.getUpdateStudentDto().getId(),
+                    updateUserDto.getUpdateStudentDto())));
+        }
+
+        return userMapper.toUserDto(userService.save(user));
+    }
+
+    @Override
+    public void updatePassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws Exception {
         User user = userService.findById(id);
 
         String lowerCaseRegex = ".*[a-z].*";
@@ -203,6 +217,11 @@ public class DefaultUserDtoService implements UserDtoService {
 
         user.setPassword(updateUserPasswordDto.getNewPassword());
 
-        userService.changeById(user.getId(), user);
+        userService.save(user);
+    }
+
+    @Override
+    public void delete(Long id) {
+        userService.delete(id);
     }
 }

@@ -11,6 +11,6 @@ public interface SubjectDtoService {
     List<SubjectDto> findAll();
     SubjectDto findById(Long id);
     SubjectDto save(CreateSubjectDto createSubjectDto);
-    SubjectDto changeById(Long id, UpdateSubjectDto updateSubjectDto) throws Exception;
-    void deleteById(Long id);
+    SubjectDto update(Long id, UpdateSubjectDto updateSubjectDto);
+    void delete(Long id);
 }

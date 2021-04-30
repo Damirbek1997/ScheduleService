@@ -1,7 +1,7 @@
 package com.example.scheduleservice.entities;
 
 import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
 
@@ -14,12 +14,10 @@ public class Schedule {
     private Long id;
 
     // if true - fall, false - spring
-    @Column(name = "semester")
-    @NotNull
+    @Column(name = "semester", nullable = false)
     private Boolean semester;
 
-    @Column(name = "week_day")
-    @NotNull
+    @Column(name = "week_day", nullable = false)
     private String weekDay;
 
     @ManyToOne
@@ -30,7 +28,7 @@ public class Schedule {
     @NotNull
     private SubjectTime subjectTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Group group;
 
     @ManyToOne

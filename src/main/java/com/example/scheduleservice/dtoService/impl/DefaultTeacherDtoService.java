@@ -8,7 +8,9 @@ import com.example.scheduleservice.entities.Subject;
 import com.example.scheduleservice.entities.Teacher;
 import com.example.scheduleservice.mapper.SubjectMapper;
 import com.example.scheduleservice.mapper.TeacherMapper;
+import com.example.scheduleservice.mapper.UserMapper;
 import com.example.scheduleservice.services.TeacherService;
+import com.example.scheduleservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +22,14 @@ public class DefaultTeacherDtoService implements TeacherDtoService {
     private final TeacherService teacherService;
     private final TeacherMapper teacherMapper;
     private final SubjectMapper subjectMapper;
+    private final UserService userService;
 
     @Autowired
-    public DefaultTeacherDtoService(TeacherService teacherService, TeacherMapper teacherMapper, SubjectMapper subjectMapper) {
+    public DefaultTeacherDtoService(TeacherService teacherService, TeacherMapper teacherMapper, SubjectMapper subjectMapper, UserService userService) {
         this.teacherService = teacherService;
         this.teacherMapper = teacherMapper;
         this.subjectMapper = subjectMapper;
+        this.userService = userService;
     }
 
     @Override
@@ -50,25 +54,41 @@ public class DefaultTeacherDtoService implements TeacherDtoService {
     @Override
     public TeacherDto save(CreateTeacherDto createTeacherDto) {
         Teacher teacher = new Teacher();
-        List<Subject> subjects = new ArrayList<>();
 
-        createTeacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
+        teacher.setFirstname(createTeacherDto.getFirstname());
+        teacher.setLastname(createTeacherDto.getLastname());
 
-        teacher.setSubjects(subjects);
+        if (createTeacherDto.getUserId() != null) {
+            teacher.setUser(userService.findById(createTeacherDto.getUserId()));
+        }
+
+        if (createTeacherDto.getSubjectDtos() != null) {
+            List<Subject> subjects = new ArrayList<>();
+
+            createTeacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
+
+            teacher.setSubjects(subjects);
+        }
 
         return teacherMapper.toTeacherDto(teacherService.save(teacher));
     }
 
     @Override
-    public TeacherDto update(Long id, UpdateTeacherDto updateTeacherDto) throws Exception {
-        Teacher teacher = new Teacher();
-        List<Subject> subjects = new ArrayList<>();
+    public TeacherDto update(Long id, UpdateTeacherDto updateTeacherDto) {
+        Teacher teacher = teacherService.findById(id);
 
-        updateTeacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
+        teacher.setFirstname(updateTeacherDto.getFirstname());
+        teacher.setLastname(updateTeacherDto.getLastname());
 
-        teacher.setSubjects(subjects);
+        if (updateTeacherDto.getSubjectDtos() != null) {
+            List<Subject> subjects = new ArrayList<>();
 
-        return teacherMapper.toTeacherDto(teacherService.changeById(id, teacher));
+            updateTeacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
+
+            teacher.setSubjects(subjects);
+        }
+
+        return teacherMapper.toTeacherDto(teacherService.save(teacher));
     }
 
     @Override

@@ -25,21 +25,6 @@ public class DefaultRoleDtoService implements RoleDtoService {
     }
 
     @Override
-    public RoleDto save(CreateRoleDto createRoleDto) {
-        Role role = new Role();
-
-        // converting to entity
-        role.setRole(createRoleDto.getRole());
-
-        return roleMapper.toRoleDto(roleService.save(role));
-    }
-
-    @Override
-    public void delete(Long id) {
-        roleService.delete(id);
-    }
-
-    @Override
     public List<RoleDto> findAll() {
         List<Role> roles = roleService.findAll();
         List<RoleDto> roleDtos = new ArrayList<>();
@@ -59,12 +44,25 @@ public class DefaultRoleDtoService implements RoleDtoService {
     }
 
     @Override
-    public RoleDto changeById(Long id, UpdateRoleDto updateRoleDto) throws Exception {
+    public RoleDto save(CreateRoleDto createRoleDto) {
         Role role = new Role();
 
-        // converting to entity
+        role.setRole(createRoleDto.getRole());
+
+        return roleMapper.toRoleDto(roleService.save(role));
+    }
+
+    @Override
+    public RoleDto update(Long id, UpdateRoleDto updateRoleDto) {
+        Role role = roleService.findById(id);
+
         role.setRole(updateRoleDto.getRole());
 
-        return roleMapper.toRoleDto(roleService.changeById(id, role));
+        return roleMapper.toRoleDto(roleService.save(role));
+    }
+
+    @Override
+    public void delete(Long id) {
+        roleService.delete(id);
     }
 }

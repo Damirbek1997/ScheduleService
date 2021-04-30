@@ -30,14 +30,14 @@ public class RoleController {
         return roleDtoService.findById(id);
     }
 
-    @PutMapping("/{id}")
-    private RoleDto change(@PathVariable("id") Long id, @RequestBody UpdateRoleDto updateRoleDto) throws Exception {
-        return roleDtoService.changeById(id, updateRoleDto);
-    }
-
     @PostMapping
     private RoleDto create(@RequestBody CreateRoleDto createRoleDto) {
         return roleDtoService.save(createRoleDto);
+    }
+
+    @PutMapping("/{id}")
+    private RoleDto change(@PathVariable("id") Long id, @RequestBody UpdateRoleDto updateRoleDto) {
+        return roleDtoService.update(id, updateRoleDto);
     }
 
     @DeleteMapping("/{id}")

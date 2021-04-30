@@ -24,7 +24,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
@@ -39,11 +39,6 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public List<User> findAllByGroupId(Long groupId) {
-        return userRepository.findAllByGroupId(groupId);
-    }
-
-    @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with " + id + " not found!"));
     }
@@ -51,21 +46,5 @@ public class DefaultUserService implements UserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User with " + email + " not found!"));
-    }
-
-    @Override
-    public User changeById(Long id, User user) throws Exception {
-        return userRepository.findById(id)
-                .map(users -> {
-                    users.setFirstName(user.getFirstName());
-                    users.setLastName(user.getLastName());
-                    users.setEmail(user.getEmail());
-                    users.setRole(user.getRole());
-                    users.setGroup(user.getGroup());
-                    users.setSubjects(user.getSubjects());
-                    users.setSubjects(user.getSubjects());
-
-                    return userRepository.save(users);
-                }).orElseThrow(Exception::new);
     }
 }

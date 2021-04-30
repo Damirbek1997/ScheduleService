@@ -42,14 +42,4 @@ public class DefaultCabinetService implements CabinetService {
     public Cabinet findById(Long id) {
         return cabinetRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cabinet with " + id + " not found!"));
     }
-
-    @Override
-    public Cabinet changeById(Long id, Cabinet newCabinet) throws Exception {
-        return cabinetRepository.findById(id).
-                map(cabinet -> {
-                    cabinet.setCabinet(newCabinet.getCabinet());
-
-                    return cabinetRepository.save(cabinet);
-                }).orElseThrow(Exception :: new);
-    }
 }

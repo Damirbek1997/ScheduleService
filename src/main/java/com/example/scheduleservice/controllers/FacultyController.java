@@ -30,14 +30,14 @@ public class FacultyController {
         return facultyDtoService.findById(id);
     }
 
-    @PutMapping("/{id}")
-    private FacultyDto change(@PathVariable("id") Long id, @RequestBody UpdateFacultyDto updateFacultyDto) throws Exception {
-        return facultyDtoService.changeById(id, updateFacultyDto);
-    }
-
     @PostMapping
     private FacultyDto create(@RequestBody CreateFacultyDto createFacultyDto) {
         return facultyDtoService.save(createFacultyDto);
+    }
+
+    @PutMapping("/{id}")
+    private FacultyDto change(@PathVariable("id") Long id, @RequestBody UpdateFacultyDto updateFacultyDto) {
+        return facultyDtoService.update(id, updateFacultyDto);
     }
 
     @DeleteMapping("/{id}")

@@ -7,10 +7,10 @@ import com.example.scheduleservice.dto.crud.UpdateDepartmentDto;
 import java.util.List;
 
 public interface DepartmentDtoService {
+    List<DepartmentDto> findAllByFacultyId(Long facultyId);
     List<DepartmentDto> findAll();
     DepartmentDto findById(Long id);
-    List<DepartmentDto> findByFacultyId(Long facultyId);
     DepartmentDto save(CreateDepartmentDto createDepartmentDto);
-    DepartmentDto changeById(Long id, UpdateDepartmentDto updateDepartmentDto) throws Exception;
+    DepartmentDto update(Long id, UpdateDepartmentDto updateDepartmentDto);
     void delete(Long id);
 }

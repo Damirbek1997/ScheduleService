@@ -10,6 +10,6 @@ public interface FacultyDtoService {
     List<FacultyDto> findAll();
     FacultyDto findById(Long id);
     FacultyDto save(CreateFacultyDto createFacultyDto);
-    FacultyDto changeById(Long id, UpdateFacultyDto updateFacultyDto) throws Exception;
+    FacultyDto update(Long id, UpdateFacultyDto updateFacultyDto);
     void delete(Long id);
 }

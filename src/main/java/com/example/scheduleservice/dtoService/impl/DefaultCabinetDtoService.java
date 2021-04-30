@@ -29,35 +29,6 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
     }
 
     @Override
-    public CabinetDto save(CreateCabinetDto createCabinetDto) {
-        Cabinet cabinet = new Cabinet();
-
-        // converting to entity
-        cabinet.setCabinet(createCabinetDto.getCabinet());
-
-        return cabinetMapper.toCabinetDto(cabinetService.save(cabinet));
-    }
-
-    @Override
-    public void delete(Long id) {
-        cabinetService.delete(id);
-    }
-
-    @Override
-    public List<CabinetDto> findAll() {
-        List<Cabinet> cabinets = cabinetService.findAll();
-        List<CabinetDto> cabinetDtos = new ArrayList<>();
-
-        cabinets.forEach(cabinet -> {
-            CabinetDto groupDto = cabinetMapper.toCabinetDto(cabinet);
-
-            cabinetDtos.add(groupDto);
-        });
-
-        return cabinetDtos;
-    }
-
-    @Override
     public List<CabinetDto> findAllFreeCabinets() {
         List<Schedule> schedules = scheduleService.findAll();
         List<CabinetDto> cabinetDtos = new ArrayList<>();
@@ -81,17 +52,44 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
     }
 
     @Override
+    public List<CabinetDto> findAll() {
+        List<Cabinet> cabinets = cabinetService.findAll();
+        List<CabinetDto> cabinetDtos = new ArrayList<>();
+
+        cabinets.forEach(cabinet -> {
+            CabinetDto groupDto = cabinetMapper.toCabinetDto(cabinet);
+
+            cabinetDtos.add(groupDto);
+        });
+
+        return cabinetDtos;
+    }
+
+    @Override
     public CabinetDto findById(Long id) {
         return cabinetMapper.toCabinetDto(cabinetService.findById(id));
     }
 
     @Override
-    public CabinetDto changeById(Long id, UpdateCabinetDto updateCabinetDto) throws Exception {
+    public CabinetDto save(CreateCabinetDto createCabinetDto) {
         Cabinet cabinet = new Cabinet();
 
-        // converting to entity
+        cabinet.setCabinet(createCabinetDto.getCabinet());
+
+        return cabinetMapper.toCabinetDto(cabinetService.save(cabinet));
+    }
+
+    @Override
+    public CabinetDto update(Long id, UpdateCabinetDto updateCabinetDto) {
+        Cabinet cabinet = cabinetService.findById(id);
+
         cabinet.setCabinet(updateCabinetDto.getCabinet());
 
-        return cabinetMapper.toCabinetDto(cabinetService.changeById(id, cabinet));
+        return cabinetMapper.toCabinetDto(cabinetService.save(cabinet));
+    }
+
+    @Override
+    public void delete(Long id) {
+        cabinetService.delete(id);
     }
 }

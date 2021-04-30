@@ -19,16 +19,6 @@ public class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public Role save(Role role) {
-        return roleRepository.save(role);
-    }
-
-    @Override
-    public void delete(Long id) {
-        roleRepository.deleteById(id);
-    }
-
-    @Override
     public List<Role> findAll() {
         return roleRepository.findAll();
     }
@@ -39,12 +29,12 @@ public class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public Role changeById(Long id, Role newRole) throws Exception {
-        return roleRepository.findById(id).
-                map(role -> {
-                    role.setRole(newRole.getRole());
+    public Role save(Role role) {
+        return roleRepository.save(role);
+    }
 
-                    return roleRepository.save(role);
-                }).orElseThrow(Exception :: new);
+    @Override
+    public void delete(Long id) {
+        roleRepository.deleteById(id);
     }
 }

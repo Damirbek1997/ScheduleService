@@ -1,20 +1,23 @@
 package com.example.scheduleservice.dtoService;
 
+import com.example.scheduleservice.dto.UserDto;
 import com.example.scheduleservice.dto.crud.CreateUserDto;
 import com.example.scheduleservice.dto.crud.UpdateUserDto;
 import com.example.scheduleservice.dto.crud.UpdateUserPasswordDto;
-import com.example.scheduleservice.dto.UserDto;
 
 import java.util.List;
 
 public interface UserDtoService {
     List<UserDto> findAll();
     List<UserDto> findAllByRoleId(Long roleId);
-    List<UserDto> findAllByGroupId(Long groupId);
     UserDto findById(Long id);
     UserDto findByEmail(String email);
     UserDto save(CreateUserDto createUserDto);
-    UserDto changeById (Long id, UpdateUserDto updateUserDto) throws Exception;
-    void changeUserPassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws Exception;
-    void deleteById(Long id);
+    UserDto saveTeacher(CreateUserDto createUserDto);
+    UserDto saveStudent(CreateUserDto createUserDto);
+    UserDto update(Long id, UpdateUserDto updateUserDto);
+    UserDto updateTeacher(Long id, UpdateUserDto updateUserDto);
+    UserDto updateStudent(Long id, UpdateUserDto updateUserDto);
+    void updatePassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws Exception;
+    void delete(Long id);
 }

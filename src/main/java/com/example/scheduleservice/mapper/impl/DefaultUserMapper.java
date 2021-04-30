@@ -1,56 +1,36 @@
 package com.example.scheduleservice.mapper.impl;
 
-import com.example.scheduleservice.dto.SubjectDto;
 import com.example.scheduleservice.dto.UserDto;
-import com.example.scheduleservice.entities.Subject;
+import com.example.scheduleservice.entities.Role;
 import com.example.scheduleservice.entities.User;
-import com.example.scheduleservice.mapper.GroupMapper;
-import com.example.scheduleservice.mapper.RoleMapper;
-import com.example.scheduleservice.mapper.SubjectMapper;
 import com.example.scheduleservice.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class DefaultUserMapper implements UserMapper {
-    private final RoleMapper roleMapper;
-    private final GroupMapper groupMapper;
-    private final SubjectMapper subjectMapper;
-
-    @Autowired
-    public DefaultUserMapper(RoleMapper roleMapper, GroupMapper groupMapper, SubjectMapper subjectMapper) {
-        this.roleMapper = roleMapper;
-        this.groupMapper = groupMapper;
-        this.subjectMapper = subjectMapper;
-    }
-
     @Override
     public UserDto toUserDto(User user) {
         UserDto userDto = new UserDto();
 
         userDto.setId(user.getId());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
         userDto.setEmail(user.getEmail());
 
-        if (user.getRole() != null) {
-            userDto.setRoleDto(roleMapper.toRoleDto(user.getRole()));
-        }
+        userDto.setRoleId(user.getRole().getId());
+        userDto.setRole(user.getRole().getRole());
 
-        if (user.getGroup() != null) {
-            userDto.setGroupDto(groupMapper.toGroupDto(user.getGroup()));
-        }
+        userDto.setStudentId(user.getStudent().getId());
+        userDto.setTeacherId(user.getTeacher().getId());
+        userDto.setFirstname(user.getStudent().getFirstname());
+        userDto.setLastname(user.getStudent().getLastname());
 
-        if (user.getSubjects() != null) {
-            List<SubjectDto> subjectDtos = new ArrayList<>();
+        userDto.setGroupId(user.getStudent().getGroup().getId());
+        userDto.setGroup(user.getStudent().getGroup().getGroupName());
 
-            user.getSubjects().forEach(subject -> subjectDtos.add(subjectMapper.toSubjectDto(subject)));
+        userDto.setDepartmentId(user.getStudent().getGroup().getDepartment().getId());
+        userDto.setDepartment(user.getStudent().getGroup().getDepartment().getDepartment());
 
-            userDto.setSubjectDtos(subjectDtos);
-        }
+        userDto.setFacultyId(user.getStudent().getGroup().getDepartment().getFaculty().getId());
+        userDto.setFaculty(user.getStudent().getGroup().getDepartment().getFaculty().getFaculty());
 
         return userDto;
     }
@@ -60,24 +40,14 @@ public class DefaultUserMapper implements UserMapper {
         User user = new User();
 
         user.setId(userDto.getId());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
 
         if (user.getRole() != null) {
-            user.setRole(roleMapper.toRole(userDto.getRoleDto()));
-        }
+            Role role = new Role();
+            role.setId(userDto.getRoleId());
+            role.setRole(userDto.getRole());
 
-        if (user.getGroup() != null) {
-            user.setGroup(groupMapper.toGroup(userDto.getGroupDto()));
-        }
-
-        if (userDto.getSubjectDtos() != null) {
-            List<Subject> subjects = new ArrayList<>();
-
-            userDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
-
-            user.setSubjects(subjects);
+            user.setRole(role);
         }
 
         return user;

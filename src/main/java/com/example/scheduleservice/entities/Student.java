@@ -7,8 +7,8 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "teachers")
-public class Teacher {
+@Table(name = "students")
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -20,9 +20,15 @@ public class Teacher {
     @Column(name = "lastname")
     private String lastname;
 
+    @ManyToOne
+    private Group group;
+
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToMany(mappedBy = "teacher")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_subjects",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private List<Subject> subjects;
 }

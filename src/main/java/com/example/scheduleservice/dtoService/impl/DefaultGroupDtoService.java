@@ -28,22 +28,17 @@ public class DefaultGroupDtoService implements GroupDtoService {
     }
 
     @Override
-    public GroupDto save(CreateGroupDto createGroupDto) {
-        Group group = new Group();
+    public List<GroupDto> findAllByDepartmentId(Long departmentId) {
+        List<Group> groupList = groupService.findAllByDepartmentId(departmentId);
+        List<GroupDto> groupDtoList = new ArrayList<>();
 
-        // converting to entity
-        group.setGroupName(createGroupDto.getGroupName());
+        groupList.forEach(group -> {
+            GroupDto groupDto = groupMapper.toGroupDto(group);
 
-        if (createGroupDto.getDepartmentId() != null) {
-            group.setDepartment(departmentService.findById(createGroupDto.getDepartmentId()));
-        }
+            groupDtoList.add(groupDto);
+        });
 
-        return groupMapper.toGroupDto(groupService.save(group));
-    }
-
-    @Override
-    public void delete(Long id) {
-        groupService.delete(id);
+        return groupDtoList;
     }
 
     @Override
@@ -66,30 +61,33 @@ public class DefaultGroupDtoService implements GroupDtoService {
     }
 
     @Override
-    public List<GroupDto> findAllByDepartmentId(Long departmentId) {
-        List<Group> groupList = groupService.findAllByDepartmentId(departmentId);
-        List<GroupDto> groupDtoList = new ArrayList<>();
+    public GroupDto save(CreateGroupDto createGroupDto) {
+        Group group = new Group();
 
-        groupList.forEach(group -> {
-            GroupDto groupDto = groupMapper.toGroupDto(group);
+        group.setGroupName(createGroupDto.getGroupName());
 
-            groupDtoList.add(groupDto);
-        });
+        if (createGroupDto.getDepartmentId() != null) {
+            group.setDepartment(departmentService.findById(createGroupDto.getDepartmentId()));
+        }
 
-        return groupDtoList;
+        return groupMapper.toGroupDto(groupService.save(group));
     }
 
     @Override
-    public GroupDto changeById(Long id, UpdateGroupDto updateGroupDto) throws Exception {
-        Group group = new Group();
+    public GroupDto update(Long id, UpdateGroupDto updateGroupDto) {
+        Group group = groupService.findById(id);
 
-        // converting to entity
         group.setGroupName(updateGroupDto.getGroupName());
 
         if (updateGroupDto.getDepartmentId() != null) {
             group.setDepartment(departmentService.findById(updateGroupDto.getDepartmentId()));
         }
 
-        return groupMapper.toGroupDto(groupService.changeById(id, group));
+        return groupMapper.toGroupDto(groupService.save(group));
+    }
+
+    @Override
+    public void delete(Long id) {
+        groupService.delete(id);
     }
 }

@@ -10,6 +10,6 @@ public interface RoleDtoService {
     List<RoleDto> findAll();
     RoleDto findById(Long id);
     RoleDto save(CreateRoleDto createRoleDto);
-    RoleDto changeById(Long id, UpdateRoleDto updateRoleDto) throws Exception;
+    RoleDto update(Long id, UpdateRoleDto updateRoleDto);
     void delete(Long id);
 }

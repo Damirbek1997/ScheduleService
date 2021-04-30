@@ -29,8 +29,8 @@ public class SubjectController {
     }
 
     @PutMapping("/{id}")
-    private SubjectDto change(@PathVariable("id") Long id, @RequestBody UpdateSubjectDto updateSubjectDto) throws Exception {
-        return subjectDtoService.changeById(id, updateSubjectDto);
+    private SubjectDto change(@PathVariable("id") Long id, @RequestBody UpdateSubjectDto updateSubjectDto) {
+        return subjectDtoService.update(id, updateSubjectDto);
     }
 
     @PostMapping
@@ -40,6 +40,6 @@ public class SubjectController {
 
     @DeleteMapping("/{id}")
     private void delete(@PathVariable("id") Long id) {
-        subjectDtoService.deleteById(id);
+        subjectDtoService.delete(id);
     }
 }

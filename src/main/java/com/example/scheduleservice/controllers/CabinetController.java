@@ -20,14 +20,14 @@ public class CabinetController {
         this.cabinetDtoService = cabinetDtoService;
     }
 
-    @GetMapping
-    private List<CabinetDto> getAll() {
-        return cabinetDtoService.findAll();
-    }
-
     @GetMapping("/getAllFreeCabinets")
     private List<CabinetDto> getAllFreeCabinets() {
         return cabinetDtoService.findAllFreeCabinets();
+    }
+
+    @GetMapping
+    private List<CabinetDto> getAll() {
+        return cabinetDtoService.findAll();
     }
 
     @GetMapping("/{id}")
@@ -35,14 +35,14 @@ public class CabinetController {
         return cabinetDtoService.findById(id);
     }
 
-    @PutMapping("/{id}")
-    private CabinetDto change(@PathVariable("id") Long id, @RequestBody UpdateCabinetDto updateCabinetDto) throws Exception {
-        return cabinetDtoService.changeById(id, updateCabinetDto);
-    }
-
     @PostMapping
     private CabinetDto create(@RequestBody CreateCabinetDto createCabinetDto) {
         return cabinetDtoService.save(createCabinetDto);
+    }
+
+    @PutMapping("/{id}")
+    private CabinetDto change(@PathVariable("id") Long id, @RequestBody UpdateCabinetDto updateCabinetDto) {
+        return cabinetDtoService.update(id, updateCabinetDto);
     }
 
     @DeleteMapping("/{id}")

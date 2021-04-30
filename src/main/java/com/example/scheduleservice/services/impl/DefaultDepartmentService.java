@@ -42,15 +42,4 @@ public class DefaultDepartmentService implements DepartmentService {
     public List<Department> findByFacultyId(Long facultyId) {
         return departmentRepository.retrieveDepartmentsByFacultyId(facultyId);
     }
-
-    @Override
-    public Department changeById(Long id, Department newGroup) throws Exception {
-        return departmentRepository.findById(id).
-                map(department -> {
-                    department.setDepartment(newGroup.getDepartment());
-                    department.setFaculty(newGroup.getFaculty());
-
-                    return departmentRepository.save(department);
-                }).orElseThrow(Exception :: new);
-    }
 }

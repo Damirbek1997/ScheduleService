@@ -5,9 +5,7 @@ import com.example.scheduleservice.dto.crud.CreateDepartmentDto;
 import com.example.scheduleservice.dto.crud.UpdateDepartmentDto;
 import com.example.scheduleservice.dtoService.DepartmentDtoService;
 import com.example.scheduleservice.entities.Department;
-import com.example.scheduleservice.entities.Group;
 import com.example.scheduleservice.mapper.DepartmentMapper;
-import com.example.scheduleservice.mapper.GroupMapper;
 import com.example.scheduleservice.services.DepartmentService;
 import com.example.scheduleservice.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,35 +17,28 @@ import java.util.List;
 @Service
 public class DefaultDepartmentDtoService implements DepartmentDtoService {
     private final DepartmentMapper departmentMapper;
-    private final GroupMapper groupMapper;
     private final DepartmentService departmentService;
     private final FacultyService facultyService;
 
     @Autowired
-    public DefaultDepartmentDtoService(DepartmentService departmentService, DepartmentMapper departmentMapper, GroupMapper groupMapper, FacultyService facultyService) {
+    public DefaultDepartmentDtoService(DepartmentService departmentService, DepartmentMapper departmentMapper, FacultyService facultyService) {
         this.departmentService = departmentService;
         this.departmentMapper = departmentMapper;
-        this.groupMapper = groupMapper;
         this.facultyService = facultyService;
     }
 
     @Override
-    public DepartmentDto save(CreateDepartmentDto createDepartmentDto) {
-        Department department = new Department();
+    public List<DepartmentDto> findAllByFacultyId(Long facultyId) {
+        List<Department> departments = departmentService.findByFacultyId(facultyId);
+        List<DepartmentDto> departmentDtos = new ArrayList<>();
 
-        // converting to entity
-        department.setDepartment(createDepartmentDto.getDepartment());
+        departments.forEach(department -> {
+            DepartmentDto groupDto = departmentMapper.toDepartmentDto(department);
 
-        if (createDepartmentDto.getFacultyId() != null) {
-            department.setFaculty(facultyService.findById(createDepartmentDto.getFacultyId()));
-        }
+            departmentDtos.add(groupDto);
+        });
 
-        return departmentMapper.toDepartmentDto(departmentService.save(department));
-    }
-
-    @Override
-    public void delete(Long id) {
-        departmentService.delete(id);
+        return departmentDtos;
     }
 
     @Override
@@ -70,30 +61,33 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
     }
 
     @Override
-    public List<DepartmentDto> findByFacultyId(Long facultyId) {
-        List<Department> departments = departmentService.findByFacultyId(facultyId);
-        List<DepartmentDto> departmentDtos = new ArrayList<>();
+    public DepartmentDto save(CreateDepartmentDto createDepartmentDto) {
+        Department department = new Department();
 
-        departments.forEach(department -> {
-            DepartmentDto groupDto = departmentMapper.toDepartmentDto(department);
+        department.setDepartment(createDepartmentDto.getDepartment());
 
-            departmentDtos.add(groupDto);
-        });
+        if (createDepartmentDto.getFacultyId() != null) {
+            department.setFaculty(facultyService.findById(createDepartmentDto.getFacultyId()));
+        }
 
-        return departmentDtos;
+        return departmentMapper.toDepartmentDto(departmentService.save(department));
     }
 
     @Override
-    public DepartmentDto changeById(Long id, UpdateDepartmentDto updateDepartmentDto) throws Exception {
-        Department department = new Department();
+    public DepartmentDto update(Long id, UpdateDepartmentDto updateDepartmentDto) {
+        Department department = departmentService.findById(id);
 
-        // converting to entity
         department.setDepartment(updateDepartmentDto.getDepartment());
 
         if (updateDepartmentDto.getFacultyId() != null) {
             department.setFaculty(facultyService.findById(updateDepartmentDto.getFacultyId()));
         }
 
-        return departmentMapper.toDepartmentDto(departmentService.changeById(id, department));
+        return departmentMapper.toDepartmentDto(departmentService.save(department));
+    }
+
+    @Override
+    public void delete(Long id) {
+        departmentService.delete(id);
     }
 }

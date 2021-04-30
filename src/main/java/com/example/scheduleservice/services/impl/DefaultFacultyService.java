@@ -37,14 +37,4 @@ public class DefaultFacultyService implements FacultyService {
     public Faculty findById(Long id) {
         return facultyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Faculty with " + id + " not found!"));
     }
-
-    @Override
-    public Faculty changeById(Long id, Faculty newFaculty) throws Exception {
-        return facultyRepository.findById(id).
-                map(faculty -> {
-                    faculty.setFaculty(newFaculty.getFaculty());
-
-                    return facultyRepository.save(faculty);
-                }).orElseThrow(Exception :: new);
-    }
 }

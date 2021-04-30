@@ -24,11 +24,6 @@ public class DefaultGroupService implements GroupService {
     }
 
     @Override
-    public void delete(Long id) {
-        groupRepository.deleteById(id);
-    }
-
-    @Override
     public List<Group> findAll() {
         return groupRepository.findAll();
     }
@@ -44,13 +39,7 @@ public class DefaultGroupService implements GroupService {
     }
 
     @Override
-    public Group changeById(Long id, Group newGroup) throws Exception {
-        return groupRepository.findById(id).
-                map(group -> {
-                    group.setGroupName(newGroup.getGroupName());
-                    group.setDepartment(newGroup.getDepartment());
-
-                    return groupRepository.save(group);
-                }).orElseThrow(Exception :: new);
+    public void delete(Long id) {
+        groupRepository.deleteById(id);
     }
 }

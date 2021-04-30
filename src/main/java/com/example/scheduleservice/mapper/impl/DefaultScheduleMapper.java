@@ -1,27 +1,12 @@
 package com.example.scheduleservice.mapper.impl;
 
-import com.example.scheduleservice.dto.FrontScheduleDto;
 import com.example.scheduleservice.dto.ScheduleDto;
 import com.example.scheduleservice.entities.Schedule;
-import com.example.scheduleservice.mapper.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.scheduleservice.mapper.ScheduleMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DefaultScheduleMapper implements ScheduleMapper {
-    private final SubjectMapper subjectMapper;
-    private final SubjectTimeMapper subjectTimeMapper;
-    private final GroupMapper groupMapper;
-    private final CabinetMapper cabinetMapper;
-
-    @Autowired
-    public DefaultScheduleMapper(SubjectMapper subjectMapper, SubjectTimeMapper subjectTimeMapper, GroupMapper groupMapper, CabinetMapper cabinetMapper) {
-        this.subjectMapper = subjectMapper;
-        this.subjectTimeMapper = subjectTimeMapper;
-        this.groupMapper = groupMapper;
-        this.cabinetMapper = cabinetMapper;
-    }
-
     @Override
     public ScheduleDto toScheduleDto(Schedule schedule) {
         ScheduleDto scheduleDto = new ScheduleDto();
@@ -30,37 +15,28 @@ public class DefaultScheduleMapper implements ScheduleMapper {
         scheduleDto.setSemester(schedule.getSemester());
         scheduleDto.setWeekDay(schedule.getWeekDay());
 
-        if (schedule.getSubject() != null)
-            scheduleDto.setSubjectDto(subjectMapper.toSubjectDto(schedule.getSubject()));
+        scheduleDto.setSubjectId(schedule.getSubject().getId());
+        scheduleDto.setSubject(schedule.getSubject().getSubject());
 
-        if (schedule.getSubjectTime() != null)
-            scheduleDto.setSubjectTimeDto(subjectTimeMapper.toSubjectTime(schedule.getSubjectTime()));
+        scheduleDto.setTeacherId(schedule.getSubject().getTeacher().getId());
+        scheduleDto.setFirstname(schedule.getSubject().getTeacher().getFirstname());
+        scheduleDto.setLastname(schedule.getSubject().getTeacher().getLastname());
 
-        if (schedule.getGroup() != null)
-            scheduleDto.setGroupDto(groupMapper.toGroupDto(schedule.getGroup()));
+        scheduleDto.setSubjectTimeId(schedule.getSubjectTime().getId());
+        scheduleDto.setTime(schedule.getSubjectTime().getTime());
 
-        if (schedule.getCabinet() != null)
-            scheduleDto.setCabinetDto(cabinetMapper.toCabinetDto(schedule.getCabinet()));
+        scheduleDto.setGroupId(schedule.getGroup().getId());
+        scheduleDto.setGroup(schedule.getGroup().getGroupName());
+
+        scheduleDto.setDepartmentId(schedule.getGroup().getDepartment().getId());
+        scheduleDto.setDepartment(schedule.getGroup().getDepartment().getDepartment());
+
+        scheduleDto.setFacultyId(schedule.getGroup().getDepartment().getFaculty().getId());
+        scheduleDto.setFaculty(schedule.getGroup().getDepartment().getFaculty().getFaculty());
+
+        scheduleDto.setCabinetId(schedule.getCabinet().getId());
+        scheduleDto.setCabinet(schedule.getCabinet().getCabinet());
 
         return scheduleDto;
-    }
-
-    @Override
-    public FrontScheduleDto toFrontScheduleDto(Schedule schedule) {
-        FrontScheduleDto frontScheduleDto = new FrontScheduleDto();
-
-        frontScheduleDto.setScheduleId(schedule.getId());
-        frontScheduleDto.setSemester(schedule.getSemester());
-        frontScheduleDto.setWeekDay(schedule.getWeekDay());
-        frontScheduleDto.setSubjectId(schedule.getSubject().getId());
-        frontScheduleDto.setSubject(schedule.getSubject().getSubject());
-        frontScheduleDto.setScheduleTimeId(schedule.getSubjectTime().getId());
-        frontScheduleDto.setStartLesson(schedule.getSubjectTime().getTime());
-        frontScheduleDto.setGroupId(schedule.getGroup().getId());
-        frontScheduleDto.setGroupName(schedule.getGroup().getGroupName());
-        frontScheduleDto.setCabinetId(schedule.getCabinet().getId());
-        frontScheduleDto.setCabinet(schedule.getCabinet().getCabinet());
-
-        return frontScheduleDto;
     }
 }

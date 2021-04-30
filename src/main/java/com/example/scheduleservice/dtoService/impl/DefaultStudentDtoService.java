@@ -1,0 +1,122 @@
+package com.example.scheduleservice.dtoService.impl;
+
+import com.example.scheduleservice.dto.StudentDto;
+import com.example.scheduleservice.dto.crud.CreateStudentDto;
+import com.example.scheduleservice.dto.crud.UpdateStudentDto;
+import com.example.scheduleservice.dtoService.StudentDtoService;
+import com.example.scheduleservice.entities.Student;
+import com.example.scheduleservice.entities.Subject;
+import com.example.scheduleservice.mapper.StudentMapper;
+import com.example.scheduleservice.mapper.SubjectMapper;
+import com.example.scheduleservice.services.GroupService;
+import com.example.scheduleservice.services.StudentService;
+import com.example.scheduleservice.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class DefaultStudentDtoService implements StudentDtoService {
+    private final StudentService studentService;
+    private final StudentMapper studentMapper;
+    private final SubjectMapper subjectMapper;
+    private final GroupService groupService;
+    private final UserService userService;
+
+    @Autowired
+    public DefaultStudentDtoService(StudentService studentService, StudentMapper studentMapper, SubjectMapper subjectMapper, GroupService groupService, UserService userService) {
+        this.studentService = studentService;
+        this.studentMapper = studentMapper;
+        this.subjectMapper = subjectMapper;
+        this.groupService = groupService;
+        this.userService = userService;
+    }
+
+    @Override
+    public List<StudentDto> findAll() {
+        List<Student> students = studentService.findAll();
+        List<StudentDto> studentDtos = new ArrayList<>();
+
+        students.forEach(student -> {
+            StudentDto studentDto = studentMapper.toStudentDto(student);
+
+            studentDtos.add(studentDto);
+        });
+
+        return studentDtos;
+    }
+
+    @Override
+    public List<StudentDto> findAllByGroupId(Long groupId) {
+        List<Student> students = studentService.findAllByGroupId(groupId);
+        List<StudentDto> studentDtos = new ArrayList<>();
+
+        students.forEach(student -> {
+            StudentDto studentDto = studentMapper.toStudentDto(student);
+
+            studentDtos.add(studentDto);
+        });
+
+        return studentDtos;
+    }
+
+    @Override
+    public StudentDto findById(Long id) {
+        return studentMapper.toStudentDto(studentService.findById(id));
+    }
+
+    @Override
+    public StudentDto save(CreateStudentDto createStudentDto) {
+        Student student = new Student();
+
+        student.setFirstname(createStudentDto.getFirstname());
+        student.setLastname(createStudentDto.getLastname());
+
+        if (createStudentDto.getGroupId() != null) {
+            student.setGroup(groupService.findById(createStudentDto.getGroupId()));
+        }
+
+        if (createStudentDto.getUserId() != null) {
+            student.setUser(userService.findById(createStudentDto.getUserId()));
+        }
+
+        if (createStudentDto.getSubjectDtos() != null) {
+            List<Subject> subjects = new ArrayList<>();
+
+            createStudentDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
+
+            student.setSubjects(subjects);
+        }
+
+        return studentMapper.toStudentDto(studentService.save(student));
+    }
+
+    @Override
+    public StudentDto update(Long id, UpdateStudentDto updateStudentDto) {
+        Student student = studentService.findById(id);
+
+        student.setFirstname(updateStudentDto.getFirstname());
+        student.setLastname(updateStudentDto.getLastname());
+
+        if (updateStudentDto.getGroupId() != null) {
+            student.setGroup(groupService.findById(updateStudentDto.getGroupId()));
+        }
+
+        if (updateStudentDto.getSubjectDtos() != null) {
+            List<Subject> subjects = new ArrayList<>();
+
+            updateStudentDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
+
+            student.setSubjects(subjects);
+        }
+
+        return studentMapper.toStudentDto(studentService.save(student));
+    }
+
+    @Override
+    public void delete(Long id) {
+        studentService.delete(id);
+    }
+}

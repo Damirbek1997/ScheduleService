@@ -19,16 +19,6 @@ public class DefaultSubjectService implements SubjectService {
     }
 
     @Override
-    public Subject save(Subject subject) {
-        return subjectRepository.save(subject);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        subjectRepository.deleteById(id);
-    }
-
-    @Override
     public List<Subject> findAll() {
         return subjectRepository.findAll();
     }
@@ -39,14 +29,12 @@ public class DefaultSubjectService implements SubjectService {
     }
 
     @Override
-    public Subject changeById(Long id, Subject newSubject) throws Exception {
-        return subjectRepository.findById(id)
-                .map(subject -> {
-                    subject.setSubject(newSubject.getSubject());
-                    subject.setDepartment(newSubject.getDepartment());
-                    subject.setTeacher(newSubject.getTeacher());
+    public Subject save(Subject subject) {
+        return subjectRepository.save(subject);
+    }
 
-                    return subjectRepository.save(subject);
-                }).orElseThrow(Exception :: new);
+    @Override
+    public void delete(Long id) {
+        subjectRepository.deleteById(id);
     }
 }

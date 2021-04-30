@@ -1,9 +1,8 @@
 package com.example.scheduleservice.entities;
 
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity

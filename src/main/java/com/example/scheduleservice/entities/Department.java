@@ -14,8 +14,7 @@ public class Department {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "department")
-    @NotNull
+    @Column(name = "department", nullable = false)
     private String department;
 
     @ManyToOne
