@@ -11,10 +11,12 @@ import com.example.scheduleservice.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class DefaultDepartmentDtoService implements DepartmentDtoService {
     private final DepartmentMapper departmentMapper;
     private final DepartmentService departmentService;

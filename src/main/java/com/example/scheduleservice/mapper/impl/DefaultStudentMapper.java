@@ -59,8 +59,8 @@ public class DefaultStudentMapper implements StudentMapper {
         Student student = new Student();
 
         student.setId(studentDto.getId());
-        student.setFirstname(student.getFirstname());
-        student.setLastname(student.getLastname());
+        student.setFirstname(studentDto.getFirstname());
+        student.setLastname(studentDto.getLastname());
 
         if (student.getGroup() != null) {
             student.setGroup(groupMapper.toGroup(studentDto.getGroupDto()));

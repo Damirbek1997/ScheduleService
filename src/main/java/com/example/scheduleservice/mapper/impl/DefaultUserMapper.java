@@ -25,14 +25,20 @@ public class DefaultUserMapper implements UserMapper {
             userDto.setFirstname(user.getStudent().getFirstname());
             userDto.setLastname(user.getStudent().getLastname());
 
-            userDto.setGroupId(user.getStudent().getGroup().getId());
-            userDto.setGroup(user.getStudent().getGroup().getGroupName());
+            if (user.getStudent().getGroup() != null) {
+                userDto.setGroupId(user.getStudent().getGroup().getId());
+                userDto.setGroup(user.getStudent().getGroup().getGroupName());
 
-            userDto.setDepartmentId(user.getStudent().getGroup().getDepartment().getId());
-            userDto.setDepartment(user.getStudent().getGroup().getDepartment().getDepartment());
+                if (user.getStudent().getGroup().getDepartment() != null) {
+                    userDto.setDepartmentId(user.getStudent().getGroup().getDepartment().getId());
+                    userDto.setDepartment(user.getStudent().getGroup().getDepartment().getDepartment());
 
-            userDto.setFacultyId(user.getStudent().getGroup().getDepartment().getFaculty().getId());
-            userDto.setFaculty(user.getStudent().getGroup().getDepartment().getFaculty().getFaculty());
+                    if (user.getStudent().getGroup().getDepartment().getFaculty() != null) {
+                        userDto.setFacultyId(user.getStudent().getGroup().getDepartment().getFaculty().getId());
+                        userDto.setFaculty(user.getStudent().getGroup().getDepartment().getFaculty().getFaculty());
+                    }
+                }
+            }
         }
 
         if (user.getTeacher() != null) {

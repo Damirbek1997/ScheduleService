@@ -12,10 +12,12 @@ import com.example.scheduleservice.services.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class DefaultCabinetDtoService implements CabinetDtoService {
     private final CabinetMapper cabinetMapper;
     private final CabinetService cabinetService;

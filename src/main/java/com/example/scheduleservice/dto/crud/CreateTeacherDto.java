@@ -13,8 +13,5 @@ public class CreateTeacherDto {
     private String lastname;
 
     @NotNull
-    private Long userId;
-
-    @NotNull
     private List<SubjectDto> subjectDtos;
 }

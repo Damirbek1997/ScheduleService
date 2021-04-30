@@ -14,10 +14,12 @@ import com.example.scheduleservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class DefaultTeacherDtoService implements TeacherDtoService {
     private final TeacherService teacherService;
     private final TeacherMapper teacherMapper;
@@ -57,10 +59,6 @@ public class DefaultTeacherDtoService implements TeacherDtoService {
 
         teacher.setFirstname(createTeacherDto.getFirstname());
         teacher.setLastname(createTeacherDto.getLastname());
-
-        if (createTeacherDto.getUserId() != null) {
-            teacher.setUser(userService.findById(createTeacherDto.getUserId()));
-        }
 
 //        if (createTeacherDto.getSubjectDtos() != null) {
 //            List<Subject> subjects = new ArrayList<>();

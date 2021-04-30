@@ -19,9 +19,11 @@ public class DefaultScheduleMapper implements ScheduleMapper {
             scheduleDto.setSubjectId(schedule.getSubject().getId());
             scheduleDto.setSubject(schedule.getSubject().getSubject());
 
-            scheduleDto.setTeacherId(schedule.getSubject().getTeacher().getId());
-            scheduleDto.setFirstname(schedule.getSubject().getTeacher().getFirstname());
-            scheduleDto.setLastname(schedule.getSubject().getTeacher().getLastname());
+            if (schedule.getSubject().getTeacher() != null) {
+                scheduleDto.setTeacherId(schedule.getSubject().getTeacher().getId());
+                scheduleDto.setFirstname(schedule.getSubject().getTeacher().getFirstname());
+                scheduleDto.setLastname(schedule.getSubject().getTeacher().getLastname());
+            }
         }
 
         if (schedule.getSubjectTime() != null) {
@@ -33,11 +35,15 @@ public class DefaultScheduleMapper implements ScheduleMapper {
             scheduleDto.setGroupId(schedule.getGroup().getId());
             scheduleDto.setGroup(schedule.getGroup().getGroupName());
 
-            scheduleDto.setDepartmentId(schedule.getGroup().getDepartment().getId());
-            scheduleDto.setDepartment(schedule.getGroup().getDepartment().getDepartment());
+            if (schedule.getGroup().getDepartment() != null) {
+                scheduleDto.setDepartmentId(schedule.getGroup().getDepartment().getId());
+                scheduleDto.setDepartment(schedule.getGroup().getDepartment().getDepartment());
 
-            scheduleDto.setFacultyId(schedule.getGroup().getDepartment().getFaculty().getId());
-            scheduleDto.setFaculty(schedule.getGroup().getDepartment().getFaculty().getFaculty());
+                if (schedule.getGroup().getDepartment().getFaculty() != null) {
+                    scheduleDto.setFacultyId(schedule.getGroup().getDepartment().getFaculty().getId());
+                    scheduleDto.setFaculty(schedule.getGroup().getDepartment().getFaculty().getFaculty());
+                }
+            }
         }
 
         if (schedule.getCabinet() != null) {

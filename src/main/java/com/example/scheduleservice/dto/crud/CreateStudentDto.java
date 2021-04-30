@@ -14,8 +14,5 @@ public class CreateStudentDto {
     @NotNull
     private Long groupId;
 
-    @NotNull
-    private Long userId;
-
     private List<SubjectDto> subjectDtos;
 }

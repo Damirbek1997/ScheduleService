@@ -7,22 +7,28 @@ import com.example.scheduleservice.dto.crud.UpdateUserPasswordDto;
 import com.example.scheduleservice.dtoService.StudentDtoService;
 import com.example.scheduleservice.dtoService.TeacherDtoService;
 import com.example.scheduleservice.dtoService.UserDtoService;
+import com.example.scheduleservice.entities.Student;
+import com.example.scheduleservice.entities.Teacher;
 import com.example.scheduleservice.entities.User;
 import com.example.scheduleservice.exceptions.InappropriatePasswordException;
 import com.example.scheduleservice.mapper.StudentMapper;
 import com.example.scheduleservice.mapper.TeacherMapper;
 import com.example.scheduleservice.mapper.UserMapper;
 import com.example.scheduleservice.services.RoleService;
+import com.example.scheduleservice.services.StudentService;
+import com.example.scheduleservice.services.TeacherService;
 import com.example.scheduleservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+@Transactional
 public class DefaultUserDtoService implements UserDtoService {
     private final UserMapper userMapper;
     private final UserService userService;
@@ -31,9 +37,11 @@ public class DefaultUserDtoService implements UserDtoService {
     private final TeacherMapper teacherMapper;
     private final StudentDtoService studentDtoService;
     private final StudentMapper studentMapper;
+    private final TeacherService teacherService;
+    private final StudentService studentService;
 
     @Autowired
-    public DefaultUserDtoService(UserMapper userMapper, UserService userService, RoleService roleService, TeacherDtoService teacherDtoService, TeacherMapper teacherMapper, StudentDtoService studentDtoService, StudentMapper studentMapper) {
+    public DefaultUserDtoService(UserMapper userMapper, UserService userService, RoleService roleService, TeacherDtoService teacherDtoService, TeacherMapper teacherMapper, StudentDtoService studentDtoService, StudentMapper studentMapper, TeacherService teacherService, StudentService studentService) {
         this.userMapper = userMapper;
         this.userService = userService;
         this.roleService = roleService;
@@ -41,6 +49,8 @@ public class DefaultUserDtoService implements UserDtoService {
         this.teacherMapper = teacherMapper;
         this.studentDtoService = studentDtoService;
         this.studentMapper = studentMapper;
+        this.teacherService = teacherService;
+        this.studentService = studentService;
     }
 
     @Override
@@ -99,6 +109,7 @@ public class DefaultUserDtoService implements UserDtoService {
     @Override
     public UserDto saveTeacher(CreateUserDto createUserDto) {
         User user = new User();
+        Teacher savedTeacher = new Teacher();
 
         // converting to entity
         user.setEmail(createUserDto.getEmail());
@@ -109,15 +120,22 @@ public class DefaultUserDtoService implements UserDtoService {
         }
 
         if (createUserDto.getCreateTeacherDto() != null) {
-            user.setTeacher(teacherMapper.toTeacher(teacherDtoService.save(createUserDto.getCreateTeacherDto())));
+            savedTeacher = teacherMapper.toTeacher(teacherDtoService.save(createUserDto.getCreateTeacherDto()));
+
+            user.setTeacher(savedTeacher);
         }
 
-        return userMapper.toUserDto(userService.save(user));
+        User savedUser = userService.save(user);
+        savedTeacher.setUser(savedUser);
+        teacherService.save(savedTeacher);
+
+        return userMapper.toUserDto(savedUser);
     }
 
     @Override
     public UserDto saveStudent(CreateUserDto createUserDto) {
         User user = new User();
+        Student savedStudent = new Student();
 
         // converting to entity
         user.setEmail(createUserDto.getEmail());
@@ -128,10 +146,16 @@ public class DefaultUserDtoService implements UserDtoService {
         }
 
         if (createUserDto.getCreateStudentDto() != null) {
-            user.setStudent(studentMapper.toStudent(studentDtoService.save(createUserDto.getCreateStudentDto())));
+            savedStudent = studentMapper.toStudent(studentDtoService.save(createUserDto.getCreateStudentDto()));
+
+            user.setStudent(savedStudent);
         }
 
-        return userMapper.toUserDto(userService.save(user));
+        User savedUser = userService.save(user);
+        savedStudent.setUser(savedUser);
+        studentService.save(savedStudent);
+
+        return userMapper.toUserDto(savedUser);
     }
 
     @Override

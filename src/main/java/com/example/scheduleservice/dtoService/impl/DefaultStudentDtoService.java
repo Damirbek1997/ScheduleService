@@ -14,24 +14,24 @@ import com.example.scheduleservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class DefaultStudentDtoService implements StudentDtoService {
     private final StudentService studentService;
     private final StudentMapper studentMapper;
     private final SubjectMapper subjectMapper;
     private final GroupService groupService;
-    private final UserService userService;
 
     @Autowired
-    public DefaultStudentDtoService(StudentService studentService, StudentMapper studentMapper, SubjectMapper subjectMapper, GroupService groupService, UserService userService) {
+    public DefaultStudentDtoService(StudentService studentService, StudentMapper studentMapper, SubjectMapper subjectMapper, GroupService groupService) {
         this.studentService = studentService;
         this.studentMapper = studentMapper;
         this.subjectMapper = subjectMapper;
         this.groupService = groupService;
-        this.userService = userService;
     }
 
     @Override
@@ -76,10 +76,6 @@ public class DefaultStudentDtoService implements StudentDtoService {
 
         if (createStudentDto.getGroupId() != null) {
             student.setGroup(groupService.findById(createStudentDto.getGroupId()));
-        }
-
-        if (createStudentDto.getUserId() != null) {
-            student.setUser(userService.findById(createStudentDto.getUserId()));
         }
 
         if (createStudentDto.getSubjectDtos() != null) {
