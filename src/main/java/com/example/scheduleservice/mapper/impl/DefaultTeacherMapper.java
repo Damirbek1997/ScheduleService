@@ -36,13 +36,13 @@ public class DefaultTeacherMapper implements TeacherMapper {
             teacherDto.setUserDto(userMapper.toUserDto(teacher.getUser()));
         }
 
-        if (teacher.getSubjects() != null) {
-            List<SubjectDto> subjectDtos = new ArrayList<>();
-
-            teacher.getSubjects().forEach(subject -> subjectDtos.add(subjectMapper.toSubjectDto(subject)));
-
-            teacherDto.setSubjectDtos(subjectDtos);
-        }
+//        if (teacher.getSubjects() != null) {
+//            List<SubjectDto> subjectDtos = new ArrayList<>();
+//
+//            teacher.getSubjects().forEach(subject -> subjectDtos.add(subjectMapper.toSubjectDto(subject)));
+//
+//            teacherDto.setSubjectDtos(subjectDtos);
+//        }
 
         return teacherDto;
     }
@@ -59,13 +59,13 @@ public class DefaultTeacherMapper implements TeacherMapper {
             teacher.setUser(userMapper.toUser(teacherDto.getUserDto()));
         }
 
-        if (teacherDto.getSubjectDtos() != null) {
-            List<Subject> subjects = new ArrayList<>();
-
-            teacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
-
-            teacher.setSubjects(subjects);
-        }
+//        if (teacherDto.getSubjectDtos() != null) {
+//            List<Subject> subjects = new ArrayList<>();
+//
+//            teacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
+//
+//            teacher.setSubjects(subjects);
+//        }
 
         return teacher;
     }

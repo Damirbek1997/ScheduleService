@@ -20,9 +20,6 @@ public class Teacher {
     @Column(name = "lastname")
     private String lastname;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private User user;
-
-    @OneToMany(mappedBy = "teacher")
-    private List<Subject> subjects;
 }

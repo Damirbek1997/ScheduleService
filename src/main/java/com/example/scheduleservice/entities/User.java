@@ -24,9 +24,9 @@ public class User {
     @NotNull
     private Role role;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private Teacher teacher;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private Student student;
 }

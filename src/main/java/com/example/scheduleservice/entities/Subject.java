@@ -15,7 +15,7 @@ public class Subject {
     @Column(name = "subject", nullable = false)
     private String subject;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Department department;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -62,13 +62,13 @@ public class DefaultTeacherDtoService implements TeacherDtoService {
             teacher.setUser(userService.findById(createTeacherDto.getUserId()));
         }
 
-        if (createTeacherDto.getSubjectDtos() != null) {
-            List<Subject> subjects = new ArrayList<>();
-
-            createTeacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
-
-            teacher.setSubjects(subjects);
-        }
+//        if (createTeacherDto.getSubjectDtos() != null) {
+//            List<Subject> subjects = new ArrayList<>();
+//
+//            createTeacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
+//
+//            teacher.setSubjects(subjects);
+//        }
 
         return teacherMapper.toTeacherDto(teacherService.save(teacher));
     }
@@ -80,13 +80,13 @@ public class DefaultTeacherDtoService implements TeacherDtoService {
         teacher.setFirstname(updateTeacherDto.getFirstname());
         teacher.setLastname(updateTeacherDto.getLastname());
 
-        if (updateTeacherDto.getSubjectDtos() != null) {
-            List<Subject> subjects = new ArrayList<>();
-
-            updateTeacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
-
-            teacher.setSubjects(subjects);
-        }
+//        if (updateTeacherDto.getSubjectDtos() != null) {
+//            List<Subject> subjects = new ArrayList<>();
+//
+//            updateTeacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
+//
+//            teacher.setSubjects(subjects);
+//        }
 
         return teacherMapper.toTeacherDto(teacherService.save(teacher));
     }

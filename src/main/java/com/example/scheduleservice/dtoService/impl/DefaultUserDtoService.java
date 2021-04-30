@@ -187,7 +187,7 @@ public class DefaultUserDtoService implements UserDtoService {
     }
 
     @Override
-    public void updatePassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws Exception {
+    public void updatePassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws InappropriatePasswordException {
         User user = userService.findById(id);
 
         String lowerCaseRegex = ".*[a-z].*";
@@ -223,5 +223,17 @@ public class DefaultUserDtoService implements UserDtoService {
     @Override
     public void delete(Long id) {
         userService.delete(id);
+    }
+
+    @Override
+    public void deleteTeacher(Long userId, Long teacherId) {
+        teacherDtoService.delete(teacherId);
+        userService.delete(userId);
+    }
+
+    @Override
+    public void deleteStudent(Long userId, Long studentId) {
+        studentDtoService.delete(studentId);
+        userService.delete(userId);
     }
 }
