@@ -15,27 +15,35 @@ public class DefaultScheduleMapper implements ScheduleMapper {
         scheduleDto.setSemester(schedule.getSemester());
         scheduleDto.setWeekDay(schedule.getWeekDay());
 
-        scheduleDto.setSubjectId(schedule.getSubject().getId());
-        scheduleDto.setSubject(schedule.getSubject().getSubject());
+        if (schedule.getSubject() != null) {
+            scheduleDto.setSubjectId(schedule.getSubject().getId());
+            scheduleDto.setSubject(schedule.getSubject().getSubject());
 
-        scheduleDto.setTeacherId(schedule.getSubject().getTeacher().getId());
-        scheduleDto.setFirstname(schedule.getSubject().getTeacher().getFirstname());
-        scheduleDto.setLastname(schedule.getSubject().getTeacher().getLastname());
+            scheduleDto.setTeacherId(schedule.getSubject().getTeacher().getId());
+            scheduleDto.setFirstname(schedule.getSubject().getTeacher().getFirstname());
+            scheduleDto.setLastname(schedule.getSubject().getTeacher().getLastname());
+        }
 
-        scheduleDto.setSubjectTimeId(schedule.getSubjectTime().getId());
-        scheduleDto.setTime(schedule.getSubjectTime().getTime());
+        if (schedule.getSubjectTime() != null) {
+            scheduleDto.setSubjectTimeId(schedule.getSubjectTime().getId());
+            scheduleDto.setTime(schedule.getSubjectTime().getTime());
+        }
 
-        scheduleDto.setGroupId(schedule.getGroup().getId());
-        scheduleDto.setGroup(schedule.getGroup().getGroupName());
+        if (schedule.getGroup() != null) {
+            scheduleDto.setGroupId(schedule.getGroup().getId());
+            scheduleDto.setGroup(schedule.getGroup().getGroupName());
 
-        scheduleDto.setDepartmentId(schedule.getGroup().getDepartment().getId());
-        scheduleDto.setDepartment(schedule.getGroup().getDepartment().getDepartment());
+            scheduleDto.setDepartmentId(schedule.getGroup().getDepartment().getId());
+            scheduleDto.setDepartment(schedule.getGroup().getDepartment().getDepartment());
 
-        scheduleDto.setFacultyId(schedule.getGroup().getDepartment().getFaculty().getId());
-        scheduleDto.setFaculty(schedule.getGroup().getDepartment().getFaculty().getFaculty());
+            scheduleDto.setFacultyId(schedule.getGroup().getDepartment().getFaculty().getId());
+            scheduleDto.setFaculty(schedule.getGroup().getDepartment().getFaculty().getFaculty());
+        }
 
-        scheduleDto.setCabinetId(schedule.getCabinet().getId());
-        scheduleDto.setCabinet(schedule.getCabinet().getCabinet());
+        if (schedule.getCabinet() != null) {
+            scheduleDto.setCabinetId(schedule.getCabinet().getId());
+            scheduleDto.setCabinet(schedule.getCabinet().getCabinet());
+        }
 
         return scheduleDto;
     }

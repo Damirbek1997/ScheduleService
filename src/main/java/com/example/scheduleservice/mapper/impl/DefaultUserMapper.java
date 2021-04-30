@@ -15,22 +15,31 @@ public class DefaultUserMapper implements UserMapper {
         userDto.setId(user.getId());
         userDto.setEmail(user.getEmail());
 
-        userDto.setRoleId(user.getRole().getId());
-        userDto.setRole(user.getRole().getRole());
+        if (user.getRole() != null) {
+            userDto.setRoleId(user.getRole().getId());
+            userDto.setRole(user.getRole().getRole());
+        }
 
-        userDto.setStudentId(user.getStudent().getId());
-        userDto.setTeacherId(user.getTeacher().getId());
-        userDto.setFirstname(user.getStudent().getFirstname());
-        userDto.setLastname(user.getStudent().getLastname());
+        if (user.getStudent() != null) {
+            userDto.setStudentId(user.getStudent().getId());
+            userDto.setFirstname(user.getStudent().getFirstname());
+            userDto.setLastname(user.getStudent().getLastname());
 
-        userDto.setGroupId(user.getStudent().getGroup().getId());
-        userDto.setGroup(user.getStudent().getGroup().getGroupName());
+            userDto.setGroupId(user.getStudent().getGroup().getId());
+            userDto.setGroup(user.getStudent().getGroup().getGroupName());
 
-        userDto.setDepartmentId(user.getStudent().getGroup().getDepartment().getId());
-        userDto.setDepartment(user.getStudent().getGroup().getDepartment().getDepartment());
+            userDto.setDepartmentId(user.getStudent().getGroup().getDepartment().getId());
+            userDto.setDepartment(user.getStudent().getGroup().getDepartment().getDepartment());
 
-        userDto.setFacultyId(user.getStudent().getGroup().getDepartment().getFaculty().getId());
-        userDto.setFaculty(user.getStudent().getGroup().getDepartment().getFaculty().getFaculty());
+            userDto.setFacultyId(user.getStudent().getGroup().getDepartment().getFaculty().getId());
+            userDto.setFaculty(user.getStudent().getGroup().getDepartment().getFaculty().getFaculty());
+        }
+
+        if (user.getTeacher() != null) {
+            userDto.setTeacherId(user.getTeacher().getId());
+            userDto.setFirstname(user.getTeacher().getFirstname());
+            userDto.setLastname(user.getTeacher().getLastname());
+        }
 
         return userDto;
     }
