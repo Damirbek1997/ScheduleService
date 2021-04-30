@@ -100,7 +100,7 @@ public class UserController {
         userDtoService.deleteTeacher(userId, teacherId);
     }
 
-    @DeleteMapping("/student}")
+    @DeleteMapping("/student")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     private void deleteStudent(@RequestParam Long userId, @RequestParam Long studentId) {
         userDtoService.deleteStudent(userId, studentId);
