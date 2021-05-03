@@ -62,15 +62,15 @@ public class DefaultStudentMapper implements StudentMapper {
         student.setFirstname(studentDto.getFirstname());
         student.setLastname(studentDto.getLastname());
 
-        if (student.getGroup() != null) {
+        if (studentDto.getGroupDto() != null) {
             student.setGroup(groupMapper.toGroup(studentDto.getGroupDto()));
         }
 
-        if (student.getUser() != null) {
+        if (studentDto.getUserDto() != null) {
             student.setUser(userMapper.toUser(studentDto.getUserDto()));
         }
 
-        if (student.getSubjects() != null) {
+        if (studentDto.getSubjectDtos() != null) {
             List<Subject> subjects = new ArrayList<>();
 
             studentDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
