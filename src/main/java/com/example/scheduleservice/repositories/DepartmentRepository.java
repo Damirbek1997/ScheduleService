@@ -2,11 +2,12 @@ package com.example.scheduleservice.repositories;
 
 import com.example.scheduleservice.entities.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
-    @Query(value = "SELECT d FROM Department d where d.faculty.id = :facultyId")
-    List<Department> retrieveDepartmentsByFacultyId(Long facultyId);
+    List<Department> findAllByFacultyIdAndIsDeleted(Long facultyId, Boolean isDeleted);
+    List<Department> findAllByIsDeleted(Boolean isDeleted);
+    Optional<Department> findByIdAndIsDeleted(Long id, Boolean isDeleted);
 }

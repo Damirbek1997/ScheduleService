@@ -113,6 +113,10 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
 
     @Override
     public void delete(Long id) {
-        scheduleService.delete(id);
+        Schedule schedule = scheduleService.findById(id);
+
+        schedule.setIsDeleted(true);
+
+        scheduleService.save(schedule);
     }
 }

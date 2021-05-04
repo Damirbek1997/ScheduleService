@@ -34,4 +34,7 @@ public class Schedule {
     @ManyToOne
     @NotNull
     private Cabinet cabinet;
+
+    @Column(name = "is_deleted", columnDefinition = "boolean default 'false'")
+    private Boolean isDeleted;
 }

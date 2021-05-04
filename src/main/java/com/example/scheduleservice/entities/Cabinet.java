@@ -17,4 +17,7 @@ public class Cabinet {
     @Column(name = "cabinet")
     @NotNull
     private String cabinet;
+
+    @Column(name = "is_deleted", columnDefinition = "boolean default 'false'")
+    private Boolean isDeleted;
 }

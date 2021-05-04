@@ -20,12 +20,12 @@ public class DefaultRoleService implements RoleService {
 
     @Override
     public List<Role> findAll() {
-        return roleRepository.findAll();
+        return roleRepository.findAllByIsDeleted(false);
     }
 
     @Override
     public Role findById(Long id) {
-        return roleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Role with " + id + " not found!"));
+        return roleRepository.findByIdAndIsDeleted(id, false).orElseThrow(() -> new EntityNotFoundException("Role with " + id + " not found!"));
     }
 
     @Override

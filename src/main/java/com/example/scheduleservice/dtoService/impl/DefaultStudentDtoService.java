@@ -10,7 +10,6 @@ import com.example.scheduleservice.mapper.StudentMapper;
 import com.example.scheduleservice.mapper.SubjectMapper;
 import com.example.scheduleservice.services.GroupService;
 import com.example.scheduleservice.services.StudentService;
-import com.example.scheduleservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -109,10 +108,5 @@ public class DefaultStudentDtoService implements StudentDtoService {
         }
 
         return studentMapper.toStudentDto(studentService.save(student));
-    }
-
-    @Override
-    public void delete(Long id) {
-        studentService.delete(id);
     }
 }

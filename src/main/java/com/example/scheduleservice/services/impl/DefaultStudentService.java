@@ -19,6 +19,21 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
+    public List<Student> findAll() {
+        return studentRepository.findAllByIsDeleted(false);
+    }
+
+    @Override
+    public List<Student> findAllByGroupId(Long groupId) {
+        return studentRepository.findAllByGroupIdAndIsDeleted(groupId, false);
+    }
+
+    @Override
+    public Student findById(Long id) {
+        return studentRepository.findByIdAndIsDeleted(id, false).orElseThrow(() -> new EntityNotFoundException("Student with " + id + " not found!"));
+    }
+
+    @Override
     public Student save(Student student) {
         return studentRepository.save(student);
     }
@@ -26,20 +41,5 @@ public class DefaultStudentService implements StudentService {
     @Override
     public void delete(Long id) {
         studentRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Student> findAll() {
-        return studentRepository.findAll();
-    }
-
-    @Override
-    public List<Student> findAllByGroupId(Long groupId) {
-        return studentRepository.findAllByGroupId(groupId);
-    }
-
-    @Override
-    public Student findById(Long id) {
-        return studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Student with " + id + " not found!"));
     }
 }

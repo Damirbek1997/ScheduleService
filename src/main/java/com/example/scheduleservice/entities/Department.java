@@ -20,4 +20,7 @@ public class Department {
     @ManyToOne
     @NotNull
     private Faculty faculty;
+
+    @Column(name = "is_deleted", columnDefinition = "boolean default 'false'")
+    private Boolean isDeleted;
 }

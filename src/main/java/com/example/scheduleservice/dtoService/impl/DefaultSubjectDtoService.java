@@ -47,6 +47,34 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
     }
 
     @Override
+    public List<SubjectDto> findAllByTeacherId(Long teacherId) {
+        List<Subject> subjectList = subjectService.findAllByTeacherId(teacherId);
+        List<SubjectDto> subjectDtoList = new ArrayList<>();
+
+        subjectList.forEach(subject -> {
+            SubjectDto subjectDto = subjectMapper.toSubjectDto(subject);
+
+            subjectDtoList.add(subjectDto);
+        });
+
+        return subjectDtoList;
+    }
+
+    @Override
+    public List<SubjectDto> findAllByDepartmentId(Long departmentId) {
+        List<Subject> subjectList = subjectService.findAllByDepartmentId(departmentId);
+        List<SubjectDto> subjectDtoList = new ArrayList<>();
+
+        subjectList.forEach(subject -> {
+            SubjectDto subjectDto = subjectMapper.toSubjectDto(subject);
+
+            subjectDtoList.add(subjectDto);
+        });
+
+        return subjectDtoList;
+    }
+
+    @Override
     public SubjectDto findById(Long id) {
         return subjectMapper.toSubjectDto(subjectService.findById(id));
     }
@@ -87,6 +115,10 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
 
     @Override
     public void delete(Long id) {
-        subjectService.delete(id);
+        Subject subject = subjectService.findById(id);
+
+        subject.setIsDeleted(true);
+
+        subjectService.save(subject);
     }
 }

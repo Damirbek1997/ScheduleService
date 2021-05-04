@@ -65,6 +65,10 @@ public class DefaultFacultyDtoService implements FacultyDtoService {
 
     @Override
     public void delete(Long id) {
-        facultyService.delete(id);
+        Faculty faculty = facultyService.findById(id);
+
+        faculty.setIsDeleted(true);
+
+        facultyService.save(faculty);
     }
 }

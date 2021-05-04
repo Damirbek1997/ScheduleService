@@ -65,6 +65,10 @@ public class DefaultRoleDtoService implements RoleDtoService {
 
     @Override
     public void delete(Long id) {
-        roleService.delete(id);
+        Role role = roleService.findById(id);
+
+        role.setIsDeleted(true);
+
+        roleService.save(role);
     }
 }

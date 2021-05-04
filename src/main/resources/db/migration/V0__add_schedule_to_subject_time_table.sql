@@ -1,10 +1,10 @@
-create table schedule_time
+create table subject_times
 (
     id   BIGSERIAL   primary key not null,
     time varchar(50)             not null
 );
 
-insert into schedule_time (time)
+insert into subject_times (time)
 values ('09:00 am - 09:45 am'),
        ('09:45 am - 10:30 am'),
        ('10:40 am - 11:25 am'),

@@ -17,4 +17,7 @@ public class Role {
     @Column(name = "role")
     @NotNull
     private String role;
+
+    @Column(name = "is_deleted", columnDefinition = "boolean default 'false'")
+    private Boolean isDeleted;
 }

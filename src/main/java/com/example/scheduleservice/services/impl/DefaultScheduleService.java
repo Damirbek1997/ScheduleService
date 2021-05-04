@@ -20,17 +20,17 @@ public class DefaultScheduleService implements ScheduleService {
 
     @Override
     public List<Schedule> findAllByGroupId(Long groupId) {
-        return scheduleRepository.retrieveSchedulesByGroupId(groupId);
+        return scheduleRepository.findAllByGroupIdAndIsDeleted(groupId, false);
     }
 
     @Override
     public List<Schedule> findAll() {
-        return scheduleRepository.findAll();
+        return scheduleRepository.findAllByIsDeleted(false);
     }
 
     @Override
     public Schedule findById(Long id) {
-        return scheduleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Schedule with " + id + " not found!"));
+        return scheduleRepository.findByIdAndIsDeleted(id, false).orElseThrow(() -> new EntityNotFoundException("Schedule with " + id + " not found!"));
     }
 
     @Override

@@ -20,7 +20,6 @@ public interface UserDtoService {
     UserDto updateTeacher(Long id, UpdateUserDto updateUserDto);
     UserDto updateStudent(Long id, UpdateUserDto updateUserDto);
     void updatePassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws InappropriatePasswordException;
-    void delete(Long id);
-    void deleteTeacher(Long userId, Long teacherId);
-    void deleteStudent(Long userId, Long studentId);
+    void deleteTeacher(Long teacherId);
+    void deleteStudent(Long studentId);
 }

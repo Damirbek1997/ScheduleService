@@ -19,6 +19,21 @@ public class DefaultDepartmentService implements DepartmentService {
     }
 
     @Override
+    public List<Department> findAll() {
+        return departmentRepository.findAllByIsDeleted(false);
+    }
+
+    @Override
+    public Department findById(Long id) {
+        return departmentRepository.findByIdAndIsDeleted(id, false).orElseThrow(() -> new EntityNotFoundException("Department with " + id + " not found!"));
+    }
+
+    @Override
+    public List<Department> findAllByFacultyId(Long facultyId) {
+        return departmentRepository.findAllByFacultyIdAndIsDeleted(facultyId, false);
+    }
+
+    @Override
     public Department save(Department department) {
         return departmentRepository.save(department);
     }
@@ -26,20 +41,5 @@ public class DefaultDepartmentService implements DepartmentService {
     @Override
     public void delete(Long id) {
         departmentRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Department> findAll() {
-        return departmentRepository.findAll();
-    }
-
-    @Override
-    public Department findById(Long id) {
-        return departmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Department with " + id + " not found!"));
-    }
-
-    @Override
-    public List<Department> findByFacultyId(Long facultyId) {
-        return departmentRepository.retrieveDepartmentsByFacultyId(facultyId);
     }
 }

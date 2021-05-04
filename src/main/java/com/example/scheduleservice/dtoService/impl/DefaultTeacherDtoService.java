@@ -4,13 +4,9 @@ import com.example.scheduleservice.dto.TeacherDto;
 import com.example.scheduleservice.dto.crud.CreateTeacherDto;
 import com.example.scheduleservice.dto.crud.UpdateTeacherDto;
 import com.example.scheduleservice.dtoService.TeacherDtoService;
-import com.example.scheduleservice.entities.Subject;
 import com.example.scheduleservice.entities.Teacher;
-import com.example.scheduleservice.mapper.SubjectMapper;
 import com.example.scheduleservice.mapper.TeacherMapper;
-import com.example.scheduleservice.mapper.UserMapper;
 import com.example.scheduleservice.services.TeacherService;
-import com.example.scheduleservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +19,11 @@ import java.util.List;
 public class DefaultTeacherDtoService implements TeacherDtoService {
     private final TeacherService teacherService;
     private final TeacherMapper teacherMapper;
-    private final SubjectMapper subjectMapper;
-    private final UserService userService;
 
     @Autowired
-    public DefaultTeacherDtoService(TeacherService teacherService, TeacherMapper teacherMapper, SubjectMapper subjectMapper, UserService userService) {
+    public DefaultTeacherDtoService(TeacherService teacherService, TeacherMapper teacherMapper) {
         this.teacherService = teacherService;
         this.teacherMapper = teacherMapper;
-        this.subjectMapper = subjectMapper;
-        this.userService = userService;
     }
 
     @Override
@@ -60,14 +52,6 @@ public class DefaultTeacherDtoService implements TeacherDtoService {
         teacher.setFirstname(createTeacherDto.getFirstname());
         teacher.setLastname(createTeacherDto.getLastname());
 
-//        if (createTeacherDto.getSubjectDtos() != null) {
-//            List<Subject> subjects = new ArrayList<>();
-//
-//            createTeacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
-//
-//            teacher.setSubjects(subjects);
-//        }
-
         return teacherMapper.toTeacherDto(teacherService.save(teacher));
     }
 
@@ -78,19 +62,6 @@ public class DefaultTeacherDtoService implements TeacherDtoService {
         teacher.setFirstname(updateTeacherDto.getFirstname());
         teacher.setLastname(updateTeacherDto.getLastname());
 
-//        if (updateTeacherDto.getSubjectDtos() != null) {
-//            List<Subject> subjects = new ArrayList<>();
-//
-//            updateTeacherDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
-//
-//            teacher.setSubjects(subjects);
-//        }
-
         return teacherMapper.toTeacherDto(teacherService.save(teacher));
-    }
-
-    @Override
-    public void delete(Long id) {
-        teacherService.delete(id);
     }
 }

@@ -19,23 +19,23 @@ public class DefaultGroupService implements GroupService {
     }
 
     @Override
-    public Group save(Group group) {
-        return groupRepository.save(group);
+    public List<Group> findAllByDepartmentId(Long departmentId) {
+        return groupRepository.findAllByDepartmentIdAndIsDeleted(departmentId, false);
     }
 
     @Override
     public List<Group> findAll() {
-        return groupRepository.findAll();
+        return groupRepository.findAllByIsDeleted(false);
     }
 
     @Override
     public Group findById(Long id) {
-        return groupRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Group with " + id + " not found!"));
+        return groupRepository.findByIdAndIsDeleted(id, false).orElseThrow(() -> new EntityNotFoundException("Group with " + id + " not found!"));
     }
 
     @Override
-    public List<Group> findAllByDepartmentId(Long departmentId) {
-        return groupRepository.retrieveGroupsByDepartmentId(departmentId);
+    public Group save(Group group) {
+        return groupRepository.save(group);
     }
 
     @Override

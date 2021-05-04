@@ -92,6 +92,10 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
 
     @Override
     public void delete(Long id) {
-        cabinetService.delete(id);
+        Cabinet cabinet = cabinetService.findById(id);
+
+        cabinet.setIsDeleted(true);
+
+        cabinetService.save(cabinet);
     }
 }

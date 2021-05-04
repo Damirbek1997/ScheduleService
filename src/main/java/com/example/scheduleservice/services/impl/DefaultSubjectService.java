@@ -20,12 +20,22 @@ public class DefaultSubjectService implements SubjectService {
 
     @Override
     public List<Subject> findAll() {
-        return subjectRepository.findAll();
+        return subjectRepository.findAllByIsDeleted(false);
+    }
+
+    @Override
+    public List<Subject> findAllByDepartmentId(Long departmentId) {
+        return subjectRepository.findAllByDepartmentIdAndIsDeleted(departmentId, false);
+    }
+
+    @Override
+    public List<Subject> findAllByTeacherId(Long teacherId) {
+        return subjectRepository.findAllByTeacherIdAndIsDeleted(teacherId, false);
     }
 
     @Override
     public Subject findById(Long id) {
-        return subjectRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Subject with " + id + "not found!"));
+        return subjectRepository.findByIdAndIsDeleted(id, false).orElseThrow(() -> new EntityNotFoundException("Subject with " + id + "not found!"));
     }
 
     @Override

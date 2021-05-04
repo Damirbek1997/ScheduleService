@@ -19,6 +19,16 @@ public class DefaultFacultyService implements FacultyService {
     }
 
     @Override
+    public List<Faculty> findAll() {
+        return facultyRepository.findAllByIsDeleted(false);
+    }
+
+    @Override
+    public Faculty findById(Long id) {
+        return facultyRepository.findByIdAndIsDeleted(id, false).orElseThrow(() -> new EntityNotFoundException("Faculty with " + id + " not found!"));
+    }
+
+    @Override
     public Faculty save(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
@@ -26,15 +36,5 @@ public class DefaultFacultyService implements FacultyService {
     @Override
     public void delete(Long id) {
         facultyRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Faculty> findAll() {
-        return facultyRepository.findAll();
-    }
-
-    @Override
-    public Faculty findById(Long id) {
-        return facultyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Faculty with " + id + " not found!"));
     }
 }

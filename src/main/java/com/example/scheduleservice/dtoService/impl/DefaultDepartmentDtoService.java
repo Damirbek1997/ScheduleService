@@ -31,7 +31,7 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
 
     @Override
     public List<DepartmentDto> findAllByFacultyId(Long facultyId) {
-        List<Department> departments = departmentService.findByFacultyId(facultyId);
+        List<Department> departments = departmentService.findAllByFacultyId(facultyId);
         List<DepartmentDto> departmentDtos = new ArrayList<>();
 
         departments.forEach(department -> {
@@ -90,6 +90,10 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
 
     @Override
     public void delete(Long id) {
-        departmentService.delete(id);
+        Department department = departmentService.findById(id);
+
+        department.setIsDeleted(true);
+
+        departmentService.save(department);
     }
 }

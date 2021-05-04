@@ -22,4 +22,10 @@ public class Teacher {
 
     @OneToOne
     private User user;
+
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<Subject> subjects;
+
+    @Column(name = "is_deleted", columnDefinition = "boolean default 'false'")
+    private Boolean isDeleted;
 }

@@ -17,4 +17,7 @@ public class Faculty {
     @Column(name = "faculty")
     @NotNull
     private String faculty;
+
+    @Column(name = "is_deleted", columnDefinition = "boolean default 'false'")
+    private Boolean isDeleted;
 }

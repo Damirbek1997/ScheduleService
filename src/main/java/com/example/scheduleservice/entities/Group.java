@@ -19,4 +19,7 @@ public class Group {
 
     @ManyToOne
     private Department department;
+
+    @Column(name = "is_deleted", columnDefinition = "boolean default 'false'")
+    private Boolean isDeleted;
 }

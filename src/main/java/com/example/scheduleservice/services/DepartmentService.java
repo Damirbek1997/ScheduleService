@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DepartmentService {
     List<Department> findAll();
-    List<Department> findByFacultyId(Long facultyId);
+    List<Department> findAllByFacultyId(Long facultyId);
     Department findById(Long id);
     Department save(Department department);
     void delete(Long id);

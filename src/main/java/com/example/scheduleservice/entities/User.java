@@ -24,9 +24,9 @@ public class User {
     @NotNull
     private Role role;
 
-    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.DETACH})
+    @OneToOne
     private Teacher teacher;
 
-    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.DETACH})
+    @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Student student;
 }

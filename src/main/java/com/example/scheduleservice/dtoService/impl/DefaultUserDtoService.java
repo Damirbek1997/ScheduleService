@@ -8,16 +8,14 @@ import com.example.scheduleservice.dtoService.StudentDtoService;
 import com.example.scheduleservice.dtoService.TeacherDtoService;
 import com.example.scheduleservice.dtoService.UserDtoService;
 import com.example.scheduleservice.entities.Student;
+import com.example.scheduleservice.entities.Subject;
 import com.example.scheduleservice.entities.Teacher;
 import com.example.scheduleservice.entities.User;
 import com.example.scheduleservice.exceptions.InappropriatePasswordException;
 import com.example.scheduleservice.mapper.StudentMapper;
 import com.example.scheduleservice.mapper.TeacherMapper;
 import com.example.scheduleservice.mapper.UserMapper;
-import com.example.scheduleservice.services.RoleService;
-import com.example.scheduleservice.services.StudentService;
-import com.example.scheduleservice.services.TeacherService;
-import com.example.scheduleservice.services.UserService;
+import com.example.scheduleservice.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +37,12 @@ public class DefaultUserDtoService implements UserDtoService {
     private final StudentMapper studentMapper;
     private final TeacherService teacherService;
     private final StudentService studentService;
+    private final SubjectService subjectService;
 
     @Autowired
-    public DefaultUserDtoService(UserMapper userMapper, UserService userService, RoleService roleService, TeacherDtoService teacherDtoService, TeacherMapper teacherMapper, StudentDtoService studentDtoService, StudentMapper studentMapper, TeacherService teacherService, StudentService studentService) {
+    public DefaultUserDtoService(UserMapper userMapper, UserService userService, RoleService roleService, TeacherDtoService teacherDtoService,
+                                 TeacherMapper teacherMapper, StudentDtoService studentDtoService, StudentMapper studentMapper,
+                                 TeacherService teacherService, StudentService studentService, SubjectService subjectService) {
         this.userMapper = userMapper;
         this.userService = userService;
         this.roleService = roleService;
@@ -51,6 +52,7 @@ public class DefaultUserDtoService implements UserDtoService {
         this.studentMapper = studentMapper;
         this.teacherService = teacherService;
         this.studentService = studentService;
+        this.subjectService = subjectService;
     }
 
     @Override
@@ -245,19 +247,29 @@ public class DefaultUserDtoService implements UserDtoService {
     }
 
     @Override
-    public void delete(Long id) {
-        userService.delete(id);
+    public void deleteTeacher(Long teacherId) {
+        Teacher teacher = teacherService.findById(teacherId);
+
+        teacher.setIsDeleted(true);
+        teacher.getSubjects().forEach(subject -> subject.setTeacher(null));
+
+        List<Subject> subjects = subjectService.findAllByTeacherId(teacherId);
+
+        subjects.forEach(subject -> {
+            subject.setTeacher(null);
+
+            subjectService.save(subject);
+        });
+
+        teacherService.save(teacher);
     }
 
     @Override
-    public void deleteTeacher(Long userId, Long teacherId) {
-        teacherDtoService.delete(teacherId);
-        userService.delete(userId);
-    }
+    public void deleteStudent(Long studentId) {
+        Student student = studentService.findById(studentId);
 
-    @Override
-    public void deleteStudent(Long userId, Long studentId) {
-        studentDtoService.delete(studentId);
-        userService.delete(userId);
+        student.setIsDeleted(true);
+
+        studentService.save(student);
     }
 }

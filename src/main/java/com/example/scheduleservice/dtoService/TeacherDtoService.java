@@ -11,5 +11,4 @@ public interface TeacherDtoService {
     TeacherDto findById(Long id);
     TeacherDto save(CreateTeacherDto createTeacherDto);
     TeacherDto update(Long id, UpdateTeacherDto updateTeacherDto);
-    void delete(Long id);
 }

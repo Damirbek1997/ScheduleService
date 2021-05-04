@@ -90,6 +90,10 @@ public class DefaultGroupDtoService implements GroupDtoService {
 
     @Override
     public void delete(Long id) {
-        groupService.delete(id);
+        Group group = groupService.findById(id);
+
+        group.setIsDeleted(true);
+
+        groupService.save(group);
     }
 }

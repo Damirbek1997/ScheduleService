@@ -88,21 +88,15 @@ public class UserController {
         return userDtoService.updateStudent(id, updateUserDto);
     }
 
-    @DeleteMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    private void delete(@RequestParam Long id) {
-        userDtoService.delete(id);
-    }
-
     @DeleteMapping("/teacher")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    private void deleteTeacher(@RequestParam Long userId, @RequestParam Long teacherId) {
-        userDtoService.deleteTeacher(userId, teacherId);
+    private void deleteTeacher(@RequestParam Long teacherId) {
+        userDtoService.deleteTeacher(teacherId);
     }
 
     @DeleteMapping("/student")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    private void deleteStudent(@RequestParam Long userId, @RequestParam Long studentId) {
-        userDtoService.deleteStudent(userId, studentId);
+    private void deleteStudent(@RequestParam Long studentId) {
+        userDtoService.deleteStudent(studentId);
     }
 }

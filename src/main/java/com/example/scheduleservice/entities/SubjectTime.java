@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "schedule_time")
+@Table(name = "subject_times")
 public class SubjectTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

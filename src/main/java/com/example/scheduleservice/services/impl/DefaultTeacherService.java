@@ -19,6 +19,16 @@ public class DefaultTeacherService implements TeacherService {
     }
 
     @Override
+    public List<Teacher> findAll() {
+        return teacherRepository.findAllByIsDeleted(false);
+    }
+
+    @Override
+    public Teacher findById(Long id) {
+        return teacherRepository.findByIdAndIsDeleted(id, false).orElseThrow(() -> new EntityNotFoundException("Teacher with " + id + " not found!"));
+    }
+
+    @Override
     public Teacher save(Teacher teacher) {
         return teacherRepository.save(teacher);
     }
@@ -26,15 +36,5 @@ public class DefaultTeacherService implements TeacherService {
     @Override
     public void delete(Long id) {
         teacherRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Teacher> findAll() {
-        return teacherRepository.findAll();
-    }
-
-    @Override
-    public Teacher findById(Long id) {
-        return teacherRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Teacher with " + id + " not found!"));
     }
 }
