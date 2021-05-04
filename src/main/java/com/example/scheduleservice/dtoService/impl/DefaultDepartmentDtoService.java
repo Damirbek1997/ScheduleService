@@ -67,6 +67,7 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
         Department department = new Department();
 
         department.setDepartment(createDepartmentDto.getDepartment());
+        department.setIsDeleted(false);
 
         if (createDepartmentDto.getFacultyId() != null) {
             department.setFaculty(facultyService.findById(createDepartmentDto.getFacultyId()));

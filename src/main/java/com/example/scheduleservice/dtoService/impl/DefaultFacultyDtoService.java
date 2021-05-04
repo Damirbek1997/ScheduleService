@@ -50,6 +50,7 @@ public class DefaultFacultyDtoService implements FacultyDtoService {
         Faculty faculty = new Faculty();
 
         faculty.setFaculty(createFacultyDto.getFaculty());
+        faculty.setIsDeleted(false);
 
         return facultyMapper.toFacultyDto(facultyService.save(faculty));
     }

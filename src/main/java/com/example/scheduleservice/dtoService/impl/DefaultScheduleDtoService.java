@@ -77,6 +77,7 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
         schedule.setSubject(subjectService.findById(createScheduleDto.getSubjectId()));
         schedule.setSubjectTime(subjectTimeService.findById(createScheduleDto.getSubjectTimeId()));
         schedule.setCabinet(cabinetService.findById(createScheduleDto.getCabinetId()));
+        schedule.setIsDeleted(false);
 
         if (schedule.getGroup() != null) {
             schedule.setGroup(groupService.findById(createScheduleDto.getGroupId()));

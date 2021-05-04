@@ -67,6 +67,7 @@ public class DefaultGroupDtoService implements GroupDtoService {
         Group group = new Group();
 
         group.setGroupName(createGroupDto.getGroupName());
+        group.setIsDeleted(false);
 
         if (createGroupDto.getDepartmentId() != null) {
             group.setDepartment(departmentService.findById(createGroupDto.getDepartmentId()));

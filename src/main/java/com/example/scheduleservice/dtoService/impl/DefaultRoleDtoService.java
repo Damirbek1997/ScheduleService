@@ -50,6 +50,7 @@ public class DefaultRoleDtoService implements RoleDtoService {
         Role role = new Role();
 
         role.setRole(createRoleDto.getRole());
+        role.setIsDeleted(false);
 
         return roleMapper.toRoleDto(roleService.save(role));
     }

@@ -77,6 +77,7 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
         Cabinet cabinet = new Cabinet();
 
         cabinet.setCabinet(createCabinetDto.getCabinet());
+        cabinet.setIsDeleted(false);
 
         return cabinetMapper.toCabinetDto(cabinetService.save(cabinet));
     }

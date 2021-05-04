@@ -51,6 +51,7 @@ public class DefaultTeacherDtoService implements TeacherDtoService {
 
         teacher.setFirstname(createTeacherDto.getFirstname());
         teacher.setLastname(createTeacherDto.getLastname());
+        teacher.setIsDeleted(false);
 
         return teacherMapper.toTeacherDto(teacherService.save(teacher));
     }
