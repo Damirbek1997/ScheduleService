@@ -23,7 +23,7 @@ public class SubjectController {
         return subjectDtoService.findAll();
     }
 
-    @GetMapping("/getByTeacherId/{departmentId}")
+    @GetMapping("/getByDepartmentId/{departmentId}")
     private List<SubjectDto> getAllByDepartmentId(@PathVariable("departmentId") Long departmentId) {
         return subjectDtoService.findAllByDepartmentId(departmentId);
     }
