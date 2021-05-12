@@ -251,11 +251,7 @@ public class DefaultUserDtoService implements UserDtoService {
         Teacher teacher = teacherService.findById(teacherId);
 
         teacher.setIsDeleted(true);
-        teacher.getSubjects().forEach(subject -> subject.setTeacher(null));
-
-        List<Subject> subjects = subjectService.findAllByTeacherId(teacherId);
-
-        subjects.forEach(subject -> {
+        teacher.getSubjects().forEach(subject -> {
             subject.setTeacher(null);
 
             subjectService.save(subject);

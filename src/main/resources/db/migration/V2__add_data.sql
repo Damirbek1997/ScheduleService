@@ -12,8 +12,8 @@ values ('COM-17b', 1), ('ELN-17b', 2), ('AMI-17b', 3), ('TTSe-17b', 4), ('PHe-17
 insert into roles (role)
 values ('ROLE_ADMIN'), ('ROLE_TEACHER'), ('ROLE_STUDENT');
 
-insert into teachers (firstname, lastname)
-values ('Ruslan', 'Isaev'), ('Burul', 'Shambetova');
+insert into teachers (firstname, lastname, is_deleted)
+values ('Ruslan', 'Isaev', false), ('Burul', 'Shambetova', false);
 
 insert into users (email, password, role_id, teacher_id, student_id)
 values ('admin', 'admin', 1, null, null), ('teacher', 'ruslan', 2, 1, null), ('teacher2', 'burul', 2, 2, null);

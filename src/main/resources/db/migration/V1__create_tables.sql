@@ -41,7 +41,7 @@ create table teachers
     id         BIGSERIAL   primary key not null,
     firstname  varchar(250)            not null,
     lastname   varchar(250)            not null,
-    is_deleted boolean                default false
+    is_deleted boolean                 default false
 );
 
 create table students
@@ -76,13 +76,12 @@ create table schedule
 
 create table users
 (
-    id         BIGSERIAL   primary key not null,
+    id         BIGSERIAL   primary key  not null,
     email      varchar(250)             not null,
     password   varchar(250)             not null,
     role_id    bigint                   not null references roles(id),
     student_id bigint                            references students(id) on delete cascade,
-    teacher_id bigint                            references teachers(id) on delete cascade,
-    is_deleted boolean                  default false
+    teacher_id bigint                            references teachers(id) on delete cascade
 );
 
 alter table teachers
