@@ -72,7 +72,6 @@ public class DefaultStudentDtoService implements StudentDtoService {
 
         student.setFirstname(createStudentDto.getFirstname());
         student.setLastname(createStudentDto.getLastname());
-        student.setIsDeleted(false);
 
         if (createStudentDto.getGroupId() != null) {
             student.setGroup(groupService.findById(createStudentDto.getGroupId()));

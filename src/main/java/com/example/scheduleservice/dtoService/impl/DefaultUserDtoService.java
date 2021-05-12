@@ -149,6 +149,7 @@ public class DefaultUserDtoService implements UserDtoService {
 
         if (createUserDto.getCreateStudentDto() != null) {
             savedStudent = studentMapper.toStudent(studentDtoService.save(createUserDto.getCreateStudentDto()));
+            savedStudent.setIsDeleted(false);
 
             user.setStudent(savedStudent);
         }
