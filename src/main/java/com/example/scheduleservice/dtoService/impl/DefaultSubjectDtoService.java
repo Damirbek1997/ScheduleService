@@ -82,6 +82,7 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
     @Override
     public SubjectDto save(CreateSubjectDto createSubjectDto) {
         Subject subject = new Subject();
+        subject.setIsDeleted(false);
 
         if (createSubjectDto.getTeacherId() != null) {
             subject.setTeacher(teacherService.findById(createSubjectDto.getTeacherId()));

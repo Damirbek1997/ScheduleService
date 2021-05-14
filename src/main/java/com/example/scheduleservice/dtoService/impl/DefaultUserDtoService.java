@@ -123,6 +123,7 @@ public class DefaultUserDtoService implements UserDtoService {
 
         if (createUserDto.getCreateTeacherDto() != null) {
             savedTeacher = teacherMapper.toTeacher(teacherDtoService.save(createUserDto.getCreateTeacherDto()));
+            savedTeacher.setIsDeleted(false);
 
             user.setTeacher(savedTeacher);
         }

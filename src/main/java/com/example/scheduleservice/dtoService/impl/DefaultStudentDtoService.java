@@ -67,7 +67,7 @@ public class DefaultStudentDtoService implements StudentDtoService {
     }
 
     @Override
-    public StudentDto save(CreateStudentDto createStudentDto) {
+    public StudentDto save(CreateStudentDto createStudentDto) { 
         Student student = new Student();
 
         student.setFirstname(createStudentDto.getFirstname());
