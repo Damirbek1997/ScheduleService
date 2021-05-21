@@ -7,6 +7,7 @@ import com.example.scheduleservice.dto.crud.UpdateScheduleDto;
 import java.util.List;
 
 public interface ScheduleDtoService {
+    List<ScheduleDto> findByTeacherId(Long teacherId);
     List<ScheduleDto> findAllByGroupId(Long groupId);
     List<ScheduleDto> findAll();
     ScheduleDto findById(Long id);

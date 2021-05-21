@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
+    @Query(value = "SELECT s FROM Schedule s where s.subject.teacher.id = :teacherId and s.isDeleted = :isDeleted")
+    List<Schedule> findByTeacherIdAndIsDeleted(Long teacherId, Boolean isDeleted);
     List<Schedule> findAllByGroupIdAndIsDeleted(Long groupId, Boolean isDeleted);
     List<Schedule> findAllByIsDeleted(Boolean isDeleted);
     Optional<Schedule> findByIdAndIsDeleted(Long id, Boolean isDeleted);

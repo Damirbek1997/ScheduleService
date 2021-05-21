@@ -35,6 +35,11 @@ public class ScheduleController {
         return scheduleDtoService.findById(id);
     }
 
+    @GetMapping("/getByTeacherId/{teacherId}")
+    private List<ScheduleDto> getByTeacherId(@PathVariable("teacherId") Long teacherId) {
+        return scheduleDtoService.findByTeacherId(teacherId);
+    }
+
     @PostMapping
     private ScheduleDto create(@RequestBody CreateScheduleDto createScheduleDto) {
         return scheduleDtoService.save(createScheduleDto);

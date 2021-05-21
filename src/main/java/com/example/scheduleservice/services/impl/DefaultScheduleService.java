@@ -19,6 +19,11 @@ public class DefaultScheduleService implements ScheduleService {
     }
 
     @Override
+    public List<Schedule> findByTeacherId(Long teacherId) {
+        return scheduleRepository.findByTeacherIdAndIsDeleted(teacherId, false);
+    }
+
+    @Override
     public List<Schedule> findAllByGroupId(Long groupId) {
         return scheduleRepository.findAllByGroupIdAndIsDeleted(groupId, false);
     }
