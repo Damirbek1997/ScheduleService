@@ -20,6 +20,11 @@ public class ScheduleController {
         this.scheduleDtoService = scheduleDtoService;
     }
 
+    @GetMapping("/getByTeacherId/{teacherId}")
+    private List<ScheduleDto> getAllByTeacherId(@PathVariable("teacherId") Long teacherId) {
+        return scheduleDtoService.findByTeacherId(teacherId);
+    }
+
     @GetMapping("/getAllByGroupId/{groupId}")
     private List<ScheduleDto> getAllByGroupId(@PathVariable("groupId") Long groupId) {
         return scheduleDtoService.findAllByGroupId(groupId);
@@ -33,11 +38,6 @@ public class ScheduleController {
     @GetMapping("/{id}")
     private ScheduleDto getById(@PathVariable("id") Long id) {
         return scheduleDtoService.findById(id);
-    }
-
-    @GetMapping("/getByTeacherId/{teacherId}")
-    private List<ScheduleDto> getByTeacherId(@PathVariable("teacherId") Long teacherId) {
-        return scheduleDtoService.findByTeacherId(teacherId);
     }
 
     @PostMapping
