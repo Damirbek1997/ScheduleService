@@ -31,3 +31,15 @@ values ('CS 101: Programming Languages 1', 1, 1), ('CS 102: Programming Language
 
 insert into schedule (semester, week_day, cabinet_id, group_id, subject_id, subject_time_id)
 values (false, 'monday', 12, 1, 1, 1), (false, 'monday', 10, 1, 2, 3), (false, 'monday', 14, 1, 3, 5), (false, 'monday', 16, 1, 4, 7);
+
+insert into schedule (semester, week_day, cabinet_id, group_id, subject_id, subject_time_id)
+values (false, 'tuesday', 12, 1, 1, 1), (false, 'tuesday', 10, 1, 2, 3), (false, 'tuesday', 14, 1, 3, 5), (false, 'tuesday', 16, 1, 4, 7);
+
+insert into schedule (semester, week_day, cabinet_id, group_id, subject_id, subject_time_id)
+values (false, 'wednesday', 12, 1, 1, 1), (false, 'wednesday', 10, 1, 2, 3), (false, 'wednesday', 14, 1, 3, 5), (false, 'wednesday', 16, 1, 4, 7);
+
+insert into schedule (semester, week_day, cabinet_id, group_id, subject_id, subject_time_id)
+values (false, 'thursday', 12, 1, 1, 1), (false, 'thursday', 10, 1, 2, 3), (false, 'thursday', 14, 1, 3, 5), (false, 'thursday', 16, 1, 4, 7);
+
+insert into schedule (semester, week_day, cabinet_id, group_id, subject_id, subject_time_id)
+values (false, 'friday', 12, 1, 1, 1), (false, 'friday', 10, 1, 2, 3), (false, 'friday', 14, 1, 3, 5), (false, 'friday', 16, 1, 4, 7);
