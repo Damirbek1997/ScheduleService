@@ -1,8 +1,9 @@
 create table cabinets
 (
-    id         bigserial    primary key not null,
-    cabinet    varchar(255)             not null,
-    is_deleted boolean                  default false
+    id              bigserial    primary key not null,
+    cabinet         varchar(255)             not null,
+    subject_time_id bigint                   not null references subject_times(id),
+    is_deleted      boolean                  default false
 );
 
 create table roles
@@ -11,7 +12,6 @@ create table roles
     role       varchar(255)             not null,
     is_deleted boolean                  default false
 );
-
 
 create table faculties
 (
@@ -68,7 +68,6 @@ create table schedule
     semester        varchar(255)             not null,
     week_day        varchar(255)             not null,
     subject_id      bigint                   not null references subjects(id),
-    subject_time_id bigint                   not null references subject_times(id),
     group_id        bigint                            references groups(id),
     cabinet_id      bigint                   not null references cabinets(id),
     is_deleted      boolean                  default  false

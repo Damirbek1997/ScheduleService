@@ -13,6 +13,8 @@ public class DefaultCabinetMapper implements CabinetMapper {
 
         cabinetDto.setId(cabinet.getId());
         cabinetDto.setCabinet(cabinet.getCabinet());
+        cabinetDto.setSubjectTimeId(cabinet.getSubjectTime().getId());
+        cabinetDto.setTime(cabinet.getSubjectTime().getTime());
 
         return cabinetDto;
     }

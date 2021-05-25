@@ -7,8 +7,10 @@ import lombok.Data;
 public class CreateSubjectDto {
     @NotNull
     private String subject;
+
     @NotNull
     private Long teacherId;
+
     @NotNull
     private Long departmentId;
 }

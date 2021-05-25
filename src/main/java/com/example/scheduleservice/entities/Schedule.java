@@ -24,10 +24,6 @@ public class Schedule {
     @NotNull
     private Subject subject;
 
-    @ManyToOne
-    @NotNull
-    private SubjectTime subjectTime;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Group group;
 

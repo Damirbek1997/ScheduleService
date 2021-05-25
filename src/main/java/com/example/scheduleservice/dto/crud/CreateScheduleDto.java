@@ -18,8 +18,5 @@ public class CreateScheduleDto {
     private Long subjectId;
 
     @NotNull
-    private Long subjectTimeId;
-
-    @NotNull
     private Long cabinetId;
 }

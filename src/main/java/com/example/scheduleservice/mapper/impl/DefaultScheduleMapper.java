@@ -26,11 +26,6 @@ public class DefaultScheduleMapper implements ScheduleMapper {
             }
         }
 
-        if (schedule.getSubjectTime() != null) {
-            scheduleDto.setSubjectTimeId(schedule.getSubjectTime().getId());
-            scheduleDto.setTime(schedule.getSubjectTime().getTime());
-        }
-
         if (schedule.getGroup() != null) {
             scheduleDto.setGroupId(schedule.getGroup().getId());
             scheduleDto.setGroup(schedule.getGroup().getGroupName());
@@ -49,6 +44,11 @@ public class DefaultScheduleMapper implements ScheduleMapper {
         if (schedule.getCabinet() != null) {
             scheduleDto.setCabinetId(schedule.getCabinet().getId());
             scheduleDto.setCabinet(schedule.getCabinet().getCabinet());
+
+            if (schedule.getCabinet().getSubjectTime() != null) {
+                scheduleDto.setSubjectTimeId(schedule.getCabinet().getSubjectTime().getId());
+                scheduleDto.setTime(schedule.getCabinet().getSubjectTime().getTime());
+            }
         }
 
         return scheduleDto;

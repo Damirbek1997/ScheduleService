@@ -15,9 +15,6 @@ public class ScheduleDto {
     private String firstname;
     private String lastname;
 
-    private Long subjectTimeId;
-    private String time;
-
     private Long groupId;
     private String group;
 
@@ -29,4 +26,7 @@ public class ScheduleDto {
 
     private Long cabinetId;
     private String cabinet;
+
+    private Long subjectTimeId;
+    private String time;
 }

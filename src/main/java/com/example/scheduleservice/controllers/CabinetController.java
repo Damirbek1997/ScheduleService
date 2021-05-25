@@ -35,18 +35,28 @@ public class CabinetController {
         return cabinetDtoService.findById(id);
     }
 
+    @GetMapping("/{cabinet}")
+    private List<CabinetDto> getAllByCabinet(@PathVariable("cabinet") String cabinet) {
+        return cabinetDtoService.findAllByCabinet(cabinet);
+    }
+
+    @GetMapping("/{subjectTimeId}")
+    private List<CabinetDto> getAllBySubjectTimeId(@PathVariable("subjectTimeId") Long subjectTimeId) {
+        return cabinetDtoService.findAllBySubjectTimeId(subjectTimeId);
+    }
+
     @PostMapping
-    private CabinetDto create(@RequestBody CreateCabinetDto createCabinetDto) {
+    private List<CabinetDto> create(@RequestBody CreateCabinetDto createCabinetDto) {
         return cabinetDtoService.save(createCabinetDto);
     }
 
-    @PutMapping("/{id}")
-    private CabinetDto change(@PathVariable("id") Long id, @RequestBody UpdateCabinetDto updateCabinetDto) {
-        return cabinetDtoService.update(id, updateCabinetDto);
+    @PutMapping
+    private List<CabinetDto> change(@RequestBody UpdateCabinetDto updateCabinetDto) {
+        return cabinetDtoService.update(updateCabinetDto);
     }
 
-    @DeleteMapping("/{id}")
-    private void delete(@PathVariable("id") Long id) {
-        cabinetDtoService.delete(id);
+    @DeleteMapping("/{cabinet}")
+    private void delete(@PathVariable("cabinet") String cabinet) {
+        cabinetDtoService.delete(cabinet);
     }
 }

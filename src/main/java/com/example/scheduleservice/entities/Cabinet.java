@@ -18,6 +18,10 @@ public class Cabinet {
     @NotNull
     private String cabinet;
 
+    @ManyToOne
+    @NotNull
+    private SubjectTime subjectTime;
+
     @Column(name = "is_deleted", columnDefinition = "boolean default 'false'")
     private Boolean isDeleted;
 }

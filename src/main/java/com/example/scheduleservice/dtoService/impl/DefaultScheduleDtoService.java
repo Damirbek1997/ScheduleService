@@ -20,17 +20,15 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
     private final ScheduleMapper scheduleMapper;
     private final ScheduleService scheduleService;
     private final SubjectService subjectService;
-    private final SubjectTimeService subjectTimeService;
     private final GroupService groupService;
     private final CabinetService cabinetService;
 
     @Autowired
     public DefaultScheduleDtoService(ScheduleService scheduleService, ScheduleMapper scheduleMapper, SubjectService subjectService,
-                                     SubjectTimeService subjectTimeService, GroupService groupService, CabinetService cabinetService) {
+                                     GroupService groupService, CabinetService cabinetService) {
         this.scheduleService = scheduleService;
         this.scheduleMapper = scheduleMapper;
         this.subjectService = subjectService;
-        this.subjectTimeService = subjectTimeService;
         this.groupService = groupService;
         this.cabinetService = cabinetService;
     }
@@ -90,7 +88,6 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
         schedule.setWeekDay(createScheduleDto.getWeekDay());
         schedule.setSubject(subjectService.findById(createScheduleDto.getSubjectId()));
         schedule.setGroup(groupService.findById(createScheduleDto.getGroupId()));
-        schedule.setSubjectTime(subjectTimeService.findById(createScheduleDto.getSubjectTimeId()));
         schedule.setCabinet(cabinetService.findById(createScheduleDto.getCabinetId()));
         schedule.setIsDeleted(false);
 
@@ -106,10 +103,6 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
 
         if (updateScheduleDto.getSubjectId() != null) {
             schedule.setSubject(subjectService.findById(updateScheduleDto.getSubjectId()));
-        }
-
-        if (updateScheduleDto.getSubjectTimeId() != null) {
-            schedule.setSubjectTime(subjectTimeService.findById(updateScheduleDto.getSubjectTimeId()));
         }
 
         if (updateScheduleDto.getGroupId() != null) {

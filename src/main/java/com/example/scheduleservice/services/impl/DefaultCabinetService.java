@@ -24,13 +24,23 @@ public class DefaultCabinetService implements CabinetService {
     }
 
     @Override
+    public Cabinet findById(Long id) {
+        return cabinetRepository.findByIdAndIsDeleted(id, false).orElseThrow(() -> new EntityNotFoundException("Cabinet with id " + id + " not found!"));
+    }
+
+    @Override
     public List<Cabinet> findAllFreeCabinets(List<Long> busyCabinets) {
         return cabinetRepository.retrieveAllFreeCabinetsNotInList(busyCabinets);
     }
 
     @Override
-    public Cabinet findById(Long id) {
-        return cabinetRepository.findByIdAndIsDeleted(id, false).orElseThrow(() -> new EntityNotFoundException("Cabinet with " + id + " not found!"));
+    public List<Cabinet> findAllByCabinet(String cabinet) {
+        return cabinetRepository.findAllByCabinetAndIsDeleted(cabinet, false);
+    }
+
+    @Override
+    public List<Cabinet> findAllBySubjectTimeId(Long subjectTimeId) {
+        return cabinetRepository.findAllBySubjectTimeIdAndIsDeleted(subjectTimeId, false);
     }
 
     @Override

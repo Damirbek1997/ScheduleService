@@ -9,6 +9,7 @@ import com.example.scheduleservice.entities.Schedule;
 import com.example.scheduleservice.mapper.CabinetMapper;
 import com.example.scheduleservice.services.CabinetService;
 import com.example.scheduleservice.services.ScheduleService;
+import com.example.scheduleservice.services.SubjectTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +23,14 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
     private final CabinetMapper cabinetMapper;
     private final CabinetService cabinetService;
     private final ScheduleService scheduleService;
+    private final SubjectTimeService subjectTimeService;
 
     @Autowired
-    public DefaultCabinetDtoService(CabinetService cabinetService, CabinetMapper cabinetMapper, ScheduleService scheduleService) {
+    public DefaultCabinetDtoService(CabinetService cabinetService, CabinetMapper cabinetMapper, ScheduleService scheduleService, SubjectTimeService subjectTimeService) {
         this.cabinetService = cabinetService;
         this.cabinetMapper = cabinetMapper;
         this.scheduleService = scheduleService;
+        this.subjectTimeService = subjectTimeService;
     }
 
     @Override
@@ -36,11 +39,7 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
         List<CabinetDto> cabinetDtos = new ArrayList<>();
         List<Long> busyCabinets = new ArrayList<>();
 
-        schedules.forEach(schedule -> {
-            Long cabinetId = schedule.getCabinet().getId();
-
-            busyCabinets.add(cabinetId);
-        });
+        schedules.forEach(schedule -> busyCabinets.add(schedule.getCabinet().getId()));
 
         List<Cabinet> freeCabinets = cabinetService.findAllFreeCabinets(busyCabinets);
 
@@ -59,9 +58,9 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
         List<CabinetDto> cabinetDtos = new ArrayList<>();
 
         cabinets.forEach(cabinet -> {
-            CabinetDto groupDto = cabinetMapper.toCabinetDto(cabinet);
+            CabinetDto cabinetDto = cabinetMapper.toCabinetDto(cabinet);
 
-            cabinetDtos.add(groupDto);
+            cabinetDtos.add(cabinetDto);
         });
 
         return cabinetDtos;
@@ -73,30 +72,74 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
     }
 
     @Override
-    public CabinetDto save(CreateCabinetDto createCabinetDto) {
-        Cabinet cabinet = new Cabinet();
+    public List<CabinetDto> findAllByCabinet(String cabinet) {
+        List<Cabinet> cabinets = cabinetService.findAllByCabinet(cabinet);
+        List<CabinetDto> cabinetDtos = new ArrayList<>();
 
-        cabinet.setCabinet(createCabinetDto.getCabinet());
-        cabinet.setIsDeleted(false);
+        cabinets.forEach(cabinet1 -> {
+            CabinetDto cabinetDto = cabinetMapper.toCabinetDto(cabinet1);
 
-        return cabinetMapper.toCabinetDto(cabinetService.save(cabinet));
+            cabinetDtos.add(cabinetDto);
+        });
+
+        return cabinetDtos;
     }
 
     @Override
-    public CabinetDto update(Long id, UpdateCabinetDto updateCabinetDto) {
-        Cabinet cabinet = cabinetService.findById(id);
+    public List<CabinetDto> findAllBySubjectTimeId(Long subjectTimeId) {
+        List<Cabinet> cabinets = cabinetService.findAllBySubjectTimeId(subjectTimeId);
+        List<CabinetDto> cabinetDtos = new ArrayList<>();
 
-        cabinet.setCabinet(updateCabinetDto.getCabinet());
+        cabinets.forEach(cabinet1 -> {
+            CabinetDto cabinetDto = cabinetMapper.toCabinetDto(cabinet1);
 
-        return cabinetMapper.toCabinetDto(cabinetService.save(cabinet));
+            cabinetDtos.add(cabinetDto);
+        });
+
+        return cabinetDtos;
     }
 
     @Override
-    public void delete(Long id) {
-        Cabinet cabinet = cabinetService.findById(id);
+    public List<CabinetDto> save(CreateCabinetDto createCabinetDto) {
+        List<CabinetDto> cabinetDtos = new ArrayList<>();
 
-        cabinet.setIsDeleted(true);
+        for (long i = 1L; i <= 8L; i++) {
+            Cabinet cabinet = new Cabinet();
 
-        cabinetService.save(cabinet);
+            cabinet.setCabinet(createCabinetDto.getCabinet());
+            cabinet.setSubjectTime(subjectTimeService.findById(i));
+            cabinet.setIsDeleted(false);
+
+            cabinetDtos.add(cabinetMapper.toCabinetDto(cabinetService.save(cabinet)));
+        }
+
+        return cabinetDtos;
+    }
+
+    @Override
+    public List<CabinetDto> update(UpdateCabinetDto updateCabinetDto) {
+        List<Cabinet> cabinets = cabinetService.findAllByCabinet(updateCabinetDto.getCabinet());
+        List<CabinetDto> cabinetDtos = new ArrayList<>();
+
+        cabinets.forEach(cabinet -> {
+            Cabinet oldCabinet = new Cabinet();
+
+            oldCabinet.setCabinet(cabinet.getCabinet());
+
+            cabinetDtos.add(cabinetMapper.toCabinetDto(cabinetService.save(cabinet)));
+        });
+
+        return cabinetDtos;
+    }
+
+    @Override
+    public void delete(String cabinet) {
+        List<Cabinet> oldCabinet = cabinetService.findAllByCabinet(cabinet);
+
+        oldCabinet.forEach(cabinet1 -> {
+            cabinet1.setIsDeleted(true);
+
+            cabinetService.save(cabinet1);
+        });
     }
 }

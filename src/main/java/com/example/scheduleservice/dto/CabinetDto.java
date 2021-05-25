@@ -6,4 +6,7 @@ import lombok.Data;
 public class CabinetDto {
     private Long id;
     private String cabinet;
+
+    private Long subjectTimeId;
+    private String time;
 }

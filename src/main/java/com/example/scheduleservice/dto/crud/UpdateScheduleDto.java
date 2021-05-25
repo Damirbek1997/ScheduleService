@@ -8,7 +8,6 @@ public class UpdateScheduleDto {
     private Boolean semester;
     private String weekDay;
     private Long subjectId;
-    private Long subjectTimeId;
     private Long groupId;
     private Long cabinetId;
 }
