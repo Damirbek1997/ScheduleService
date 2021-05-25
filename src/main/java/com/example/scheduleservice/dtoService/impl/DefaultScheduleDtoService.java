@@ -89,13 +89,10 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
         schedule.setSemester(createScheduleDto.getSemester());
         schedule.setWeekDay(createScheduleDto.getWeekDay());
         schedule.setSubject(subjectService.findById(createScheduleDto.getSubjectId()));
+        schedule.setGroup(groupService.findById(createScheduleDto.getGroupId()));
         schedule.setSubjectTime(subjectTimeService.findById(createScheduleDto.getSubjectTimeId()));
         schedule.setCabinet(cabinetService.findById(createScheduleDto.getCabinetId()));
         schedule.setIsDeleted(false);
-
-        if (schedule.getGroup() != null) {
-            schedule.setGroup(groupService.findById(createScheduleDto.getGroupId()));
-        }
 
         return scheduleMapper.toScheduleDto(scheduleService.save(schedule));
     }

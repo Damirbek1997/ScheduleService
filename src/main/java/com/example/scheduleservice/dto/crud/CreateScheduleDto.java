@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class CreateScheduleDto {
+    @NotNull
     private Long groupId;
 
     @NotNull
