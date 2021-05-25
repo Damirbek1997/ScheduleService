@@ -20,6 +20,16 @@ public class CabinetController {
         this.cabinetDtoService = cabinetDtoService;
     }
 
+    @GetMapping("/getAllBySubjectTimeId/{subjectTimeId}")
+    private List<CabinetDto> getAllBySubjectTimeId(@PathVariable("subjectTimeId") Long subjectTimeId) {
+        return cabinetDtoService.findAllBySubjectTimeId(subjectTimeId);
+    }
+
+    @GetMapping("/getAllByCabinet/{cabinet}")
+    private List<CabinetDto> getAllByCabinet(@PathVariable("cabinet") String cabinet) {
+        return cabinetDtoService.findAllByCabinet(cabinet);
+    }
+
     @GetMapping("/getAllFreeCabinets")
     private List<CabinetDto> getAllFreeCabinets() {
         return cabinetDtoService.findAllFreeCabinets();
@@ -33,16 +43,6 @@ public class CabinetController {
     @GetMapping("/{id}")
     private CabinetDto getById(@PathVariable("id") Long id) {
         return cabinetDtoService.findById(id);
-    }
-
-    @GetMapping("/{cabinet}")
-    private List<CabinetDto> getAllByCabinet(@PathVariable("cabinet") String cabinet) {
-        return cabinetDtoService.findAllByCabinet(cabinet);
-    }
-
-    @GetMapping("/{subjectTimeId}")
-    private List<CabinetDto> getAllBySubjectTimeId(@PathVariable("subjectTimeId") Long subjectTimeId) {
-        return cabinetDtoService.findAllBySubjectTimeId(subjectTimeId);
     }
 
     @PostMapping
