@@ -16,9 +16,9 @@ public interface UserDtoService {
     UserDto save(CreateUserDto createUserDto);
     UserDto saveTeacher(CreateUserDto createUserDto);
     UserDto saveStudent(CreateUserDto createUserDto);
-    UserDto update(Long id, UpdateUserDto updateUserDto);
-    UserDto updateTeacher(Long id, UpdateUserDto updateUserDto);
-    UserDto updateStudent(Long id, UpdateUserDto updateUserDto);
+    UserDto update(UpdateUserDto updateUserDto);
+    UserDto updateTeacher(Long userId, UpdateUserDto updateUserDto);
+    UserDto updateStudent(Long userId, UpdateUserDto updateUserDto);
     void updatePassword(Long id, UpdateUserPasswordDto updateUserPasswordDto) throws InappropriatePasswordException;
     void deleteTeacher(Long teacherId);
     void deleteStudent(Long studentId);

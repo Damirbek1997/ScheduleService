@@ -57,8 +57,8 @@ public class DefaultTeacherDtoService implements TeacherDtoService {
     }
 
     @Override
-    public TeacherDto update(Long id, UpdateTeacherDto updateTeacherDto) {
-        Teacher teacher = teacherService.findById(id);
+    public TeacherDto update(UpdateTeacherDto updateTeacherDto) {
+        Teacher teacher = teacherService.findById(updateTeacherDto.getTeacherId());
 
         teacher.setFirstname(updateTeacherDto.getFirstname());
         teacher.setLastname(updateTeacherDto.getLastname());

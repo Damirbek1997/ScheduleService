@@ -163,8 +163,8 @@ public class DefaultUserDtoService implements UserDtoService {
     }
 
     @Override
-    public UserDto update(Long id, UpdateUserDto updateUserDto) {
-        User user = userService.findById(id);
+    public UserDto update(UpdateUserDto updateUserDto) {
+        User user = userService.findById(updateUserDto.getId());
 
         // converting to entity
         user.setEmail(updateUserDto.getEmail());
@@ -177,8 +177,8 @@ public class DefaultUserDtoService implements UserDtoService {
     }
 
     @Override
-    public UserDto updateTeacher(Long id, UpdateUserDto updateUserDto) {
-        User user = userService.findById(id);
+    public UserDto updateTeacher(Long userId, UpdateUserDto updateUserDto) {
+        User user = userService.findById(userId);
 
         // converting to entity
         user.setEmail(updateUserDto.getEmail());
@@ -188,16 +188,15 @@ public class DefaultUserDtoService implements UserDtoService {
         }
 
         if (updateUserDto.getUpdateTeacherDto() != null) {
-            user.setTeacher(teacherMapper.toTeacher(teacherDtoService.update(updateUserDto.getUpdateTeacherDto().getId(),
-                    updateUserDto.getUpdateTeacherDto())));
+            user.setTeacher(teacherMapper.toTeacher(teacherDtoService.update(updateUserDto.getUpdateTeacherDto())));
         }
 
         return userMapper.toUserDto(userService.save(user));
     }
 
     @Override
-    public UserDto updateStudent(Long id, UpdateUserDto updateUserDto) {
-        User user = userService.findById(id);
+    public UserDto updateStudent(Long userId, UpdateUserDto updateUserDto) {
+        User user = userService.findById(userId);
 
         // converting to entity
         user.setEmail(updateUserDto.getEmail());
@@ -207,8 +206,7 @@ public class DefaultUserDtoService implements UserDtoService {
         }
 
         if (updateUserDto.getUpdateStudentDto() != null) {
-            user.setStudent(studentMapper.toStudent(studentDtoService.update(updateUserDto.getUpdateStudentDto().getId(),
-                    updateUserDto.getUpdateStudentDto())));
+            user.setStudent(studentMapper.toStudent(studentDtoService.update(updateUserDto.getUpdateStudentDto())));
         }
 
         return userMapper.toUserDto(userService.save(user));

@@ -89,8 +89,8 @@ public class DefaultStudentDtoService implements StudentDtoService {
     }
 
     @Override
-    public StudentDto update(Long id, UpdateStudentDto updateStudentDto) {
-        Student student = studentService.findById(id);
+    public StudentDto update(UpdateStudentDto updateStudentDto) {
+        Student student = studentService.findById(updateStudentDto.getStudentId());
 
         student.setFirstname(updateStudentDto.getFirstname());
         student.setLastname(updateStudentDto.getLastname());

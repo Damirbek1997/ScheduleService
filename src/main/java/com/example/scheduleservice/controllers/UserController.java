@@ -70,22 +70,22 @@ public class UserController {
         return userDtoService.saveStudent(createUserDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    private UserDto update(@PathVariable("id") Long id, @RequestBody UpdateUserDto updateUserDto) {
-        return userDtoService.update(id, updateUserDto);
+    private UserDto update(@RequestBody UpdateUserDto updateUserDto) {
+        return userDtoService.update(updateUserDto);
     }
 
-    @PutMapping("/teacher/{id}")
+    @PutMapping("/teacher/{userId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    private UserDto updateTeacher(@PathVariable("id") Long id, @RequestBody UpdateUserDto updateUserDto) {
-        return userDtoService.updateTeacher(id, updateUserDto);
+    private UserDto updateTeacher(@PathVariable("userId") Long userId, @RequestBody UpdateUserDto updateUserDto) {
+        return userDtoService.updateTeacher(userId, updateUserDto);
     }
 
-    @PutMapping("/student/{id}")
+    @PutMapping("/student/{userId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    private UserDto updateStudent(@PathVariable("id") Long id, @RequestBody UpdateUserDto updateUserDto) {
-        return userDtoService.updateStudent(id, updateUserDto);
+    private UserDto updateStudent(@PathVariable("userId") Long userId, @RequestBody UpdateUserDto updateUserDto) {
+        return userDtoService.updateStudent(userId, updateUserDto);
     }
 
     @DeleteMapping("/teacher")

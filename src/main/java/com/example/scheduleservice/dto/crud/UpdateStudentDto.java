@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class UpdateStudentDto {
-    private Long id;
+    private Long studentId;
     private String firstname;
     private String lastname;
     private Long groupId;
