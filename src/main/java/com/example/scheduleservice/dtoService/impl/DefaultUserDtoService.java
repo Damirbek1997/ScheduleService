@@ -164,7 +164,7 @@ public class DefaultUserDtoService implements UserDtoService {
 
     @Override
     public UserDto update(UpdateUserDto updateUserDto) {
-        User user = userService.findById(updateUserDto.getId());
+        User user = userService.findById(updateUserDto.getUserId());
 
         // converting to entity
         user.setEmail(updateUserDto.getEmail());
