@@ -81,6 +81,11 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
     }
 
     @Override
+    public ScheduleDto findByWeekDayAndScheduleTimeId(String weekDay, Long scheduleTimeId) {
+        return scheduleMapper.toScheduleDto(scheduleService.findByWeekDayAndScheduleTimeId(weekDay, scheduleTimeId));
+    }
+
+    @Override
     public ScheduleDto save(CreateScheduleDto createScheduleDto) {
         Schedule schedule = new Schedule();
 

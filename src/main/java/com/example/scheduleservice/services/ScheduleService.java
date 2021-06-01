@@ -9,6 +9,7 @@ public interface ScheduleService {
     List<Schedule> findAllByGroupId(Long groupId);
     List<Schedule> findAll();
     Schedule findById(Long id);
+    Schedule findByWeekDayAndScheduleTimeId(String weekDay, Long scheduleTimeId);
     Schedule save(Schedule schedule);
     void delete(Long id);
 }

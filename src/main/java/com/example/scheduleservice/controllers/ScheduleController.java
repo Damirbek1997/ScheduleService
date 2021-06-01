@@ -40,6 +40,11 @@ public class ScheduleController {
         return scheduleDtoService.findById(id);
     }
 
+    @GetMapping("/getByWeekDayAndScheduleTimeId")
+    private ScheduleDto getByWeekDayAndScheduleTimeId(@RequestParam String weekDay, @RequestParam Long scheduleTimeId) {
+        return scheduleDtoService.findByWeekDayAndScheduleTimeId(weekDay, scheduleTimeId);
+    }
+
     @PostMapping
     private ScheduleDto create(@RequestBody CreateScheduleDto createScheduleDto) {
         return scheduleDtoService.save(createScheduleDto);

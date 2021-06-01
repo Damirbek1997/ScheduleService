@@ -39,6 +39,11 @@ public class DefaultScheduleService implements ScheduleService {
     }
 
     @Override
+    public Schedule findByWeekDayAndScheduleTimeId(String weekDay, Long scheduleTimeId) {
+        return scheduleRepository.findByWeekDayAndSubjectTimeId(weekDay, scheduleTimeId);
+    }
+
+    @Override
     public Schedule save(Schedule schedule) {
         return scheduleRepository.save(schedule);
     }

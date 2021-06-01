@@ -11,6 +11,7 @@ public interface ScheduleDtoService {
     List<ScheduleDto> findAllByGroupId(Long groupId);
     List<ScheduleDto> findAll();
     ScheduleDto findById(Long id);
+    ScheduleDto findByWeekDayAndScheduleTimeId(String weekDay, Long scheduleTimeId);
     ScheduleDto save(CreateScheduleDto createScheduleDto);
     ScheduleDto update(Long id, UpdateScheduleDto updateScheduleDto);
     void delete(Long id);

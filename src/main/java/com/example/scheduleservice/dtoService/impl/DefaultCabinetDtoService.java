@@ -20,13 +20,14 @@ import java.util.List;
 @Service
 @Transactional
 public class DefaultCabinetDtoService implements CabinetDtoService {
-    private final CabinetMapper cabinetMapper;
     private final CabinetService cabinetService;
+    private final CabinetMapper cabinetMapper;
     private final ScheduleService scheduleService;
     private final SubjectTimeService subjectTimeService;
 
     @Autowired
-    public DefaultCabinetDtoService(CabinetService cabinetService, CabinetMapper cabinetMapper, ScheduleService scheduleService, SubjectTimeService subjectTimeService) {
+    public DefaultCabinetDtoService(CabinetService cabinetService, CabinetMapper cabinetMapper,
+                                    ScheduleService scheduleService, SubjectTimeService subjectTimeService) {
         this.cabinetService = cabinetService;
         this.cabinetMapper = cabinetMapper;
         this.scheduleService = scheduleService;
