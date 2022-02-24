@@ -12,22 +12,18 @@ import com.example.scheduleservice.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class DefaultSubjectDtoService implements SubjectDtoService {
-    private final SubjectMapper subjectMapper;
     private final SubjectService subjectService;
     private final DepartmentService departmentService;
     private final TeacherService teacherService;
 
     @Autowired
-    public DefaultSubjectDtoService(SubjectService subjectService, SubjectMapper subjectMapper, DepartmentService departmentService, TeacherService teacherService) {
+    public DefaultSubjectDtoService(SubjectService subjectService, DepartmentService departmentService, TeacherService teacherService) {
         this.subjectService = subjectService;
-        this.subjectMapper = subjectMapper;
         this.departmentService = departmentService;
         this.teacherService = teacherService;
     }
@@ -38,7 +34,7 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
         List<SubjectDto> subjectDtoList = new ArrayList<>();
 
         subjectList.forEach(subject -> {
-            SubjectDto subjectDto = subjectMapper.toSubjectDto(subject);
+            SubjectDto subjectDto = SubjectMapper.INSTANCE.toSubjectDto(subject);
 
             subjectDtoList.add(subjectDto);
         });
@@ -52,7 +48,7 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
         List<SubjectDto> subjectDtoList = new ArrayList<>();
 
         subjectList.forEach(subject -> {
-            SubjectDto subjectDto = subjectMapper.toSubjectDto(subject);
+            SubjectDto subjectDto = SubjectMapper.INSTANCE.toSubjectDto(subject);
 
             subjectDtoList.add(subjectDto);
         });
@@ -66,7 +62,7 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
         List<SubjectDto> subjectDtoList = new ArrayList<>();
 
         subjectList.forEach(subject -> {
-            SubjectDto subjectDto = subjectMapper.toSubjectDto(subject);
+            SubjectDto subjectDto = SubjectMapper.INSTANCE.toSubjectDto(subject);
 
             subjectDtoList.add(subjectDto);
         });
@@ -76,7 +72,7 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
 
     @Override
     public SubjectDto findById(Long id) {
-        return subjectMapper.toSubjectDto(subjectService.findById(id));
+        return SubjectMapper.INSTANCE.toSubjectDto(subjectService.findById(id));
     }
 
     @Override
@@ -94,7 +90,7 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
 
         subject.setSubject(createSubjectDto.getSubject());
 
-        return subjectMapper.toSubjectDto(subjectService.save(subject));
+        return SubjectMapper.INSTANCE.toSubjectDto(subjectService.save(subject));
     }
 
     @Override
@@ -111,7 +107,7 @@ public class DefaultSubjectDtoService implements SubjectDtoService {
             subject.setDepartment(departmentService.findById(updateSubjectDto.getDepartmentId()));
         }
 
-        return subjectMapper.toSubjectDto(subjectService.save(subject));
+        return SubjectMapper.INSTANCE.toSubjectDto(subjectService.save(subject));
     }
 
     @Override

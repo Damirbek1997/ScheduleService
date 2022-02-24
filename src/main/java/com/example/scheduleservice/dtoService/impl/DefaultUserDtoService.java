@@ -8,7 +8,6 @@ import com.example.scheduleservice.dtoService.StudentDtoService;
 import com.example.scheduleservice.dtoService.TeacherDtoService;
 import com.example.scheduleservice.dtoService.UserDtoService;
 import com.example.scheduleservice.entities.Student;
-import com.example.scheduleservice.entities.Subject;
 import com.example.scheduleservice.entities.Teacher;
 import com.example.scheduleservice.entities.User;
 import com.example.scheduleservice.exceptions.InappropriatePasswordException;
@@ -28,28 +27,22 @@ import java.util.regex.Pattern;
 @Service
 @Transactional
 public class DefaultUserDtoService implements UserDtoService {
-    private final UserMapper userMapper;
     private final UserService userService;
     private final RoleService roleService;
     private final TeacherDtoService teacherDtoService;
-    private final TeacherMapper teacherMapper;
     private final StudentDtoService studentDtoService;
-    private final StudentMapper studentMapper;
     private final TeacherService teacherService;
     private final StudentService studentService;
     private final SubjectService subjectService;
 
     @Autowired
-    public DefaultUserDtoService(UserMapper userMapper, UserService userService, RoleService roleService, TeacherDtoService teacherDtoService,
-                                 TeacherMapper teacherMapper, StudentDtoService studentDtoService, StudentMapper studentMapper,
-                                 TeacherService teacherService, StudentService studentService, SubjectService subjectService) {
-        this.userMapper = userMapper;
+    public DefaultUserDtoService(UserService userService, RoleService roleService, TeacherDtoService teacherDtoService,
+                                 StudentDtoService studentDtoService, TeacherService teacherService, StudentService studentService,
+                                 SubjectService subjectService) {
         this.userService = userService;
         this.roleService = roleService;
         this.teacherDtoService = teacherDtoService;
-        this.teacherMapper = teacherMapper;
         this.studentDtoService = studentDtoService;
-        this.studentMapper = studentMapper;
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.subjectService = subjectService;
@@ -61,7 +54,7 @@ public class DefaultUserDtoService implements UserDtoService {
         List<UserDto> userDtoList = new ArrayList<>();
 
         userList.forEach(user -> {
-            UserDto userDto = userMapper.toUserDto(user);
+            UserDto userDto = UserMapper.INSTANCE.toUserDto(user);
 
             userDtoList.add(userDto);
         });
@@ -75,7 +68,7 @@ public class DefaultUserDtoService implements UserDtoService {
         List<UserDto> userDtoList = new ArrayList<>();
 
         userList.forEach(user -> {
-            UserDto userDto = userMapper.toUserDto(user);
+            UserDto userDto = UserMapper.INSTANCE.toUserDto(user);
 
             userDtoList.add(userDto);
         });
@@ -85,12 +78,12 @@ public class DefaultUserDtoService implements UserDtoService {
 
     @Override
     public UserDto findById(Long id) {
-        return userMapper.toUserDto(userService.findById(id));
+        return UserMapper.INSTANCE.toUserDto(userService.findById(id));
     }
 
     @Override
     public UserDto findByEmail(String email) {
-        return userMapper.toUserDto(userService.findByEmail(email));
+        return UserMapper.INSTANCE.toUserDto(userService.findByEmail(email));
     }
 
     @Override
@@ -105,7 +98,7 @@ public class DefaultUserDtoService implements UserDtoService {
             user.setRole(roleService.findById(createUserDto.getRoleId()));
         }
 
-        return userMapper.toUserDto(userService.save(user));
+        return UserMapper.INSTANCE.toUserDto(userService.save(user));
     }
 
     @Override
@@ -122,7 +115,7 @@ public class DefaultUserDtoService implements UserDtoService {
         }
 
         if (createUserDto.getCreateTeacherDto() != null) {
-            savedTeacher = teacherMapper.toTeacher(teacherDtoService.save(createUserDto.getCreateTeacherDto()));
+            savedTeacher = TeacherMapper.INSTANCE.toTeacher(teacherDtoService.save(createUserDto.getCreateTeacherDto()));
             savedTeacher.setIsDeleted(false);
 
             user.setTeacher(savedTeacher);
@@ -132,7 +125,7 @@ public class DefaultUserDtoService implements UserDtoService {
         savedTeacher.setUser(savedUser);
         teacherService.save(savedTeacher);
 
-        return userMapper.toUserDto(savedUser);
+        return UserMapper.INSTANCE.toUserDto(savedUser);
     }
 
     @Override
@@ -149,7 +142,7 @@ public class DefaultUserDtoService implements UserDtoService {
         }
 
         if (createUserDto.getCreateStudentDto() != null) {
-            savedStudent = studentMapper.toStudent(studentDtoService.save(createUserDto.getCreateStudentDto()));
+            savedStudent = StudentMapper.INSTANCE.toStudent(studentDtoService.save(createUserDto.getCreateStudentDto()));
             savedStudent.setIsDeleted(false);
 
             user.setStudent(savedStudent);
@@ -159,7 +152,7 @@ public class DefaultUserDtoService implements UserDtoService {
         savedStudent.setUser(savedUser);
         studentService.save(savedStudent);
 
-        return userMapper.toUserDto(savedUser);
+        return UserMapper.INSTANCE.toUserDto(savedUser);
     }
 
     @Override
@@ -173,7 +166,7 @@ public class DefaultUserDtoService implements UserDtoService {
             user.setRole(roleService.findById(updateUserDto.getRoleId()));
         }
 
-        return userMapper.toUserDto(userService.save(user));
+        return UserMapper.INSTANCE.toUserDto(userService.save(user));
     }
 
     @Override
@@ -188,10 +181,10 @@ public class DefaultUserDtoService implements UserDtoService {
         }
 
         if (updateUserDto.getUpdateTeacherDto() != null) {
-            user.setTeacher(teacherMapper.toTeacher(teacherDtoService.update(updateUserDto.getUpdateTeacherDto())));
+            user.setTeacher(TeacherMapper.INSTANCE.toTeacher(teacherDtoService.update(updateUserDto.getUpdateTeacherDto())));
         }
 
-        return userMapper.toUserDto(userService.save(user));
+        return UserMapper.INSTANCE.toUserDto(userService.save(user));
     }
 
     @Override
@@ -206,10 +199,10 @@ public class DefaultUserDtoService implements UserDtoService {
         }
 
         if (updateUserDto.getUpdateStudentDto() != null) {
-            user.setStudent(studentMapper.toStudent(studentDtoService.update(updateUserDto.getUpdateStudentDto())));
+            user.setStudent(StudentMapper.INSTANCE.toStudent(studentDtoService.update(updateUserDto.getUpdateStudentDto())));
         }
 
-        return userMapper.toUserDto(userService.save(user));
+        return UserMapper.INSTANCE.toUserDto(userService.save(user));
     }
 
     @Override

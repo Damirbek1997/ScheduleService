@@ -13,23 +13,19 @@ import com.example.scheduleservice.services.SubjectTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class DefaultCabinetDtoService implements CabinetDtoService {
     private final CabinetService cabinetService;
-    private final CabinetMapper cabinetMapper;
     private final ScheduleService scheduleService;
     private final SubjectTimeService subjectTimeService;
 
     @Autowired
-    public DefaultCabinetDtoService(CabinetService cabinetService, CabinetMapper cabinetMapper,
+    public DefaultCabinetDtoService(CabinetService cabinetService,
                                     ScheduleService scheduleService, SubjectTimeService subjectTimeService) {
         this.cabinetService = cabinetService;
-        this.cabinetMapper = cabinetMapper;
         this.scheduleService = scheduleService;
         this.subjectTimeService = subjectTimeService;
     }
@@ -45,7 +41,7 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
         List<Cabinet> freeCabinets = cabinetService.findAllFreeCabinets(busyCabinets);
 
         freeCabinets.forEach(freeCabinet -> {
-            CabinetDto groupDto = cabinetMapper.toCabinetDto(freeCabinet);
+            CabinetDto groupDto = CabinetMapper.INSTANCE.toCabinetDto(freeCabinet);
 
             cabinetDtos.add(groupDto);
         });
@@ -59,7 +55,7 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
         List<CabinetDto> cabinetDtos = new ArrayList<>();
 
         cabinets.forEach(cabinet -> {
-            CabinetDto cabinetDto = cabinetMapper.toCabinetDto(cabinet);
+            CabinetDto cabinetDto = CabinetMapper.INSTANCE.toCabinetDto(cabinet);
 
             cabinetDtos.add(cabinetDto);
         });
@@ -69,7 +65,7 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
 
     @Override
     public CabinetDto findById(Long id) {
-        return cabinetMapper.toCabinetDto(cabinetService.findById(id));
+        return CabinetMapper.INSTANCE.toCabinetDto(cabinetService.findById(id));
     }
 
     @Override
@@ -78,7 +74,7 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
         List<CabinetDto> cabinetDtos = new ArrayList<>();
 
         cabinets.forEach(cabinet1 -> {
-            CabinetDto cabinetDto = cabinetMapper.toCabinetDto(cabinet1);
+            CabinetDto cabinetDto = CabinetMapper.INSTANCE.toCabinetDto(cabinet1);
 
             cabinetDtos.add(cabinetDto);
         });
@@ -92,7 +88,7 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
         List<CabinetDto> cabinetDtos = new ArrayList<>();
 
         cabinets.forEach(cabinet1 -> {
-            CabinetDto cabinetDto = cabinetMapper.toCabinetDto(cabinet1);
+            CabinetDto cabinetDto = CabinetMapper.INSTANCE.toCabinetDto(cabinet1);
 
             cabinetDtos.add(cabinetDto);
         });
@@ -111,7 +107,7 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
             cabinet.setSubjectTime(subjectTimeService.findById(i));
             cabinet.setIsDeleted(false);
 
-            cabinetDtos.add(cabinetMapper.toCabinetDto(cabinetService.save(cabinet)));
+            cabinetDtos.add(CabinetMapper.INSTANCE.toCabinetDto(cabinetService.save(cabinet)));
         }
 
         return cabinetDtos;
@@ -127,7 +123,7 @@ public class DefaultCabinetDtoService implements CabinetDtoService {
 
             oldCabinet.setCabinet(cabinet.getCabinet());
 
-            cabinetDtos.add(cabinetMapper.toCabinetDto(cabinetService.save(cabinet)));
+            cabinetDtos.add(CabinetMapper.INSTANCE.toCabinetDto(cabinetService.save(cabinet)));
         });
 
         return cabinetDtos;

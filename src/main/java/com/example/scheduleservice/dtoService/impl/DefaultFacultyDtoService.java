@@ -10,20 +10,16 @@ import com.example.scheduleservice.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class DefaultFacultyDtoService implements FacultyDtoService {
     private final FacultyService facultyService;
-    private final FacultyMapper facultyMapper;
 
     @Autowired
-    public DefaultFacultyDtoService(FacultyService facultyService, FacultyMapper facultyMapper) {
+    public DefaultFacultyDtoService(FacultyService facultyService) {
         this.facultyService = facultyService;
-        this.facultyMapper = facultyMapper;
     }
 
     @Override
@@ -32,7 +28,7 @@ public class DefaultFacultyDtoService implements FacultyDtoService {
         List<FacultyDto> facultyDtos = new ArrayList<>();
 
         faculties.forEach(faculty -> {
-            FacultyDto facultyDto = facultyMapper.toFacultyDto(faculty);
+            FacultyDto facultyDto = FacultyMapper.INSTANCE.toFacultyDto(faculty);
 
             facultyDtos.add(facultyDto);
         });
@@ -42,7 +38,7 @@ public class DefaultFacultyDtoService implements FacultyDtoService {
 
     @Override
     public FacultyDto findById(Long id) {
-        return facultyMapper.toFacultyDto(facultyService.findById(id));
+        return FacultyMapper.INSTANCE.toFacultyDto(facultyService.findById(id));
     }
 
     @Override
@@ -52,7 +48,7 @@ public class DefaultFacultyDtoService implements FacultyDtoService {
         faculty.setFaculty(createFacultyDto.getFaculty());
         faculty.setIsDeleted(false);
 
-        return facultyMapper.toFacultyDto(facultyService.save(faculty));
+        return FacultyMapper.INSTANCE.toFacultyDto(facultyService.save(faculty));
     }
 
     @Override
@@ -61,7 +57,7 @@ public class DefaultFacultyDtoService implements FacultyDtoService {
 
         faculty.setFaculty(updateFacultyDto.getFaculty());
 
-        return facultyMapper.toFacultyDto(facultyService.save(faculty));
+        return FacultyMapper.INSTANCE.toFacultyDto(facultyService.save(faculty));
     }
 
     @Override

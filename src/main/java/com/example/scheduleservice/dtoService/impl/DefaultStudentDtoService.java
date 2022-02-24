@@ -13,23 +13,17 @@ import com.example.scheduleservice.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class DefaultStudentDtoService implements StudentDtoService {
     private final StudentService studentService;
-    private final StudentMapper studentMapper;
-    private final SubjectMapper subjectMapper;
     private final GroupService groupService;
 
     @Autowired
-    public DefaultStudentDtoService(StudentService studentService, StudentMapper studentMapper, SubjectMapper subjectMapper, GroupService groupService) {
+    public DefaultStudentDtoService(StudentService studentService, GroupService groupService) {
         this.studentService = studentService;
-        this.studentMapper = studentMapper;
-        this.subjectMapper = subjectMapper;
         this.groupService = groupService;
     }
 
@@ -39,7 +33,7 @@ public class DefaultStudentDtoService implements StudentDtoService {
         List<StudentDto> studentDtos = new ArrayList<>();
 
         students.forEach(student -> {
-            StudentDto studentDto = studentMapper.toStudentDto(student);
+            StudentDto studentDto = StudentMapper.INSTANCE.toStudentDto(student);
 
             studentDtos.add(studentDto);
         });
@@ -53,7 +47,7 @@ public class DefaultStudentDtoService implements StudentDtoService {
         List<StudentDto> studentDtos = new ArrayList<>();
 
         students.forEach(student -> {
-            StudentDto studentDto = studentMapper.toStudentDto(student);
+            StudentDto studentDto = StudentMapper.INSTANCE.toStudentDto(student);
 
             studentDtos.add(studentDto);
         });
@@ -63,11 +57,11 @@ public class DefaultStudentDtoService implements StudentDtoService {
 
     @Override
     public StudentDto findById(Long id) {
-        return studentMapper.toStudentDto(studentService.findById(id));
+        return StudentMapper.INSTANCE.toStudentDto(studentService.findById(id));
     }
 
     @Override
-    public StudentDto save(CreateStudentDto createStudentDto) { 
+    public StudentDto save(CreateStudentDto createStudentDto) {
         Student student = new Student();
 
         student.setFirstname(createStudentDto.getFirstname());
@@ -80,12 +74,12 @@ public class DefaultStudentDtoService implements StudentDtoService {
         if (createStudentDto.getSubjectDtos() != null) {
             List<Subject> subjects = new ArrayList<>();
 
-            createStudentDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
+            createStudentDto.getSubjectDtos().forEach(subjectDto -> subjects.add(SubjectMapper.INSTANCE.toSubject(subjectDto)));
 
             student.setSubjects(subjects);
         }
 
-        return studentMapper.toStudentDto(studentService.save(student));
+        return StudentMapper.INSTANCE.toStudentDto(studentService.save(student));
     }
 
     @Override
@@ -102,11 +96,11 @@ public class DefaultStudentDtoService implements StudentDtoService {
         if (updateStudentDto.getSubjectDtos() != null) {
             List<Subject> subjects = new ArrayList<>();
 
-            updateStudentDto.getSubjectDtos().forEach(subjectDto -> subjects.add(subjectMapper.toSubject(subjectDto)));
+            updateStudentDto.getSubjectDtos().forEach(subjectDto -> subjects.add(SubjectMapper.INSTANCE.toSubject(subjectDto)));
 
             student.setSubjects(subjects);
         }
 
-        return studentMapper.toStudentDto(studentService.save(student));
+        return StudentMapper.INSTANCE.toStudentDto(studentService.save(student));
     }
 }

@@ -8,20 +8,16 @@ import com.example.scheduleservice.services.SubjectTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class DefaultSubjectTImeDtoService implements SubjectTimeDtoService {
     private final SubjectTimeService subjectTimeService;
-    private final SubjectTimeMapper subjectTimeMapper;
 
     @Autowired
-    public DefaultSubjectTImeDtoService(SubjectTimeService subjectTimeService, SubjectTimeMapper subjectTimeMapper) {
+    public DefaultSubjectTImeDtoService(SubjectTimeService subjectTimeService) {
         this.subjectTimeService = subjectTimeService;
-        this.subjectTimeMapper = subjectTimeMapper;
     }
 
     @Override
@@ -30,7 +26,7 @@ public class DefaultSubjectTImeDtoService implements SubjectTimeDtoService {
         List<SubjectTimeDto> subjectTimeDtos = new ArrayList<>();
 
         subjectTimes.forEach(subjectTime -> {
-            SubjectTimeDto subjectTimeDto = subjectTimeMapper.toSubjectTime(subjectTime);
+            SubjectTimeDto subjectTimeDto = SubjectTimeMapper.INSTANCE.toSubjectTime(subjectTime);
 
             subjectTimeDtos.add(subjectTimeDto);
         });
@@ -40,6 +36,6 @@ public class DefaultSubjectTImeDtoService implements SubjectTimeDtoService {
 
     @Override
     public SubjectTimeDto findById(Long id) {
-        return subjectTimeMapper.toSubjectTime(subjectTimeService.findById(id));
+        return SubjectTimeMapper.INSTANCE.toSubjectTime(subjectTimeService.findById(id));
     }
 }
