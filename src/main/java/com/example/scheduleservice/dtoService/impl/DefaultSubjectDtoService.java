@@ -11,11 +11,13 @@ import com.example.scheduleservice.services.SubjectService;
 import com.example.scheduleservice.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class DefaultSubjectDtoService implements SubjectDtoService {
     private final SubjectService subjectService;
     private final DepartmentService departmentService;

@@ -12,11 +12,13 @@ import com.example.scheduleservice.services.ScheduleService;
 import com.example.scheduleservice.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class DefaultScheduleDtoService implements ScheduleDtoService {
     private final ScheduleService scheduleService;
     private final SubjectService subjectService;
@@ -64,6 +66,7 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
     public List<ScheduleDto> findAll() {
         List<Schedule> scheduleList = scheduleService.findAll();
         List<ScheduleDto> scheduleDtoList = new ArrayList<>();
+
 
         scheduleList.forEach(schedule -> {
             ScheduleDto scheduleDto = ScheduleMapper.INSTANCE.toScheduleDto(schedule);

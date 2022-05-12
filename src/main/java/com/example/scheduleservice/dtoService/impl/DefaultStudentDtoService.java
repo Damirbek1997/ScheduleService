@@ -12,11 +12,13 @@ import com.example.scheduleservice.services.GroupService;
 import com.example.scheduleservice.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class DefaultStudentDtoService implements StudentDtoService {
     private final StudentService studentService;
     private final GroupService groupService;
