@@ -11,21 +11,17 @@ import com.example.scheduleservice.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class DefaultDepartmentDtoService implements DepartmentDtoService {
-    private final DepartmentMapper departmentMapper;
     private final DepartmentService departmentService;
     private final FacultyService facultyService;
 
     @Autowired
-    public DefaultDepartmentDtoService(DepartmentService departmentService, DepartmentMapper departmentMapper, FacultyService facultyService) {
+    public DefaultDepartmentDtoService(DepartmentService departmentService, FacultyService facultyService) {
         this.departmentService = departmentService;
-        this.departmentMapper = departmentMapper;
         this.facultyService = facultyService;
     }
 
@@ -35,7 +31,7 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
         List<DepartmentDto> departmentDtos = new ArrayList<>();
 
         departments.forEach(department -> {
-            DepartmentDto groupDto = departmentMapper.toDepartmentDto(department);
+            DepartmentDto groupDto = DepartmentMapper.INSTANCE.toDepartmentDto(department);
 
             departmentDtos.add(groupDto);
         });
@@ -49,7 +45,7 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
         List<DepartmentDto> departmentDtos = new ArrayList<>();
 
         departments.forEach(department -> {
-            DepartmentDto groupDto = departmentMapper.toDepartmentDto(department);
+            DepartmentDto groupDto = DepartmentMapper.INSTANCE.toDepartmentDto(department);
 
             departmentDtos.add(groupDto);
         });
@@ -59,7 +55,7 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
 
     @Override
     public DepartmentDto findById(Long id) {
-        return departmentMapper.toDepartmentDto(departmentService.findById(id));
+        return DepartmentMapper.INSTANCE.toDepartmentDto(departmentService.findById(id));
     }
 
     @Override
@@ -73,7 +69,7 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
             department.setFaculty(facultyService.findById(createDepartmentDto.getFacultyId()));
         }
 
-        return departmentMapper.toDepartmentDto(departmentService.save(department));
+        return DepartmentMapper.INSTANCE.toDepartmentDto(departmentService.save(department));
     }
 
     @Override
@@ -86,7 +82,7 @@ public class DefaultDepartmentDtoService implements DepartmentDtoService {
             department.setFaculty(facultyService.findById(updateDepartmentDto.getFacultyId()));
         }
 
-        return departmentMapper.toDepartmentDto(departmentService.save(department));
+        return DepartmentMapper.INSTANCE.toDepartmentDto(departmentService.save(department));
     }
 
     @Override

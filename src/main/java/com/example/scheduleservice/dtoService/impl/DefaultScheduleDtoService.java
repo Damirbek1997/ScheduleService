@@ -6,28 +6,27 @@ import com.example.scheduleservice.dto.crud.UpdateScheduleDto;
 import com.example.scheduleservice.dtoService.ScheduleDtoService;
 import com.example.scheduleservice.entities.Schedule;
 import com.example.scheduleservice.mapper.ScheduleMapper;
-import com.example.scheduleservice.services.*;
+import com.example.scheduleservice.services.CabinetService;
+import com.example.scheduleservice.services.GroupService;
+import com.example.scheduleservice.services.ScheduleService;
+import com.example.scheduleservice.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class DefaultScheduleDtoService implements ScheduleDtoService {
-    private final ScheduleMapper scheduleMapper;
     private final ScheduleService scheduleService;
     private final SubjectService subjectService;
     private final GroupService groupService;
     private final CabinetService cabinetService;
 
     @Autowired
-    public DefaultScheduleDtoService(ScheduleService scheduleService, ScheduleMapper scheduleMapper, SubjectService subjectService,
+    public DefaultScheduleDtoService(ScheduleService scheduleService, SubjectService subjectService,
                                      GroupService groupService, CabinetService cabinetService) {
         this.scheduleService = scheduleService;
-        this.scheduleMapper = scheduleMapper;
         this.subjectService = subjectService;
         this.groupService = groupService;
         this.cabinetService = cabinetService;
@@ -39,7 +38,7 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
         List<ScheduleDto> frontScheduleDtos = new ArrayList<>();
 
         scheduleList.forEach(schedule -> {
-            ScheduleDto scheduleDto = scheduleMapper.toScheduleDto(schedule);
+            ScheduleDto scheduleDto = ScheduleMapper.INSTANCE.toScheduleDto(schedule);
 
             frontScheduleDtos.add(scheduleDto);
         });
@@ -53,7 +52,7 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
         List<ScheduleDto> frontScheduleDtos = new ArrayList<>();
 
         scheduleList.forEach(schedule -> {
-            ScheduleDto scheduleDto = scheduleMapper.toScheduleDto(schedule);
+            ScheduleDto scheduleDto = ScheduleMapper.INSTANCE.toScheduleDto(schedule);
 
             frontScheduleDtos.add(scheduleDto);
         });
@@ -67,7 +66,7 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
         List<ScheduleDto> scheduleDtoList = new ArrayList<>();
 
         scheduleList.forEach(schedule -> {
-            ScheduleDto scheduleDto = scheduleMapper.toScheduleDto(schedule);
+            ScheduleDto scheduleDto = ScheduleMapper.INSTANCE.toScheduleDto(schedule);
 
             scheduleDtoList.add(scheduleDto);
         });
@@ -77,12 +76,12 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
 
     @Override
     public ScheduleDto findById(Long id) {
-        return scheduleMapper.toScheduleDto(scheduleService.findById(id));
+        return ScheduleMapper.INSTANCE.toScheduleDto(scheduleService.findById(id));
     }
 
     @Override
     public ScheduleDto findByWeekDayAndScheduleTimeId(String weekDay, Long scheduleTimeId) {
-        return scheduleMapper.toScheduleDto(scheduleService.findByWeekDayAndScheduleTimeId(weekDay, scheduleTimeId));
+        return ScheduleMapper.INSTANCE.toScheduleDto(scheduleService.findByWeekDayAndScheduleTimeId(weekDay, scheduleTimeId));
     }
 
     @Override
@@ -96,7 +95,7 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
         schedule.setCabinet(cabinetService.findById(createScheduleDto.getCabinetId()));
         schedule.setIsDeleted(false);
 
-        return scheduleMapper.toScheduleDto(scheduleService.save(schedule));
+        return ScheduleMapper.INSTANCE.toScheduleDto(scheduleService.save(schedule));
     }
 
     @Override
@@ -118,7 +117,7 @@ public class DefaultScheduleDtoService implements ScheduleDtoService {
             schedule.setCabinet(cabinetService.findById(updateScheduleDto.getCabinetId()));
         }
 
-        return scheduleMapper.toScheduleDto(scheduleService.save(schedule));
+        return ScheduleMapper.INSTANCE.toScheduleDto(scheduleService.save(schedule));
     }
 
     @Override

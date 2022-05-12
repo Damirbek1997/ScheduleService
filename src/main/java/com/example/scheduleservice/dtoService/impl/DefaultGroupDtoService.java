@@ -11,21 +11,17 @@ import com.example.scheduleservice.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class DefaultGroupDtoService implements GroupDtoService {
-    private final GroupMapper groupMapper;
     private final GroupService groupService;
     private final DepartmentService departmentService;
 
     @Autowired
-    public DefaultGroupDtoService(GroupService groupService, GroupMapper groupMapper, DepartmentService departmentService) {
+    public DefaultGroupDtoService(GroupService groupService, DepartmentService departmentService) {
         this.groupService = groupService;
-        this.groupMapper = groupMapper;
         this.departmentService = departmentService;
     }
 
@@ -35,7 +31,7 @@ public class DefaultGroupDtoService implements GroupDtoService {
         List<GroupDto> groupDtoList = new ArrayList<>();
 
         groupList.forEach(group -> {
-            GroupDto groupDto = groupMapper.toGroupDto(group);
+            GroupDto groupDto = GroupMapper.INSTANCE.toGroupDto(group);
 
             groupDtoList.add(groupDto);
         });
@@ -49,7 +45,7 @@ public class DefaultGroupDtoService implements GroupDtoService {
         List<GroupDto> groupDtoList = new ArrayList<>();
 
         groupList.forEach(group -> {
-            GroupDto groupDto = groupMapper.toGroupDto(group);
+            GroupDto groupDto = GroupMapper.INSTANCE.toGroupDto(group);
 
             groupDtoList.add(groupDto);
         });
@@ -59,7 +55,7 @@ public class DefaultGroupDtoService implements GroupDtoService {
 
     @Override
     public GroupDto findById(Long id) {
-        return groupMapper.toGroupDto(groupService.findById(id));
+        return GroupMapper.INSTANCE.toGroupDto(groupService.findById(id));
     }
 
     @Override
@@ -73,7 +69,7 @@ public class DefaultGroupDtoService implements GroupDtoService {
             group.setDepartment(departmentService.findById(createGroupDto.getDepartmentId()));
         }
 
-        return groupMapper.toGroupDto(groupService.save(group));
+        return GroupMapper.INSTANCE.toGroupDto(groupService.save(group));
     }
 
     @Override
@@ -86,7 +82,7 @@ public class DefaultGroupDtoService implements GroupDtoService {
             group.setDepartment(departmentService.findById(updateGroupDto.getDepartmentId()));
         }
 
-        return groupMapper.toGroupDto(groupService.save(group));
+        return GroupMapper.INSTANCE.toGroupDto(groupService.save(group));
     }
 
     @Override

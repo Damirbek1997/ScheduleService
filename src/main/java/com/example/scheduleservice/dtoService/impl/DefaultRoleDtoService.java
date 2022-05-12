@@ -10,20 +10,16 @@ import com.example.scheduleservice.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class DefaultRoleDtoService implements RoleDtoService {
     private final RoleService roleService;
-    private final RoleMapper roleMapper;
 
     @Autowired
-    public DefaultRoleDtoService(RoleService roleService, RoleMapper roleMapper) {
+    public DefaultRoleDtoService(RoleService roleService) {
         this.roleService = roleService;
-        this.roleMapper = roleMapper;
     }
 
     @Override
@@ -32,7 +28,7 @@ public class DefaultRoleDtoService implements RoleDtoService {
         List<RoleDto> roleDtos = new ArrayList<>();
 
         roles.forEach(role -> {
-            RoleDto roleDto = roleMapper.toRoleDto(role);
+            RoleDto roleDto = RoleMapper.INSTANCE.toRoleDto(role);
 
             roleDtos.add(roleDto);
         });
@@ -42,7 +38,7 @@ public class DefaultRoleDtoService implements RoleDtoService {
 
     @Override
     public RoleDto findById(Long id) {
-        return roleMapper.toRoleDto(roleService.findById(id));
+        return RoleMapper.INSTANCE.toRoleDto(roleService.findById(id));
     }
 
     @Override
@@ -52,7 +48,7 @@ public class DefaultRoleDtoService implements RoleDtoService {
         role.setRole(createRoleDto.getRole());
         role.setIsDeleted(false);
 
-        return roleMapper.toRoleDto(roleService.save(role));
+        return RoleMapper.INSTANCE.toRoleDto(roleService.save(role));
     }
 
     @Override
@@ -61,7 +57,7 @@ public class DefaultRoleDtoService implements RoleDtoService {
 
         role.setRole(updateRoleDto.getRole());
 
-        return roleMapper.toRoleDto(roleService.save(role));
+        return RoleMapper.INSTANCE.toRoleDto(roleService.save(role));
     }
 
     @Override
